@@ -1,0 +1,130 @@
+testcase1:
+  casename: '喂小保后台-订单查询-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单查询--订单查询条件枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "订单查询-分公司列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/orgRankList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "orgRank": 2
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"orgName":"总公司"}]
+      expected_code: 200
+  step3:
+    name: "订单查询-订单查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: "2020-10-13 00:00:00"
+      addTimeEnd: "2020-10-19 23:59:59"
+      agentCompany: ""
+      currentPage: 1
+      dalaranAgentName: ""
+      holderName: ""
+      insuranceCompany: ""
+      issueTimeBegin: ""
+      issueTimeEnd: ""
+      pageSize: 10
+      uniqueBusinessNo: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: policyNo
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-订单查询-订单详情'
+  Enabled : 'YES'
+  step1:
+    name: "订单查询-订单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      linkNo: "20201019170804543724"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保2020医疗保险"},{"linkNo":"20201019170804543724"}]
+      expected_code: 200
+  step2:
+    name: "订单查询-订单缴费详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/paymentDetail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      linkNo: "20201019170804543724"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"payAmount":"2445.00"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-订单查询-更新订单详情备注字段'
+  Enabled : 'YES'
+  step1:
+    name: "订单查询-更新订单详情备注字段接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/updateOrderRemark"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      linkNo: "20201019170804543724"
+      remark: "测试备注"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "订单查询-订单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      linkNo: "20201019170804543724"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"userRemark":"测试备注"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

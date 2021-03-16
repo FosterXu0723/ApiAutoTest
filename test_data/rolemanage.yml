@@ -1,0 +1,272 @@
+testcase1:
+  casename: '喂小保后台-角色管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: ""
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: roleId
+  step2:
+    name: "角色管理-用户数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 9999
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: userName
+  step3:
+    name: "角色管理-菜单数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/getMenus"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: menuName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-角色管理-按角色名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+      assert_key_exists: roleId
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-角色管理-保存角色信息'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      roleId: $..roleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+      assert_key_exists: roleId
+  step2:
+    name: "角色管理-保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/upsertRole"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      menuIds: [2,3,4,6,9]
+      remark: ""
+      roleId: ${roleId}
+      roleName: "接口自动化测试角色"
+      state: 0
+      userIds: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase4:
+  casename: '喂小保后台-角色管理-查看角色详情'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      roleId: $..roleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+  step2:
+    name: "角色管理-角色详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/getRoleDetail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleId: ${roleId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-角色管理-停用角色'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      roleId: $..roleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+  step2:
+    name: "角色管理-启停用角色接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/disableRole"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleId: ${roleId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"},{"state":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-角色管理-启用角色'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      roleId: $..roleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"}]
+      expected_code: 200
+  step2:
+    name: "角色管理-启停用角色接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/enableRole"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleId: ${roleId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "角色管理-角色数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryRoles"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      roleName: "接口自动化测试角色"
+      state: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"roleName":"接口自动化测试角色"},{"state":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

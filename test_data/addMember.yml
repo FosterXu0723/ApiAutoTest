@@ -1,0 +1,37 @@
+testcase1:
+  casename: 'APP-我要增员-初始化页面信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我要增员-代理人信息查询"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/my"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentCertificateNo
+  step2:
+    name: "我要增员-推荐查询"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryRecommend"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: list
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

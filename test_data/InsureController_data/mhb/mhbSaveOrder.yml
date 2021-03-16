@@ -1,0 +1,23 @@
+testcase1:
+  casename: '民惠保-阳光核保接口'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/saveOrder"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      Ev: "v4"
+      Token: '$get_token(14100000000)'
+    data:
+      tradeKey: "${tradeKey}"
+    extract:
+    setparam:
+      tradeKey: $..tradeKey
+    setname: '/test_data/InsureController_data/mhb/mhbShowConfirm.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: linkNo,type
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

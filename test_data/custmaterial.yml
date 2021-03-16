@@ -1,0 +1,320 @@
+testcase1:
+  casename: 'APP-获客素材-海报信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-海报信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/content/poster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      currentPage: 1
+      pageSize: 6
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: posterUrl
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase2:
+  casename: 'APP-获客素材-海报分类查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-海报分类查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentClass/poster/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: totalCount
+  step2:
+    name: "获客素材-海报信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/content/poster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      currentPage: 1
+      pageSize: 9
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: totalCount
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase3:
+  casename: 'APP-获客素材-海报内容查看'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-海报内容个人二维码信息查询"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/queryVisitingCardEasyInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: vxQrImg
+  step2:
+    name: "获客素材-海报内容获客行为记录"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/o/opera"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      operaType: 3
+      detailId: 1377070307972
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nodeId
+  step3:
+    name: "获客素材-海报内容个人名片信息查询"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/c/visitingCard/getByCardNo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      visitingCardNo: 1377070307972
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: rhinoAgentId
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+testcase4:
+  casename: 'APP-获客素材-文章信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-文章信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      currentPage: 1
+      pageSize: 9
+      status: 1
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: articleCover
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+testcase5:
+  casename: 'APP-获客素材-文章内容查看'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-文章内容获取接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/c/contentArticle/getById"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      id: 31
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "获客素材-文章内容中个人名片信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/queryVisitingCardEasyInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: vxQrImg
+  step3:
+    name: "获客素材-文章内容中获取行为记录接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentInsure/getAccount"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: account
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+testcase6:
+  casename: 'APP-获客素材-线索客户信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-线索客户信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/gainCustomer/gainCustomerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      pageNo: 1
+      pageSize: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: totalCount
+  step2:
+    name: "获客素材-线索客户跟踪记录查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/gainCustomer/trackList"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      customerId: 666000531
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nickName
+  step3:
+    name: "获客素材-查询代理人客户详情查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryAgentCusInfoByOrcId"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      orcCustomerId: 666000134
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase7:
+  casename: 'APP-获客素材-分享文章添加商品'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-获取商品分类接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/getGoodsTabs"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"tabName":"重疾"}]
+      expected_code: 200
+  step2:
+    name: "获客素材-获取险企列表接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/common/getCompanyList"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"companyName":"复星联合"}]
+      expected_code: 200
+  step3:
+    name: "获客素材-获取商品列表接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      channelNo: "A000000"
+      siteSource: "H5"
+      tabCode: 10
+      companyCode: ""
+      appMark: 10
+      currentPage: 1
+      pageSize: 1000
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyName,companyCode
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

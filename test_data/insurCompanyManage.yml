@@ -1,0 +1,112 @@
+testcase1:
+  casename: '喂小保后台-险企管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "险企管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/company/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyName: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyCode
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-险企管理-按险企名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "险企管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/company/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyName: "京东安联"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"京东安联"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-险企管理-获取险企详情'
+  Enabled : 'YES'
+  step1:
+    name: "险企管理-险企详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/company/manage/detail/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyCode: "jdallianz"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"companyCode":"jdallianz"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-险企管理-保存险企信息'
+  Enabled : 'YES'
+  step1:
+    name: "险企管理-保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/company/manage/detail/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      companyInfo: {
+        "companyCode": "jdallianz",
+        "fullName": "京东安联财产保险有限公司",
+        "introduction": "",
+        "logoUrl": "https://static-zh.wxb.com.cn/common/company/logo/2020/2/17019987fc9.png",
+        "securityAndClaims": [],
+        "servicePhone": "400-800-2020",
+        "shortName": "京东安联",
+        "website": "www.JDallianz.com"
+      }
+      operateType: 2
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "险企管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/company/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyName: "京东安联"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"京东安联"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

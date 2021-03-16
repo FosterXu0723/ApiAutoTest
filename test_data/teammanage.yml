@@ -1,0 +1,70 @@
+testcase1:
+  casename: '喂小保后台-团队管理-列表初始化查询'
+  Enabled : 'NO'
+  step1:
+    name: "团队管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/team/teamInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "currentPage": 1,
+        "orgName": "",
+        "pageSize": 10,
+        "teamChargeName": "",
+        "teamName": ""
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: teamName
+  step2:
+    name: "团队管理-机构查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/allOrgInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-团队管理-按机构名称查询'
+  Enabled : 'NO'
+  step1:
+    name: "团队管理-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/team/teamInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "currentPage": 1,
+        "orgName": "杭州西溪书院",
+        "pageSize": 10,
+        "teamChargeName": "",
+        "teamName": ""
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"teamBelongOrgName":"杭州西溪书院"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+

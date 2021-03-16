@@ -1,0 +1,68 @@
+testcase1:
+  casename: '喂小保后台-团险订单管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "团险订单管理-订单数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/grp/order/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: "2020-12-01 00:00:00"
+      addTimeEnd: "2020-12-24 23:59:59"
+      agencyCode: ""
+      appntName: ""
+      companyCode: ""
+      currentPage: 1
+      dalaranAgentName: ""
+      issueTimeBegin: ""
+      issueTimeEnd: ""
+      pageSize: 10
+      uniqueBusinessNo: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-团险订单管理-订单详情'
+  Enabled : 'NO'
+  step1:
+    name: "团险订单管理-订单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/grp/order/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "123456"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: appntName
+  step2:
+    name: "团险订单管理-参保人列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/grp/order/insuredList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      grpOrderId: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

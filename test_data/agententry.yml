@@ -1,0 +1,159 @@
+testcase1:
+  casename: 'APP-代理人入职-个人基本信息提交'
+  Enabled : 'YES'
+  step1:
+    name: "代理人提交基本资料-个人信息提交接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      agentAddress: "西溪银座111号"
+      agentEducation : {"code": 3,"name": "本科"}
+      agentMobile: "13390158447"
+      agentName: "陆晓东"
+      agentNation: {"code": 1,"name": "汉族"}
+      agentPolitical: {"code": 1,"name": "群众"}
+      agentSchool: "浙江大学"
+      agentSex: 1
+      agentWorkArea: {"code": "000000","name": "浙江省(总公司)"}
+      channelNo: "01"
+      email: "222@qq.com"
+      idCard: "320324199612210010"
+    extract:
+      infoId: $..infoId
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: infoId
+  headersparamsvalue: {"Token": '$get_token(17090170074)'}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: 'APP-代理人入职-个人银行卡信息提交'
+  Enabled : 'YES'
+  step1:
+    name: "代理人提交基本资料-个人信息提交接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      agentAddress: "西溪银座111号"
+      agentEducation : {"code": 3,"name": "本科"}
+      agentMobile: "13390158447"
+      agentName: "陆晓东"
+      agentNation: {"code": 1,"name": "汉族"}
+      agentPolitical: {"code": 1,"name": "群众"}
+      agentSchool: "浙江大学"
+      agentSex: 1
+      agentWorkArea: {"code": "000000","name": "浙江省(总公司)"}
+      channelNo: "01"
+      email: "222@qq.com"
+      idCard: "320324199612210010"
+    extract:
+      infoId: $..infoId
+    validate:
+      expected_code: 200
+      assert_key_exists: infoId
+  step2:
+    name: "代理人提交基本资料-银行卡信息提交接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/saveSecondInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      bankInfoParam: {
+        "bankBranchName": "西溪支行",
+        "bankCardNo": "6217000010041317788",
+        "bankCityCodeList": [
+            {
+                "code": 330000,
+                "hasChild": 1,
+                "name": "浙江省"
+            },
+            {
+                "code": 330100,
+                "hasChild": 1,
+                "name": "杭州市"
+            },
+            {
+                "code": 330106,
+                "hasChild": 0,
+                "name": "西湖区"
+            }
+        ],
+        "bankCityName": "浙江省杭州市西湖区",
+        "bankCode": "1",
+        "bankName": "中国农业银行"
+    }
+      infoId: '${infoId}'
+      workExperienceParamList: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: infoId
+  headersparamsvalue: {"Token": '$get_token(17090170074)'}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 'APP-代理人入职-个人执业品质提交'
+  Enabled : 'YES'
+  step1:
+    name: "代理人提交基本资料-个人信息提交接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      agentAddress: "西溪银座111号"
+      agentEducation : {"code": 3,"name": "本科"}
+      agentMobile: "13390158447"
+      agentName: "陆晓东"
+      agentNation: {"code": 1,"name": "汉族"}
+      agentPolitical: {"code": 1,"name": "群众"}
+      agentSchool: "浙江大学"
+      agentSex: 1
+      agentWorkArea: {"code": "000000","name": "浙江省(总公司)"}
+      channelNo: "01"
+      email: "222@qq.com"
+      idCard: "320324199612210010"
+    extract:
+      infoId: $..infoId
+    validate:
+      expected_code: 200
+      assert_key_exists: infoId
+  step2:
+    name: "代理人提交基本资料-执业品质提交接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryPdfList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: "000000"
+      infoId: '${infoId}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: pdfPath
+  headersparamsvalue: {"Token": '$get_token(17090170074)'}
+  dataparamsvalue: {}
+

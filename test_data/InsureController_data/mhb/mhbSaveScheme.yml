@@ -1,0 +1,30 @@
+testcase1:
+  casename: '民惠保-保存投保方案'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/insure/saveScheme"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      channelNo: "A000000"
+      goodsCode: "WZXYCBG00101"
+      optionGroups: [{"salesCode":"WZXYCBM00101","insure":1,"optionValues":[{"optionCode":"security_period","optionValue":"1y"},{"optionCode":"has_socialInsur","optionValue":"YES"},{"optionCode":"insur_amount","optionValue":"2000000"}]}]
+      siteSource: "H5"
+      tcKey: "${tcKey}"
+    extract:
+      tradeKey: $..tradeKey
+    setparam:
+      tcKey: $..tcKey
+    setname: '/test_data/InsureController_data/mhb/mhbAgreeClientNotification.yml'
+    validate:
+      assert_kes_value: [{"code":10000}]
+      assert_in_text: hasHealthNotice
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}

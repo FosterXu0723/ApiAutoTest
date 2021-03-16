@@ -1,0 +1,233 @@
+testcase1:
+  casename: 离职人员列表
+  Enabled: 'yes'
+  step1:
+    name: 离职人员列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/getResignUsers
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      currentPage: 1
+      pageSize: 10
+      beginDate: $generate_date(-7)
+      endDate: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: 离职人员列表异常请求
+  Enabled: 'yes'
+  step1:
+    name: 离职人员列表异常请求
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/getResignUsers
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      currentPage: 1
+      pageSize: 10
+      beginDate:
+      endDate:
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 分配记录
+  Enabled: 'yes'
+  step1:
+    name: 分配记录列表正常流程
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/queryUserTransferRecords
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: 'handOverUserName'
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: 组织架构树
+  Enabled: 'yes'
+  step1:
+    name: 获取组织架构树
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/getUserDepartTree
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase5:
+  casename: 查询员工
+  Enabled: 'yes'
+  step1:
+    name: 查询员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/queryUserDepartTree
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      name: 王
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase6:
+  casename: 查询员工
+  Enabled: 'yes'
+  step1:
+    name: 查询不存在的员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/queryUserDepartTree
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      name: test
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase7:
+  casename: 查询员工名下客户
+  Enabled: 'yes'
+  step1:
+    name: 查询员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/getUserDepartTree
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+    extract:
+      userId: $.data.childNode[0].nodeId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  step2:
+    name: 查询员工名下客户
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/queryUserCustomerRela
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      currentPage: 1
+      pageSize: 10
+      userId: ${userId}
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase8:
+  casename: 在职继承给自己-异常流程
+  Enabled: 'yes'
+  step1:
+    name: 查询员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/getUserDepartTree
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+    extract:
+      userId: $.data.childNode[0].nodeId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  step2:
+    name: 在职继承给本人
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userTransfer
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      handOverUserId: ${userId}
+      takeOverUserId: ${userId}
+      type: 1
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - success: false
+        - code: 99999
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+

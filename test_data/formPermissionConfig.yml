@@ -1,0 +1,128 @@
+testcase1:
+  casename: '喂小保后台-表单权限配置-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限配置-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/operator/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: operatorId
+  step2:
+    name: "表单权限配置-用户查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/getUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: userName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-表单权限配置-新增CRM用户权限'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限配置-新增接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/operator/add"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      operatorType: 3
+      operatorId: 27
+      operatorName: "规划师1"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"用户已存在，请稍后再试"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-表单权限配置-编辑CRM用户权限'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限配置-更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/operator/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      operatorType: 3
+      id: 15
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-表单权限配置-停用CRM用户权限'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限配置-停启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/operator/enable"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      enable: false
+      id: 15
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase5:
+  casename: '喂小保后台-表单权限配置-启用CRM用户权限'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限配置-停启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/operator/enable"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      enable: true
+      id: 15
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

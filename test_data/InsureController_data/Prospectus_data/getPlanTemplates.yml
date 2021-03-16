@@ -1,0 +1,130 @@
+testcase1:
+  casename: '寿险业务-计划书-计划书列表接口'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getPlanTemplates"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      filterType: '1'
+      tabCode: "10"
+      currentPage: "1"
+      pageSize: "10"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '寿险业务-计划书-计划书列表接口'
+  Enabled : 'YES'
+  step1:
+    name: "不填token"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getPlanTemplates"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token:
+    data:
+      Token:
+      appMark: "10"
+      filterType: '1'
+      tabCode: "10"
+      currentPage: "1"
+      pageSize: "10"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+testcase3:
+  casename: '寿险业务-计划书-计划书列表接口'
+  Enabled : 'YES'
+  step1:
+    name: "appMark不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getPlanTemplates"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark:
+      filterType: '1'
+      tabCode: "10"
+      currentPage: "1"
+      pageSize: "10"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '寿险业务-计划书-计划书列表接口'
+  Enabled : 'YES'
+  step1:
+    name: "filterType不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getPlanTemplates"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      tabCode: "10"
+      currentPage: "1"
+      pageSize: "10"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: '寿险业务-计划书-计划书列表接口'
+  Enabled : 'YES'
+  step1:
+    name: "tabCode不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getPlanTemplates"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      filterType: '1'
+      currentPage: "1"
+      pageSize: "10"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+
+

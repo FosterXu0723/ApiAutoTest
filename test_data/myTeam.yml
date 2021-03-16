@@ -1,0 +1,164 @@
+testcase1:
+  casename: 'APP-我的团队-页面初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的团队-页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getTeamInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"teamName":"朱卫杰团队"}]
+      expected_code: 200
+      assert_key_exists: month,year,premiums,fyc
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase2:
+  casename: 'APP-我的团队-小组成员年度业绩查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的团队-小组成员年度业绩查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getTeamMembers"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      cycle: 3
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: teamName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase3:
+  casename: 'APP-我的团队-我的育成信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的团队-直接育成信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryIncumbencyTeamByReferrefId"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "我的团队-间接育成信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryRecommendedTeamByReferrefId"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase4:
+  casename: 'APP-我的团队-我的增员信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的团队-直接增员信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryIncumbencyByReferrerId"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "我的团队-间接增员信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryRecommendedByReferrerId"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase5:
+  casename: 'APP-我的团队-离职人员信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的团队-离职人员信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/queryDimissionByReferrerId"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+      account: $..account
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentRankName
+  step2:
+    name: "我的团队-离职人员FYC详情查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getAgentFYCSalaryDetails"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      account: '${account}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentRankName,fyc
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

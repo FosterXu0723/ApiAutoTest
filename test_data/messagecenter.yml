@@ -1,0 +1,245 @@
+testcase1:
+  casename: '喂小保后台-消息中心-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: ""
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: subTitle
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-消息中心-创建消息,定时发送'
+  Enabled : 'YES'
+  step1:
+    name: "消息中心-创建接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/add"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      subTitle: "接口自动化测试请忽略"
+      url: "https://wxb.sczhbx.com/la-vista/rhino/#/anxin-gratis/?source=ZX-qsmx&keyword=01&item=BD"
+      sendTimeType: 2
+      sendTime: "${generate_date}"
+      sendScope: 1
+      orgLimitJson: "[]"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: subTitle
+  step2:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"title":"接口自动化测试定时发送消息"},{"sendState":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"generate_date":'$generate_date(1)'}
+
+
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-消息中心-修改消息'
+  Enabled : 'YES'
+  step1:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"title":"接口自动化测试定时发送消息"},{"sendState":1}]
+      expected_code: 200
+  step2:
+    name: "消息中心-更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      subTitle: "接口自动化测试请忽略"
+      url: "https://wxb.sczhbx.com/la-vista/rhino/#/anxin-gratis/?source=ZX-qsmx&keyword=01&item=BD"
+      sendTimeType: 2
+      sendTime: "${generate_date}"
+      sendScope: 2
+      orgLimitJson: "[]"
+      currentTime: ${currentTime}
+      id: ${id}
+      sendState: 1
+      orgs: []
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+  step3:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"title":"接口自动化测试定时发送消息"},{"sendState":1},{"sendScope":2}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"generate_date":'$generate_date(1)',"currentTime":'$generate_date(0)'}
+
+
+
+
+
+
+testcase4:
+  casename: '喂小保后台-消息中心-删除消息'
+  Enabled : 'YES'
+  step1:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"title":"接口自动化测试定时发送消息"},{"sendState":1}]
+      expected_code: 200
+  step2:
+    name: "消息中心-删除接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/del"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+  step3:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试定时发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"total":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase5:
+  casename: '喂小保后台-消息中心-创建消息,立即发送'
+  Enabled : 'NO'
+  step1:
+    name: "消息中心-创建接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/add"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试立即发送消息"
+      subTitle: "接口自动化测试请忽略"
+      url: "https://wxb.sczhbx.com/la-vista/rhino/#/anxin-gratis/?source=ZX-qsmx&keyword=01&item=BD"
+      sendTimeType: 1
+      sendTime: "${generate_date}"
+      sendScope: 1
+      orgLimitJson: "[]"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: subTitle
+  step2:
+    name: "消息中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/message/query"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试立即发送消息"
+      sendState: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{"title":"接口自动化测试立即发送消息"},{"sendState":2}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"generate_date":'$generate_date(0)'}

@@ -1,0 +1,200 @@
+testcase1:
+  casename: 'APP-验证我的界面-订单列表接口(已完成)'
+  Enabled : 'YES'
+  step1:
+    name: "获取已完成订单列表"
+    general:
+#      host: $get_app_host()
+      path: "/gateway/a/order/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      #Token: '${Token}'
+    data:
+      token: $get_token(13390157984)
+      orderSearchType: 2
+
+
+    extract:
+
+    validate:      #validate节点必须有  但可以不填值   # validate节点下的节点可以没有  也可以有：这其中也可以不填值
+      #当validate下没有任何节点时，此step则不再去执行断言，validate下的任意一个节点断言失败则其他节点不再执行断言，此step整体断言失败
+      #以下子节点断言多个值时，如果第一个失败，后面的也不会再执行断言，此节点类型整体失败，如果第一个成功则会继续断言第二个，以此类推
+      expected_code: #断言接口的statuscode   200
+      #assert_kes_value: [{"code":10000}]# 断言接口返回值种的某个key的值，以字典list形式填写在这里如[{"code":50003},{'success': False}]
+      assert_in_text: '"msg": "Success"' #断言任意文本在返回结果中写法以逗号隔开，如果文本中包含json的键值对注意有引号的地方要使用双引号
+      assert_key_exists: itemDTOList #断言接口的返回值中包含这些key 多个以逗号隔开
+
+  headersparamsvalue: {}
+  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+testcase2:
+  casename: 'APP-验证我的界面-订单列表接口(待处理)'
+  Enabled : 'YES'
+  step1:
+    name: "获取待处理订单列表"
+    general:
+      host: $get_app_host()
+      path: "/gateway/a/order/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      #Token: '${Token}'
+    data:
+      token: $get_token(13390157984)
+      orderSearchType: 1
+
+
+    extract:
+
+    validate:      #validate节点必须有  但可以不填值   # validate节点下的节点可以没有  也可以有：这其中也可以不填值
+      #当validate下没有任何节点时，此step则不再去执行断言，validate下的任意一个节点断言失败则其他节点不再执行断言，此step整体断言失败
+      #以下子节点断言多个值时，如果第一个失败，后面的也不会再执行断言，此节点类型整体失败，如果第一个成功则会继续断言第二个，以此类推
+      expected_code: 200 #断言接口的statuscode   200
+      #assert_kes_value: [{"code":10000}]# 断言接口返回值种的某个key的值，以字典list形式填写在这里如[{"code":50003},{'success': False}]
+      assert_in_text: '"msg": "Success"' #断言任意文本在返回结果中写法以逗号隔开，如果文本中包含json的键值对注意有引号的地方要使用双引号
+      assert_key_exists: itemDTOList #断言接口的返回值中包含这些key 多个以逗号隔开
+
+  headersparamsvalue: {}
+  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+testcase3:
+  casename: 'APP-验证我的界面-订单列表接口(已失效)'
+  Enabled : 'YES'
+  step1:
+    name: "获取已失效订单列表"
+    general:
+#      host: $get_app_host()
+      path: "/gateway/a/order/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      #Token: '${Token}'
+    data:
+      token: $get_token(13390157984)
+      orderSearchType: 3
+
+
+    extract:
+
+    validate:      #validate节点必须有  但可以不填值   # validate节点下的节点可以没有  也可以有：这其中也可以不填值
+      #当validate下没有任何节点时，此step则不再去执行断言，validate下的任意一个节点断言失败则其他节点不再执行断言，此step整体断言失败
+      #以下子节点断言多个值时，如果第一个失败，后面的也不会再执行断言，此节点类型整体失败，如果第一个成功则会继续断言第二个，以此类推
+      expected_code: 200 #断言接口的statuscode   200
+      #assert_kes_value: [{"code":10000}]# 断言接口返回值种的某个key的值，以字典list形式填写在这里如[{"code":50003},{'success': False}]
+      assert_in_text: '"msg": "Success"' #断言任意文本在返回结果中写法以逗号隔开，如果文本中包含json的键值对注意有引号的地方要使用双引号
+      assert_key_exists: itemDTOList #断言接口的返回值中包含这些key 多个以逗号隔开
+
+  headersparamsvalue: {}
+  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+testcase4:
+  casename: 'APP-验证我的界面-订单列表接口(待续保)'
+  Enabled : 'YES'
+  step1:
+    name: "获取待续保订单列表"
+    general:
+#      host: $get_app_host()
+      path: "/gateway/a/order/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      #Token: '${Token}'
+    data:
+      token: $get_token(13390157984)
+      orderSearchType: 4
+
+
+    extract:
+
+    validate:      #validate节点必须有  但可以不填值   # validate节点下的节点可以没有  也可以有：这其中也可以不填值
+      #当validate下没有任何节点时，此step则不再去执行断言，validate下的任意一个节点断言失败则其他节点不再执行断言，此step整体断言失败
+      #以下子节点断言多个值时，如果第一个失败，后面的也不会再执行断言，此节点类型整体失败，如果第一个成功则会继续断言第二个，以此类推
+      expected_code: #断言接口的statuscode   200
+      #assert_kes_value: [{"code":10000}]# 断言接口返回值种的某个key的值，以字典list形式填写在这里如[{"code":50003},{'success': False}]
+      assert_in_text: '"msg": "Success"' #断言任意文本在返回结果中写法以逗号隔开，如果文本中包含json的键值对注意有引号的地方要使用双引号
+      assert_key_exists: itemDTOList #断言接口的返回值中包含这些key 多个以逗号隔开
+
+  headersparamsvalue: {}
+  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+testcase5:
+  casename: 'APP-验证我的界面-订单详情接口'
+  Enabled : 'YES'
+  step1:
+    name: "获取订单详情"
+    general:
+#      host: $get_app_host()
+      path: "/gateway/a/order/detail"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      #Token: '${Token}'
+    data:
+      linkNo: 20200724103823886880
+      token: $get_token(13390157984)
+
+
+    extract:
+
+    validate:      #validate节点必须有  但可以不填值   # validate节点下的节点可以没有  也可以有：这其中也可以不填值
+      #当validate下没有任何节点时，此step则不再去执行断言，validate下的任意一个节点断言失败则其他节点不再执行断言，此step整体断言失败
+      #以下子节点断言多个值时，如果第一个失败，后面的也不会再执行断言，此节点类型整体失败，如果第一个成功则会继续断言第二个，以此类推
+      expected_code: #断言接口的statuscode   200
+      assert_kes_value: [{orderStatusName: "已承保"}]# 断言接口返回值种的某个key的值，以字典list形式填写在这里如[{"code":50003},{'success': False}]
+      assert_in_text:  '"msg": "Success"' #断言任意文本在返回结果中写法以逗号隔开，如果文本中包含json的键值对注意有引号的地方要使用双引号
+      assert_key_exists: productList,insurerPersonList,holderPersonInfo #断言接口的返回值中包含这些key 多个以逗号隔开
+
+  headersparamsvalue: {}
+  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+#  step2:
+#    name: "输入错误的用户名密码，反向的登录接口"
+#    general:
+#      path: "http://qa.wxb.com.cn:8000/v1/wakanda-home/login"
+#      method: "post"
+#    headers:
+#      Content-Type: "application/json"
+#      #Ev: "v4"
+#      #Token: '${Token}'
+#    data:
+#      username: "admin"
+#      password: "123451"
+#
+#    extract:
+#    #token: $..token
+#    validate:
+#      assert_kes_value: [{"code":50001},{"numBalance": "1595000.00"}]
+#      expected_code: 200
+#      assert_in_text: "用户名或者密码错误"
+#      assert_key_exists: "success"
+#  headersparamsvalue: {}
+#  dataparamsvalue: {}   #{"mobile": '$phoneGenerator()'}
+
+
+#testcase2:
+#  casename: '登录失败'
+#  Enabled : 'YES'
+#  step1:
+#    name: "输入错误的用户名密码，反向的登录接口"
+#    general:
+#      path: "http://qa.wxb.com.cn:8000/v1/wakanda-home/login"
+#      method: "post"
+#    headers:
+#      Content-Type: "application/json"
+#      #Ev: "v4"
+#      #Token: '${Token}'
+#    data:
+#      username: "admin"
+#      password : "123451"
+#
+#    extract:
+#      #token: $..token
+#    validate:
+#      expected_code: 200
+#      assert_kes_value: [{"code":50003},{'success': False}]
+#
+#      assert_in_text: '用户名或者密码错误' #'"errmsg": "失败"'            #"用户名或者密码错误"
+#      assert_key_exists: 'success1'
+#  headersparamsvalue: {}
+#  dataparamsvalue: {}  #{"mobile": '$phoneGenerator()'}

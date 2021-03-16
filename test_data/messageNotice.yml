@@ -1,0 +1,75 @@
+testcase1:
+  casename: 'APP-消息通知-海报信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "消息通知-数据信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/letter/query"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      pageNo: 1
+      pageSize: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: subTitle
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+testcase2:
+  casename: 'APP-消息通知-查看产品详情'
+  Enabled : 'YES'
+  step1:
+    name: "消息通知-查看产品详情接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/getProcessInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      goodsCode: "WZXGRBG00101"
+      channelNo: "A000000"
+      siteSource: H5
+      appMark: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyPageInfo
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase3:
+  casename: 'APP-消息通知-查看计划书详情'
+  Enabled : 'YES'
+  step1:
+    name: "消息通知-查看计划书详情接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/initPlanPageInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      goodsCode: "JHSZABG01401"
+      appMark: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: mainGoodsCode
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

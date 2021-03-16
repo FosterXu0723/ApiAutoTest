@@ -1,0 +1,22 @@
+testcase1:
+  casename: '喂小保后台-关注文章查询-按微信昵称查询'
+  Enabled : 'YES'
+  step1:
+    name: "关注文章查询-信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryGainList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      nickName: "Leo"
+      followWayCode: 0
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"nickName":"Leo"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

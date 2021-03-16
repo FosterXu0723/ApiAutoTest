@@ -1,0 +1,415 @@
+testcase1:
+  casename: '喂小保后台-疾病核保-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-查询条件一级病种数据来源接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessListByLevel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      level: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: diseaseName
+  step2:
+    name: "疾病核保-获得核保结论数据源接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessConclusion"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: conclusionName
+  step3:
+    name: "疾病核保-获得商品信息数据源接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10000
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsName
+  step4:
+    name: "疾病核保-疾病核保结论信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessConclusionListByPage"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      firstDiseaseId: ""
+      goodsCode: ""
+      pageSize: 3
+      recommend: ""
+      secondDiseaseId: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: firstDiseaseName
+  step5:
+    name: "疾病核保-根据一级病种关联出二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSecondSicknessByFirstSickness"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      firstDiseaseId: 94
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: firstDiseaseName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-疾病核保-新增一级病种'
+  Enabled : 'NO'
+  step1:
+    name: "疾病核保-新增一级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/insertFirstSickness"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      diseaseName: "测试一级病种T"
+      level: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "疾病核保-查询一级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessListByLevel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      level: 1
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"diseaseName":"测试一级病种T"}]
+      expected_code: 200
+  step3:
+    name: "疾病核保-查询一级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessListByLevel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      level: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"diseaseName":"测试一级病种T"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-疾病核保-新增二级病种'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-新增二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/insertSecondSickness"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: 94
+      recommend: "0"
+      remark: "测试疾病定义"
+      secondSicknessName: "自动化测试二级病种"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "疾病核保-查询二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSecondSicknessByFirstSickness"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      firstDiseaseId: 94
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"secondDiseaseName":"自动化测试二级病种"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-疾病核保-修改一级病种'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-修改一级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/updateFirstSickness"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: 94
+      diseaseName: "自动化测试一级病种A"
+      level: 1
+      remark: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"一级病种：自动化测试一级病种A已存在！"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-疾病核保-修改二级病种'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-查询二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSecondSicknessByFirstSickness"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      firstDiseaseId: 94
+    extract:
+      relationId: $..relationId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"secondDiseaseName":"自动化测试二级病种"}]
+      expected_code: 200
+  step2:
+    name: "疾病核保-修改级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/updateSecondSickness"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: 94
+      diseaseName: "自动化测试一级病种A"
+      recommend: "0"
+      relationId: ${relationId}
+      remark: "测试疾病定义"
+      secondSicknessName: "自动化测试二级病种A1"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase5:
+  casename: '喂小保后台-疾病核保-二级病种添加核保结论'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-二级病种添加核保结论接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/insertSicknessUnderwriteConclusion"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      conclusionType: 5
+      firstDiseaseId: 94
+      goodsCode: "WNQZABG00601"
+      goodsType: "医疗险"
+      relationId: ${relationId}
+      remark: "测试详细说明"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase6:
+  casename: '喂小保后台-疾病核保-查看二级病种核保结论详情'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-疾病核保结论信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessConclusionListByPage"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      firstDiseaseId: 94
+      goodsCode: ""
+      pageSize: 3
+      recommend: ""
+      secondDiseaseId: ${relationId}
+    extract:
+      underwriteId: $..underwriteId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "疾病核保-二级病种核保结论详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/getSicknessUnderwriteById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      underwriteId: ${underwriteId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"secondDiseaseName":"自动化测试二级病种A1"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-疾病核保-修改二级病种核保结论'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-修改二级病种核保结论接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/updateSicknessUnderwriteConclusion"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      remark: "测试详细说明1"
+      underwriteId: ${underwriteId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase8:
+  casename: '喂小保后台-疾病核保-删除二级病种核保结论'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-删除二级病种核保结论接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/deleteSicknessUnderwriteConclusion"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      underwriteId: ${underwriteId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase9:
+  casename: '喂小保后台-疾病核保-删除二级病种'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-删除二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/deleteSecondSickness"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: 94
+      relationId: ${relationId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase10:
+  casename: '喂小保后台-疾病核保-二级病种核保结论全量导出'
+  Enabled : 'YES'
+  step1:
+    name: "疾病核保-二级病种核保结论全量导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sickness/downSicknessUnderwrite"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      firstDiseaseId: ""
+      goodsCode: ""
+      pageSize: 3
+      recommend: ""
+      secondDiseaseId: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

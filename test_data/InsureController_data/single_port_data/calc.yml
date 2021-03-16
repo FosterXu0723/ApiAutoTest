@@ -1,0 +1,26 @@
+testcase1:
+  casename: '寿险业务-详情页单被保人算价接口'
+  Enabled : 'YES'
+  step1:
+    name: '正常流程'
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/calc"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+    data:
+      Token: "${Token}"
+      appMark: "10"
+      goodsCode: "WZXFXBG00301"
+      optionGroups: [{"salesCode":"WZXFXBM00301","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN2"},{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"security_sex","optionValue":"1"},{"optionCode":"security_period","optionValue":"t999y"},{"optionCode":"pay_period","optionValue":"20y"},{"optionCode":"insur_amount","optionValue":100000}]},{"salesCode":"WNQFXB004R03","insure":0,"optionValues":[]}]
+    extract:
+      tradeKey: $..tradeKey
+    validate:
+      assert_kes_value: [{"code":10000}]
+      assert_key_exists: price
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+

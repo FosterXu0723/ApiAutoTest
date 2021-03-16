@@ -1,0 +1,136 @@
+testcase1:
+  casename: '喂小保后台-表单权限用户分组-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限用户分组-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: groupName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-表单权限用户分组-新增分组'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限用户分组-新增接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      groupChannelCodes: [
+        "ZX-qsmx"
+      ]
+      groupName: "规划师一组"
+      groupOperatorIds: [
+        9,
+        39
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"组名已存在，请修改"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-表单权限用户分组-编辑分组'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限用户分组-更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      groupChannelCodes: [
+        "CJCYS",
+        "crDY-lz"
+      ]
+      groupId: "1"
+      groupName: "规划师一组"
+      groupOperatorIds: [
+        13,
+        25,
+        27,
+        28
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-表单权限用户分组-查看详情'
+  Enabled : 'YES'
+  step1:
+    name: "表单权限用户分组-成员列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/selectUsefulMember"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      groupId: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operatorName
+  step2:
+    name: "表单权限用户分组-渠道列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/selectUsefulChannel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      groupId: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: sourceName
+  step3:
+    name: "表单权限用户分组-详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/follow/group/findById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      groupId: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"groupName":"规划师一组"}]
+      expected_code: 200
+      assert_key_exists: groupName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

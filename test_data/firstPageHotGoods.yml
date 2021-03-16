@@ -1,0 +1,91 @@
+testcase1:
+  casename: '喂小保后台-首页爆品配置-页面初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "首页爆品配置-页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/indexPic/get"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsCode,picUrl
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-首页爆品配置-发布爆品配置'
+  Enabled : 'YES'
+  step1:
+    name: "首页爆品配置-发布的商品编码校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/indexPic/productCheck"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodCode: "WSNGAFX00501"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "首页爆品配置-发布的商品编码校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/indexPic/productCheck"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodCode: "WSNGAFX00501"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "首页爆品配置-发布的商品编码校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/indexPic/productCheck"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodCode: "WSNGAFX00501"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step4:
+    name: "首页爆品配置-发布接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/indexPic/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      one: {
+        "goodsCode": "WSNGAFX00501",
+        "picUrl": "https://static-zh.wxb.com.cn/ironforge/ins/index/hotItem/2020/1/16f891ea16c.jpeg"
+      }
+      two: {
+        "goodsCode": "WSNGAFX00501",
+        "picUrl": "https://static-zh.wxb.com.cn/ironforge/ins/index/hotItem/2020/1/16f8927285b.jpeg"
+      }
+      three: {
+        "goodsCode": "WSNGAFX00501",
+        "picUrl": "https://static-zh.wxb.com.cn/ironforge/ins/index/hotItem/2020/1/16f89274cf2.jpeg"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

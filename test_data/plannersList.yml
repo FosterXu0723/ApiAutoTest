@@ -1,0 +1,191 @@
+testcase1:
+  casename: '喂小保后台-规划师一览-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "规划师一览-规划师数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentOverview"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      endDate: "2021-02-05 23:59:59"
+      pageSize: 10
+      startDate: "2021-01-29 00:00:00"
+      teams: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: certifiedStatus,realName
+  step2:
+    name: "规划师一览-机构列表数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/getOrgTeamTreeFour"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nodeCode,nodeName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-规划师一览-按姓名查询'
+  Enabled : 'YES'
+  step1:
+    name: "规划师一览-规划师数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentOverview"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      endDate: "2021-02-05 23:59:59"
+      mixQuery: "吴国庆"
+      pageSize: 10
+      startDate: "2021-01-29 00:00:00"
+      teams: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"realName":"吴国庆"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-规划师一览-规划师详情'
+  Enabled : 'YES'
+  step1:
+    name: "规划师一览-规划师详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentDetailInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentId":100332},{"name":"吴国庆"}]
+      expected_code: 200
+  step2:
+    name: "规划师一览-代理人认证信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentCertifiedInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"吴国庆"},{"checkStatus":"审核通过"}]
+      expected_code: 200
+  step3:
+    name: "规划师一览-组织关系信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentTeamInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"syncStatus":"已同步"}]
+      expected_code: 200
+  step4:
+    name: "规划师一览-关联账号信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentRelatedInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"coreName":"吴国庆"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-规划师一览-关联账号修改'
+  Enabled : 'YES'
+  step1:
+    name: "规划师一览-修改鱼塘账号"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/updateAgentRelatedInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+      ytAccount: "0668"
+      ytName: "wuguoqing"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "规划师一览-修改喂小保后台账号"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/updateAgentRelatedInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+      sysUserAccount: "wuguoqing"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "规划师一览-修改企业微信"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/updateAgentRelatedInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "100332"
+      corpWxAccount: "WuGuoQing20201217"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

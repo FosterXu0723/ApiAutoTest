@@ -1,0 +1,430 @@
+testcase1:
+  casename: '喂小保后台-商品管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-初始化配置接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/list/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"心有灵犀"}]
+      expected_code: 200
+  step2:
+    name: "商品管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyCode: ""
+      sceneType: 2
+      goodsName: ""
+      goodsType: ""
+      goodsCode: ""
+      agencyCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agencyName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-商品管理-按商品名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyCode: ""
+      sceneType: 2
+      goodsName: "超越保"
+      goodsType: ""
+      goodsCode: ""
+      agencyCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":2},{"companyName":"复星联合"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-商品管理-计划书商品详情初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-计划书商品详情初始化查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/detail/initInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      operateType: 2
+      goodsCode: "JHSFXBG00201"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-商品管理-计划书基本信息保存'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-基本信息保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/detail/checkBaseInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsInfo: {
+        "baseInfo": {
+            "agencyCode": "XYLX",
+            "agentCompany": "",
+            "circRegistType": 1,
+            "companyCode": "fosun",
+            "features": [
+                "可选医院范围扩展到特需部、国际部和VIP部",
+                "无理赔免赔额可每年递减"
+            ],
+            "goodsCode": "JHSFXBG00201",
+            "goodsName": "超越保",
+            "hesitatePeriod": "",
+            "insuredArea": "",
+            "n22PolCode": "JH-FXLH-10",
+            "payYears": "",
+            "processType": 1,
+            "productInfos": [
+                {
+                    "attachType": 0,
+                    "chooseType": 1,
+                    "companyName": "复星联合",
+                    "isMainProduct": 1,
+                    "productName": "超越保医疗保险",
+                    "productType": "医疗险",
+                    "salesCode": "JHSFXBM00201"
+                }
+            ],
+            "sceneType": 2,
+            "securityAgeStr": "30天（含）-60周岁（含）",
+            "securityPeriodStr": "1年",
+            "showPriceStr": "279元起",
+            "supportHospitals": "",
+            "termType": 1,
+            "undertakeLink": "",
+            "underwriteJobs": "",
+            "waitingPeriod": ""
+        }
+      }
+      operateType: "2"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-商品管理-提交计划书商品信息'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-提交计划书商品信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/detail/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsInfo: {
+        "baseInfo": {
+            "agencyCode": "XYLX",
+            "agentCompany": "",
+            "circRegistType": 1,
+            "companyCode": "fosun",
+            "features": [
+                "保证6年续保",
+                "免赔额递减"
+            ],
+            "goodsCode": "JHSFXBG00501",
+            "goodsName": "超越保2020医疗保险",
+            "hesitatePeriod": "",
+            "insuredArea": "",
+            "n22PolCode": "JH-FXLH-14",
+            "payYears": "",
+            "processType": 1,
+            "productInfos": [
+                {
+                    "attachType": 0,
+                    "chooseType": 1,
+                    "companyName": "复星联合",
+                    "isMainProduct": 1,
+                    "productName": "复星联合超越保2020医疗保险",
+                    "productType": "医疗险",
+                    "salesCode": "JHSFXBM00501"
+                },
+                {
+                    "attachType": 1,
+                    "chooseType": 3,
+                    "companyName": "复星联合",
+                    "isMainProduct": 0,
+                    "productName": "复星联合少儿特定疾病责任",
+                    "productType": "医疗险",
+                    "salesCode": "JHSFXBR00301"
+                },
+                {
+                    "attachType": 1,
+                    "chooseType": 3,
+                    "companyName": "复星联合",
+                    "isMainProduct": 0,
+                    "productName": "复星联合少儿一般意外住院津贴医疗责任",
+                    "productType": "医疗险",
+                    "salesCode": "JHSFXBR00201"
+                },
+                {
+                    "attachType": 1,
+                    "chooseType": 3,
+                    "companyName": "复星联合",
+                    "isMainProduct": 0,
+                    "productName": "复星联合少儿接种意外住院津贴医疗责任",
+                    "productType": "医疗险",
+                    "salesCode": "JHSFXBR00101"
+                }
+            ],
+            "sceneType": 2,
+            "securityAgeStr": "30天（含）-60周岁（含）",
+            "securityPeriodStr": "1年",
+            "showPriceStr": "156元起",
+            "supportHospitals": "",
+            "termType": 2,
+            "undertakeLink": "",
+            "underwriteJobs": "",
+            "waitingPeriod": ""
+        },
+        "detailPageConfig": {
+            "claimImgPath": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pic/2020/10/17544cfa840.png",
+            "detailImgPath": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pic/2020/10/17544cf9d98.png",
+            "insuranceNotice": "",
+            "insuranceNoticeContent": "",
+            "otherNotices": [
+                {
+                    "name": "特药清单",
+                    "status": "success",
+                    "uid": 1605504938960,
+                    "url": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pdf/2020/9/1749f41e85e.pdf"
+                }
+            ],
+            "questions": [
+                {
+                    "answer": "包括保险公司指定医疗机构，以及符合下列所有条件的机构：（1）位于境内（不包括港、澳、台地区），拥有合法经营执照，当地基本医疗保险管理机构最新公布的二级以上（含二级）的公立医院的普通部。公立医院的特需部、VIP部及国际部是否开放视具体保险计划而定，不包括观察室、联合病房和康复病房。（2）设立的主要目的为向受伤者和患病者提供留院治疗和护理服务；（3）有合格的医生和护士提供全日二十四小时的医疗和护理服务；（4）非主要作为康复医院、诊所、护理、疗养、戒酒、戒毒或类似的医疗机构。",
+                    "question": "本产品对医院的要求是？"
+                },
+                {
+                    "answer": "您通过复星联合健康保险全国客服热线4006-11-7777或登录复星联合健康官网及官方微信公众号进行保单查询、验真。",
+                    "question": "保单如何查询验证？"
+                }
+            ],
+            "thumbImgPath": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pic/2020/8/173dc3c1d4c.png",
+            "topImgPath": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pic/2020/8/173dc3c2cc6.png"
+        },
+        "healthDeclaration": {
+            "content": "",
+            "hasDeclaration": 0
+        },
+        "materialInfo": {
+            "additionalServices": [
+                {
+                    "index": 5,
+                    "key": "additionalServices",
+                    "name": "特药清单",
+                    "status": "success",
+                    "uid": 1605504938972,
+                    "url": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pdf/2020/9/1749f4262c9.pdf"
+                }
+            ],
+            "goodsIntroduction": "",
+            "goodsPosters": [],
+            "rateTables": [
+                {
+                    "index": 3,
+                    "key": "rateTables",
+                    "name": "计划一费率表",
+                    "status": "success",
+                    "uid": 1605504938967,
+                    "url": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pdf/2020/8/173e12ac7e1.pdf"
+                },
+                {
+                    "index": 3,
+                    "key": "rateTables",
+                    "name": "计划二费率表",
+                    "status": "success",
+                    "uid": 1605504938968,
+                    "url": "https://static-zh.wxb.com.cn/ironforge/ins/goods/pdf/2020/8/173e12ad569.pdf"
+                }
+            ],
+            "securityAndClaims": [],
+            "specialLimit": "",
+            "supportBank": "",
+            "underwritingRules": []
+        }
+      }
+      operateType: "2"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-商品管理-在线投保商品详情初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-在线投保商品详情初始化查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/detail/initInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      operateType: 2
+      goodsCode: "WZXFXBG00201"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-商品管理-在线投保商品基本信息保存'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-基本信息保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/detail/checkBaseInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsInfo: {
+        "baseInfo": {
+            "agencyCode": "XYLX",
+            "agentCompany": "",
+            "circRegistType": 1,
+            "companyCode": "fosun",
+            "features": [
+                "可选医院范围扩展到特需部、国际部和VIP部",
+                "无理赔免赔额可每年递减"
+            ],
+            "goodsCode": "WZXFXBG00201",
+            "goodsName": "超越保",
+            "hesitatePeriod": "15天",
+            "insuredArea": "仅限广东省、北京市、上海市、四川省、江苏省辖区域",
+            "n22PolCode": "JH-FXLH-10",
+            "payYears": "",
+            "processType": 1,
+            "productInfos": [
+                {
+                    "attachType": 0,
+                    "chooseType": 1,
+                    "companyName": "复星联合",
+                    "isMainProduct": 1,
+                    "productName": "超越保医疗保险",
+                    "productType": "医疗险",
+                    "salesCode": "WZXFXBM00201"
+                }
+            ],
+            "sceneType": 1,
+            "securityAgeStr": "30天（含）-60周岁（含）",
+            "securityPeriodStr": "1年",
+            "showPriceStr": "279元起",
+            "supportHospitals": "二级以上（含二级）公立医院普通部（可选特需/国际部及VIP医疗服务）",
+            "termType": 2,
+            "undertakeLink": "",
+            "underwriteJobs": "",
+            "waitingPeriod": "30天"
+        }
+      }
+      operateType: "2"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+
+
+
+
+testcase8:
+  casename: '喂小保后台-商品管理-批量导出'
+  Enabled : 'YES'
+  step1:
+    name: "商品管理-批量导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/manage/list/exportConfigs"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsCodes:  [
+        "JHSFXBG00201",
+        "JHSFXBG00501"
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+

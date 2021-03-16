@@ -1,0 +1,405 @@
+testcase1:
+  casename: '喂小保后台-内容管理-图文列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-图文数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "内容管理-文章分类数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      {}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-内容管理-发布图文'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-保存图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      contentDetail: "<p>自动化测试，勿动</p>"
+      contentClassId: 68
+      author: "AutoTest"
+      articleCover: "https://static-zh.wxb.com.cn/karazhan/content/article/2020/9/174d361bb18.png"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"}]
+      expected_code: 200
+  step2:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"草稿"}]
+      expected_code: 200
+  step3:
+    name: "发布图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/publish"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"已发布"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-内容管理-推荐图文'
+  Enabled : 'YES'
+  step1:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "推荐图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/recommend"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"recommendStatus":"已推荐"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase4:
+  casename: '喂小保后台-内容管理-取消推荐图文'
+  Enabled : 'YES'
+  step1:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "取消推荐图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/recommend"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"recommendStatus":"未推荐"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase5:
+  casename: '喂小保后台-内容管理-撤回图文'
+  Enabled : 'YES'
+  step1:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "撤回图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/recall"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"撤回"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase6:
+  casename: '喂小保后台-内容管理-删除图文'
+  Enabled : 'YES'
+  step1:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "删除图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase7:
+  casename: '喂小保后台-内容管理-推荐海报'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-保存海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      contentClassId: 69
+      posterUrl: "https://static-zh.wxb.com.cn/karazhan/content/poster/2020/9/174d377ad5d.png"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已发布"}]
+      expected_code: 200
+  step2:
+    name: "推荐海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/recommend"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"recommendMsg":"已推荐"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase8:
+  casename: '喂小保后台-内容管理-撤回海报'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-查询海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      posterStatus: 3
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已发布"}]
+      expected_code: 200
+  step2:
+    name: "撤回海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/revocation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase9:
+  casename: '喂小保后台-内容管理-恢复发布海报'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-查询海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      posterStatus: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已撤回"}]
+      expected_code: 200
+  step2:
+    name: "恢复发布海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/publish"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase10:
+  casename: '喂小保后台-内容管理-删除海报'
+  Enabled : 'YES'
+  step1:
+    name: "内容管理-查询海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      posterStatus: 3
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已发布"}]
+      expected_code: 200
+  step2:
+    name: "撤回海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/revocation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "删除海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

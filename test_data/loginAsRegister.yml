@@ -1,0 +1,39 @@
+testcase1:
+  casename: '注册及登录流程'
+  Enabled: 'NO'
+  step1:
+    name: 获取验证码
+    general:
+      path: 'https://test.wxb.com.cn/substation/gateway/a/login/getAuthCode'
+      method: 'post'
+    headers:
+      Content-Type: 'application/x-www-form-urlencoded'
+      Ev: 'v4'
+    data:
+      mobile: ${mobile}
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+  step2:
+    casename: '登录'
+    general:
+      path: 'https://test.wxb.com.cn/substation/gateway/a/login/doLogin'
+      method: 'post'
+    headers:
+      Content-Type: 'application/x-www-form-urlencoded'
+      Ev: 'v4'
+    data:
+      mobile: ${mobile}
+      authCode: 1234
+      pCode: -1
+      deviceModel: Win32
+      channelId: ''
+      version: ''
+      osVersion: ''
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {}
+  dataparamsvalue: {"mobile": $phoneGenerator()}

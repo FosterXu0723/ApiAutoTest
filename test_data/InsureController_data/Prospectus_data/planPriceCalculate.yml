@@ -1,0 +1,25 @@
+testcase1:
+  casename: '寿险业务-计划书-计划书算价接口'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/planPriceCalculate"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      mainGoodsCode: "JHSHGBG00401"
+      insuredOptions: {"optionValues":[{"optionCode":"security_age","optionValue":"30y-31y"},{"optionCode":"security_sex","optionValue":"1"}]}
+      holderOptions: {"optionValues":[{"optionCode":"security_age_holder","optionValue":"30y-31y"},{"optionCode":"security_sex_holder","optionValue":"1"}]}
+      combinationOptions: [{"goodsCode":"JHSHGBG00401","mainProductOptions":{"salesCode":"JHSHGBM00401","isBuy":1,"optionValues":[{"optionCode":"insur_area_level","optionValue":"1"},{"optionCode":"security_period","optionValue":"t60y"},{"optionCode":"pay_period","optionValue":"20y"},{"optionCode":"has_socialInsur","optionValue":"NO"},{"optionCode":"insur_amount","optionValue":100000}]},"relatedProductOptions":[]}]
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"}]
+      assert_key_exists: totalPrice,totalPriceStr
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}

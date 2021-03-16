@@ -1,0 +1,283 @@
+testcase1:
+  casename: 客户管理
+  Enabled: "yes"
+  step1:
+    name: 跟进客户列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryCustomerInfos
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerTags: [10052]
+      pageNo: 1
+      pageSize: 10
+      token: $get_token(17602116237)
+    extract:
+      customerId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "wxName"
+  step2:
+    name: 跟进客户详情
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryAgentCustomerInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerId: ${customerId}
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "customerOrderInfoList"
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: 客户管理
+  Enabled: "yes"
+  step1:
+    name: 成交客户列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryCustomerInfos
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerTags: [10053]
+      pageNo: 1
+      pageSize: 10
+      token: $get_token(17602116237)
+    extract:
+      customerId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "wxName"
+  step2:
+    name: 成交客户详情
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryAgentCustomerInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerId: ${customerId}
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "customerOrderInfoList"
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase3:
+  casename: 客户管理-节假日提醒
+  Enabled: "yes"
+  step1:
+    name: 节假日提醒
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/getHolidayReminder
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase4:
+  casename: 客户管理-客户关怀
+  Enabled: "yes"
+  step1:
+    name: 客户关怀
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/getCustomerCare
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: 客户管理-新建跟进客户
+  Enabled: "yes"
+  step1:
+    name: 新建跟进客户
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/upsertCustomerInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      age:
+      area:
+      areaCode:
+      birthday: $generate_short_date(0)
+      cardNo:
+      cardType: "1"
+      debt:
+      isVerified: false
+      name: autotest
+      phone: $phoneGenerator()
+      sex: 1
+      tags:
+        10026: ""
+        10052: ""
+      token: $get_token(17602116237)
+    extract:
+      customerId: $..customerId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  step2:
+    name: 客户关怀-生日提醒
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/getCustomerCare
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+        - customerName: autotest
+  step3:
+    name: 删除跟进客户
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/deleteCustomerBasicInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerId: ${customerId}
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase6:
+  casename: 获客列表创建客户
+  Enabled: "yes"
+  step1:
+    name: 获客动态列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/gainCustomer/gainCustomerList
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      pageNo: 1
+      pageSize: 10
+      token: $get_token(15000000003)
+    extract:
+      orcCusId: $.data.gainCustomerList[0].customerInfoDto.customerId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "relativeCustomerId"
+  step2:
+    name: 新建客户
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/upsertCustomerInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      age: 21
+      area: ""
+      areaCode: ""
+      birthday: ""
+      cardNo: ""
+      cardType: 1
+      debt: ""
+      detail: ""
+      isVerified: false
+      name: "autotest"
+      orcCusId: ${orcCusId}
+      phone: "17602116666"
+      sex: 1
+      token: $get_token(15000000003)
+      tags:
+        10052: ""
+    extract:
+      customerId: $..customerId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: "customerId"
+  step3:
+    name: 删除客户
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/agentCustomer/deleteCustomerBasicInfo
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      customerId: ${customerId}
+      token: $get_token(15000000003)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}

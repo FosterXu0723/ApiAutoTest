@@ -1,0 +1,235 @@
+testcase1:
+  casename: 'APP-风险测评-所在地区信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "APP-风险测评-所在地区信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getArea"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: 0
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江省"}]
+      expected_code: 200
+  step2:
+    name: "APP-风险测评-所在地区信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getArea"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: 330000
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"杭州市"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase2:
+  casename: 'APP-风险测评-获取测评结果'
+  Enabled : 'YES'
+  step1:
+    name: "APP-风险测评-提交测评信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/mapping/getMappingResult"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      dict: "浙江省杭州市"
+      houseLoan: "30万以下"
+      mate: {
+        "age": 41,
+        "birthday": "1979-06-15",
+        "income": "5万",
+        "name": "妻子",
+        "sex": 2
+      }
+      monthPay: "1.2万~2万"
+      self: {
+        "age": 42,
+        "birthday": "1978-01-01",
+        "income": "8万",
+        "name": "自动化",
+        "sex": 1
+      }
+      token: '${token}'
+    extract:
+      planId: $..planId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"自动化"},{"monthPay":"1.2万~2万"}]
+      expected_code: 200
+  step2:
+    name: "APP-风险测评-获取保障计划接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/mapping/getMappingPlan"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      planId: ${planId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"自动化"},{"monthPay":"1.2万~2万"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase3:
+  casename: 'APP-风险测评-更新保障方案'
+  Enabled : 'YES'
+  step1:
+    name: "APP-风险测评-更新保障方案接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/mapping/updateMappingResult"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      children: []
+      mate: {
+        "mappingResult": [
+            {
+                "resultInss": [
+                    {
+                        "amount": 100,
+                        "detail": "意外是无法避免的风险，有备无患，低保费也能拥有高保额。",
+                        "insCode": "CasualtyIns",
+                        "name": "意外险"
+                    },
+                    {
+                        "amount": 50,
+                        "detail": "确诊重疾即可赔付，赔款不限用途，用于疾病治疗或疾病期收入损失补偿。",
+                        "insCode": "CriticalIllnessIns",
+                        "name": "重疾险"
+                    },
+                    {
+                        "amount": 100,
+                        "detail": "可报销住院治疗中（包括重大疾病）昂贵的医疗项目和药品，看病贵不再是难题。",
+                        "insCode": "MedicalIns",
+                        "name": "医疗险"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "万一不幸发生可通过保险金保证家人的正常生活，包括偿还负债。",
+                        "insCode": "TermLifeIns",
+                        "name": "定期寿险"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "强制储蓄配合豁免功能，保障孩子在不管家庭发生何种状况都能继续教育。",
+                        "insCode": "EducationGoldIns",
+                        "name": "教育金"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "保障退休后生活的品质及尊严，逐年规划，以适当的时间换取养老空间。",
+                        "insCode": "PensionIns",
+                        "name": "养老金"
+                    }
+                ],
+                "resultType": "全面型"
+            }
+        ]
+      }
+      self: {
+        "mappingResult": [
+            {
+                "resultInss": [
+                    {
+                        "amount": 104,
+                        "detail": "意外是无法避免的风险，有备无患，低保费也能拥有高保额。",
+                        "insCode": "CasualtyIns",
+                        "name": "意外险"
+                    },
+                    {
+                        "amount": 50,
+                        "detail": "确诊重疾即可赔付，赔款不限用途，用于疾病治疗或疾病期收入损失补偿。",
+                        "insCode": "CriticalIllnessIns",
+                        "name": "重疾险"
+                    },
+                    {
+                        "amount": 100,
+                        "detail": "可报销住院治疗中（包括重大疾病）昂贵的医疗项目和药品，看病贵不再是难题。",
+                        "insCode": "MedicalIns",
+                        "name": "医疗险"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "万一不幸发生可通过保险金保证家人的正常生活，包括偿还负债。",
+                        "insCode": "TermLifeIns",
+                        "name": "定期寿险"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "强制储蓄配合豁免功能，保障孩子在不管家庭发生何种状况都能继续教育。",
+                        "insCode": "EducationGoldIns",
+                        "name": "教育金"
+                    },
+                    {
+                        "amount": 0,
+                        "detail": "保障退休后生活的品质及尊严，逐年规划，以适当的时间换取养老空间。",
+                        "insCode": "PensionIns",
+                        "name": "养老金"
+                    }
+                ],
+                "resultType": "全面型"
+            }
+        ]
+      }
+      token: '${token}'
+      planId: ${planId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase4:
+  casename: 'APP-风险测评-获取方案列表信息'
+  Enabled : 'YES'
+  step1:
+    name: "APP-风险测评-方案列表查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/mapping/getMappingPlanList"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      pageNo: 1
+      pageSize: 20
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"planName":"自动化家庭方案"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

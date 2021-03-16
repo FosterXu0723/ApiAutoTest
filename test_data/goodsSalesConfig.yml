@@ -1,0 +1,110 @@
+testcase1:
+  casename: '喂小保后台-商品营销配置-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品营销配置-配置信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/market/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: value
+  step2:
+    name: "商品营销配置-商品营销信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/market/configInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      configWeightOrder: "descending"
+      updateTimeOrder: "ascending"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyCode
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-商品营销配置-按商品名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品营销配置-商品营销信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/market/configInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      configWeightOrder: "descending"
+      updateTimeOrder: "ascending"
+      currentPage: 1
+      pageSize: 10
+      goodsName: "超倍保"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超倍保重疾险"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-商品营销配置-商品营销信息详情'
+  Enabled : 'YES'
+  step1:
+    name: "商品营销配置-商品营销信息详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/market/getGoodsMarketInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsMarketId: 769
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保2020医疗保险"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-商品营销配置-保存商品营销信息'
+  Enabled : 'YES'
+  step1:
+    name: "商品营销配置-保存商品营销信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/market/saveGoodsMarketConfig"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      articleId: []
+      configWeight: 70
+      goodsMarketId: 769
+      goodsMarketTag: [
+        "测试标签1",
+        "测试标签2"
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

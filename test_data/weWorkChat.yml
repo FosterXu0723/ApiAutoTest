@@ -1,0 +1,131 @@
+testcase1:
+  casename: 企微客户总览流程
+  Enabled: "yes"
+  step1:
+    name: 组织列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/followInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_date(-7)
+      endDate: $generate_date(0)
+    extract:
+      userId: $..data[6].userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success}]
+  step2:
+    name: 聊天概况
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userServiceInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      userId: ${userId}
+      beginTime: $generate_date(-7)
+      endTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: 企微客户总览流程
+  Enabled: "yes"
+  step1:
+    name: 组织列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/followInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_date(-7)
+      endDate: $generate_date(0)
+    extract:
+      userId: $..data[6].userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success}]
+  step2:
+    name: 聊天概况
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userServiceInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      userId: ${userId}
+      beginTime: $generate_date(-60)
+      endTime: $generate_date(0)
+    extract:
+      customerId: $..customerId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 企微客户总览流程
+  Enabled: "yes"
+  step1:
+    name: 查询存在的统计单元
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/followInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      salesUnit: 王也
+      beginDate: $generate_date(-7)
+      endDate: $generate_date(0)
+    extract:
+      userId: $..data[6].userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success, code: 10000,salesUnit: "王也1"}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: 企微客户总览流程
+  Enabled: "yes"
+  step1:
+    name: 查询不存在的统计单元
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/followInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      salesUnit: "test"
+      beginDate: $generate_date(-7)
+      endDate: $generate_date(0)
+    extract:
+      userId: $..data[6].userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success, code: 10000}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}

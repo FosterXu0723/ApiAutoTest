@@ -1,0 +1,458 @@
+testcase1:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 敏感动作列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(0)
+      currentPage: 1
+      customerName: ""
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: ""
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 敏感动作已处理列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: ""
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: ""
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据员工名称敏感动作已处理列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: ""
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: ""
+      status: 1
+      userName: "test"
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据用户名称敏感动作已处理列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: ""
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询-聊天涉及敏感词
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 1
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase6:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询-撤回消息
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 2
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase7:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询-超时回复
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 3
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase8:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询-删除客户
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 4
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase9:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询-被客户删除
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 5
+      status: 0
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase10:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询已处理-聊天涉及敏感词
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 1
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase11:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询已处理-撤回消息
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 2
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase12:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询已处理-超时回复
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 3
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase13:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询已处理-删除客户
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 4
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase14:
+  casename: 敏感动作处理
+  Enabled: "yes"
+  step1:
+    name: 根据敏感动作类型查询已处理-被客户删除
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitiveAction/getSensitiveActionByPage
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      currentPage: 1
+      customerName: "test"
+      departs: []
+      endDate: $generate_short_date(0)
+      pageSize: 10
+      sensitiveOperation: 5
+      status: 1
+      userName: ""
+    extract:
+      id: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}

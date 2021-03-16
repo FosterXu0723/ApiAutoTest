@@ -1,0 +1,54 @@
+testcase1:
+  casename: '喂小保后台-代理人管理-代理人查询'
+  Enabled : 'YES'
+  step1:
+    name: "代理人管理-代理人查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/agentInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "agentCode": "",
+        "agentEffective": "",
+        "agentMobile": "",
+        "agentName": "",
+        "currentPage": 1,
+        "endTime": "2020-12-18",
+        "pageSize": 10,
+        "secondOrgCode": "",
+        "startTime": "2020-12-01"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentMobile
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-代理人管理-代理人详情'
+  Enabled : 'YES'
+  step1:
+    name: "代理人管理-代理人详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/queryAgentInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "agentCode": "3412241989"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"吴国庆"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

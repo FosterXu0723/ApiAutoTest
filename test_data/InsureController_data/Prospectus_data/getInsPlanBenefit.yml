@@ -1,0 +1,23 @@
+testcase1:
+  casename: '寿险业务-计划书-已保存计划书加载的接口'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/getInsPlanBenefit"
+      method: "get"
+      Content-Type: 'application/x-www-form-urlencoded;charset=utf-8'
+    headers:
+      Ev: "v4"
+      Token: '$get_token(14100000000)'
+    data:
+      planNo: "${planNo}"
+    extract:
+    setparam:
+      planNo: $..planNo
+    setname: '/test_data/InsureController_data/Prospectus_data/savePlan.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: planBenefitCombinationList
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

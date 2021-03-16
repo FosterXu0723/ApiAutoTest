@@ -1,0 +1,111 @@
+testcase1:
+  casename: 方案定制查询流程
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/schemeMake/getAgentShareSchemeMakeList
+      method: get
+    headers:
+      Ev: v4
+      Token: $get_token(17602116237)
+    data:
+      currentPage: 1
+      pageSize: 10
+      token: $get_token(17602116237)
+    extract:
+      flowId: $..flowId
+    validate:
+      assert_kes_value: [{"statusDesc":"已完成"}]
+  step2:
+    name: 方案定制详情
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/schemeMake/makeDetails
+      method: get
+    headers:
+      ev: v4
+      Token: $get_token(17602116237)
+    data:
+      flowId: ${flowId}
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      assert_kes_value: [{success: true},{msg: Success}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: 方案定制查询流程-异常场景
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/schemeMake/getAgentShareSchemeMakeList
+      method: get
+    headers:
+      Ev: v4
+      Token: $get_token(17602116237)
+    data:
+      currentPage: 1
+      pageSize: 10
+      token: $get_token(17602116237)
+    extract:
+      flowId: $..flowId
+    validate:
+      assert_kes_value: [{"statusDesc":"已完成"}]
+  step2:
+    name: 方案定制详情-异常
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/schemeMake/makeDetails
+      method: get
+    headers:
+      ev: v4
+      Token: $get_token(17602116237)
+    data:
+      flowId:
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      assert_kes_value: [{success: false},{code: 99999}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 方案定制查询流程-风险测评报告
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/schemeMake/getAgentShareSchemeMakeList
+      method: get
+    headers:
+      Ev: v4
+      Token: $get_token(17602116237)
+    data:
+      currentPage: 1
+      pageSize: 10
+      token: $get_token(17602116237)
+    extract:
+      flowId: $..flowId
+    validate:
+      assert_kes_value: [{"statusDesc":"已完成"}]
+  step2:
+    name: 方案定制风险测评报告
+    general:
+      path: https://test.wxb.com.cn/substation/gateway/a/risk/queryRiskAssessmentInfo
+      method: get
+    headers:
+      ev: v4
+      Token: $get_token(17602116237)
+    data:
+      flowId: ${flowId}
+      token: $get_token(17602116237)
+    extract:
+    validate:
+      assert_kes_value: [{success: true},{msg: Success}]
+      assert_key_exists: "id"
+  headersparamsvalue: {}
+  dataparamsvalue: {}

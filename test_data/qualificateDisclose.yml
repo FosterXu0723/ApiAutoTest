@@ -1,0 +1,73 @@
+testcase1:
+  casename: '喂小保后台-资质披露-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "资质披露-列表初始化查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/qualification/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: platformName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-资质披露-资质页查看'
+  Enabled : 'YES'
+  step1:
+    name: "资质披露-资质列表查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getQualificationList"
+      method: "get"
+    headers:
+    data:
+      platformCode: 4
+      _nocache1604990061095: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "资质披露-获得险企接口"
+    general:
+      path: "https://doclever.wxb.com.cn/mock/5d36a0617a7fa82bf50454b8/getCooperInsureCompany"
+      method: "get"
+    headers:
+    data:
+      _nocache1604990061100: ""
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"companyInfo":"天安人寿保险股份有限公司"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-资质披露-导出披露表'
+  Enabled : 'YES'
+  step1:
+    name: "资质披露-导出披露表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/qualification/list/exportExcel"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      {}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

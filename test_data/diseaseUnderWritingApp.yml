@@ -1,0 +1,203 @@
+testcase1:
+  casename: 'APP-非标体专区-默认推荐二级病种展示'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-默认推荐二级病种信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/sickness/getRecommendSicknessList"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: firstDiseaseId
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase2:
+  casename: 'APP-非标体专区-所有病种展示'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-所有病种信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/getAllSicknessList"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: diseaseName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase3:
+  casename: 'APP-非标体专区-查询二级病种'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-查询二级病种接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/querySecondSickness"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      sicknessName: '甲状腺结节'
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: secondDiseaseName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase4:
+  casename: 'APP-非标体专区-二级病种核保商品列表'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-二级病种核保商品列表接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/getSicknessGoodsList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      conclusion: []
+      goodsType: []
+      token: '${token}'
+      secondSicknessId: 292
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyName
+  step2:
+    name: "非标体专区-筛选项接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/sickness/config"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: code
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase5:
+  casename: 'APP-非标体专区-根据核保结论类型+商品种类查询核保商品'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-二级病种核保商品列表接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/getSicknessGoodsList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      conclusion: [1]
+      goodsType: ["重疾险"]
+      secondSicknessId: 292
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase6:
+  casename: 'APP-非标体专区-核保规则详情'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-核保规则详情接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/ins/getSicknessGoodsInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      goodsCode: 'WZXDDBG00101'
+      secondSicknessId: 292
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: conclusionName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase7:
+  casename: 'APP-非标体专区-查看商品详情'
+  Enabled : 'YES'
+  step1:
+    name: "非标体专区-查看商品详情接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/getProcessInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      goodsCode: 'WZXDDBG00101'
+      channelNo: 'A000000'
+      siteSource: 'H5'
+      appMark: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: auditFlag
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

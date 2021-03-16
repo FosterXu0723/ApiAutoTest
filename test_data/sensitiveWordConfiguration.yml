@@ -1,0 +1,84 @@
+testcase1:
+  casename: 敏感词配置
+  Enabled: "yes"
+  step1:
+    name: 全部子分类
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/allCategorys
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+    extract:
+      categoryId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+        - label: 心有灵犀保险代理有限公司
+  step2:
+    name: 增加敏感词
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/addSensitiveWord
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      categoryId: ${categoryId}
+      contains: []
+      sensitiveWord: "test"
+      uncontains: []
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+  step3:
+    name: 查询分类敏感词
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/getPageSensitiveWords
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      categoryId: ${categoryId}
+      currentPage: 1
+      pageSize: 10
+      sensitiveWord:
+    extract:
+      sensitiveId: $..sensitiveId
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+        - sensitiveWord: "test"
+  step4:
+    name: 删除敏感词
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/deleteSensitiveWord
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      -
+        categoryId: ${categoryId}
+        sensitiveId: ${sensitiveId}
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+          - msg: Success
+          - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}

@@ -1,0 +1,675 @@
+testcase1:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 客户总览列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-7)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 客户总览列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-7)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+      customerId: $..customerId
+      userId: $..userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  step2:
+    name: 修改数据权限为空
+    general:
+      path: https://test.wxb.com.cn/dalaran/sys/setUserDataRole
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      - dataRoleId: 1
+        deleteId: 1
+        permissons:
+        userId: 13
+      - dataRoleId: 2
+        deleteId: 1
+        permissons:
+        userId: 13
+      - dataRoleId: 3
+        deleteId: 1
+        permissons:
+        userId: 13
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  step3:
+    name: 客户总览列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-70)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  step4:
+    name: 修改获得全部数据权限
+    general:
+      path: https://test.wxb.com.cn/dalaran/sys/setUserDataRole
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      - dataRoleId: 1
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: 13
+      - dataRoleId: 2
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: 13
+      - dataRoleId: 3
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: 13
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  step5:
+    name: 客户总览列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      currentPage: 1
+      pageSize: 10
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-6)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 客户总览列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-7)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+      customerId: $..customerId
+      userId: $..userId
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  step2:
+    name: 客户聊天记录
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/chatInfo
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      userId: ${userId}
+      customerId: ${customerId}
+      currentPage: 1
+      pageSize: 30
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索不存在的昵称
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      nickName: autoTest
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索存在的昵称
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      nickName: Potential
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase6:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索总部门
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds: 1
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase7:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索多部门
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds: 1,3
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase8:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索不存在的部门
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds: 100
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase9:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索存在的员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      userName: 王也1
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase10:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索不存在的员工
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      userName: autotest
+      departIds:
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true,total: 0}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase11:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索高意向客户列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      intention: 1
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase12:
+  casename: 企微客户总览
+  Enabled: "yes"
+  step1:
+    name: 搜索指定销售阶段客户
+    general:
+      path: https://test.wxb.com.cn/dalaran/cpwx/userList
+      method: post
+    headers:
+      Content-Type: application/x-www-form-urlencoded
+      Ev: v4
+      jwt: $get_jwt(yangwuxie, 123456)
+    data:
+      departIds:
+      saleStage: 2
+      currentPage: 1
+      pageSize: 30
+      createBeginTime: $generate_date(-180)
+      createEndTime: $generate_date(0)
+      followBeginTime: $generate_date(-7)
+      followEndTime: $generate_date(0)
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value: [{msg: Success,success: true}]
+  headersparamsvalue: {}
+  dataparamsvalue: {}

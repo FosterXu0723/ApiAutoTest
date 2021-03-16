@@ -1,0 +1,181 @@
+testcase1:
+  casename: '喂小保后台-任务列表-任务列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "任务列表-任务数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/taskList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      customerName: ""
+      startTime: ""
+      endTime: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerName
+  step2:
+    name: "任务列表-任务状态枚举接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/stateList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"待分配"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-任务列表-创建任务'
+  Enabled : 'YES'
+  step1:
+    name: "任务列表-获取省份信息接口"
+    general:
+      path: "https://bp-backend.wxb.com.cn/area/getProvinceLabel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: address
+  step2:
+    name: "任务列表-获得市级信息接口"
+    general:
+      path: "https://bp-backend.wxb.com.cn/area/getSubAreaVOList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      areaCode: 330000
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"address":"杭州市"}]
+      expected_code: 200
+  step3:
+    name: "任务列表-获得区级信息接口"
+    general:
+      path: "https://bp-backend.wxb.com.cn/area/getSubAreaVOList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      areaCode: 330100
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"address":"余杭区"}]
+      expected_code: 200
+  step4:
+    name: "任务列表-创建任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/customerServiceAddTask"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      customerName: "自动化测试"
+      description: "测试任务请忽略"
+      endTime: '${endTime1}'
+      gender: 1
+      linkmanPhoneNumber: "13390158416"
+      startTime: '${startTime1}'
+      address: {
+        "areaCode": "330110",
+        "detailAddress": "良睦路1166号鼎创财富中心"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step5:
+    name: "任务列表-查询任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/taskList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      customerName: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+      startTime: "${startTime2}"
+      endTime: "${endTime2}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"customerName":"自动化测试"},{"stateName":"待分配"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"startTime1":'$generate_date(0,2)',"endTime1":'$generate_date(0,4)',"startTime2":'$generate_short_date(0)',"endTime2":'$generate_short_date(0)'}
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-任务列表-指派任务'
+  Enabled : 'YES'
+  step1:
+    name: "任务列表-代理人数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/rhinoAgent/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      rhinoAgentQueryStr: "朱卫杰"
+      areaName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"rhinoAgentName":"朱卫杰"}]
+      expected_code: 200
+  step2:
+    name: "任务列表-查询任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/taskList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      customerName: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+      startTime: "${startTime}"
+      endTime: "${endTime}"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"customerName":"自动化测试"},{"stateName":"待分配"}]
+      expected_code: 200
+  step3:
+    name: "任务列表-指派接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/shattrath/workOrder/assign"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      rhinoAgentId: 888000117
+      shattrathWorkOrderTaskId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"startTime":'$generate_short_date(0)',"endTime":'$generate_short_date(0)'}

@@ -1,0 +1,142 @@
+testcase1:
+  casename: '喂小保后台-代理人认证-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "代理人认证-认证信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/queryList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentName: ""
+      currentPage: 1
+      joinPassEndTime: "2020-10-23 23:59:59"
+      joinPassStartTime: "2020-10-23 00:00:00"
+      pageSize: 10
+      registerEndTime: ""
+      registerStartTime: ""
+      registerStatus: ""
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"戴云浓"}]
+      expected_code: 200
+  step2:
+    name: "代理人认证-渠道类型查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/queryChannelType"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"银保"}]
+      expected_code: 200
+  step3:
+    name: "代理人认证-合同类型查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/queryOfferType"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"劳动合同"}]
+      expected_code: 200
+  step4:
+    name: "代理人认证-业务范围查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/querySaleScope"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"代理销售保险产品"}]
+      expected_code: 200
+  step5:
+    name: "代理人认证-地区查询接口"
+    general:
+      path: "https://bp-backend.wxb.com.cn/area/getProvinceLabel"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"address":"北京"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-代理人认证-代理人工号更新'
+  Enabled : 'YES'
+  step1:
+    name: "代理人认证-代理人工号更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/updateAgentCode"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      agentCode: "LX359"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-代理人认证-代理人执业证号更新'
+  Enabled : 'YES'
+  step1:
+    name: "代理人认证-代理人执业证号更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/updateCertificateNo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      agentCertificateNo: "3201051997"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-代理人认证-一键同步信息到核心系统'
+  Enabled : 'YES'
+  step1:
+    name: "代理人认证-一键同步接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentRegister/pushAgentList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

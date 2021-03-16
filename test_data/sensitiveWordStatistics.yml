@@ -1,0 +1,54 @@
+testcase1:
+  casename: 敏感词统计
+  Enabled: "yes"
+  step1:
+    name: 敏感词统计列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/getSensitiveStatisticsByCategory
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      endDate: $generate_short_date(0)
+    extract:
+      key: $..key
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - categoryName: 敏感词客户分类
+        - msg: Success
+        - success: true
+      assert_key_exists: categoryName
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: 敏感词统计
+  Enabled: "yes"
+  step1:
+    name: 敏感词统计列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/sensitive/getSensitiveStatisticsByCategory
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      beginDate: $generate_short_date(-7)
+      endDate: $generate_short_date(0)
+    extract:
+      key: $..key
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - categoryName: 敏感词客户分类
+        - msg: Success
+        - success: true
+      assert_key_exists: categoryName
+  headersparamsvalue: {}
+  dataparamsvalue: {}

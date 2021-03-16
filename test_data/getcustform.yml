@@ -1,0 +1,1589 @@
+testcase1:
+  casename: '喂小保后台-获客表单-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: formName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: '喂小保后台-获客表单-新增权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-新增表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/new"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      name: "接口自动化测试权益表单"
+      formCode: "JKZDHQYBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 1
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: []
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbacd5.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbbedb.png"
+        },
+        {
+            "picSubType": 3,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc3147.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc43c5.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc5b74.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      rightsPicSaveDTOS: [
+        {
+            "picOrder": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578ce4b86.png",
+            "popUps": "<div class='title'>自动化测试</div><p>1.自动化测试请忽略</p>"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-获客表单-预览权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHQYBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试权益表单"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-获客表单-编辑权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试权益表单更新"
+      formCode: "JKZDHQYBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 1
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: []
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbacd5.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbbedb.png"
+        },
+        {
+            "picSubType": 3,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc3147.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc43c5.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc5b74.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      rightsPicSaveDTOS: [
+        {
+            "picOrder": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578ce4b86.png",
+            "popUps": "<div class='title'>自动化测试</div><p>1.自动化测试请忽略</p>"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: '喂小保后台-获客表单-发布权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-发布表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/publish"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"已发布"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase6:
+  casename: '喂小保后台-获客表单-打开权益表单链接查看内容'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHQYBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase7:
+  casename: '喂小保后台-获客表单-下架权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-下架表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/offline"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"下架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase8:
+  casename: '喂小保后台-获客表单-权益表单详情'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询权益表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/findById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试权益表单更新"},{"formCode":"JKZDHQYBD"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase9:
+  casename: '喂小保后台-获客表单-删除权益表单'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-权益表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试权益表单更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试权益表单更新"
+      formCode: "JKZDHQYBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 1
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: []
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbacd5.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cbbedb.png"
+        },
+        {
+            "picSubType": 3,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc3147.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc43c5.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578cc5b74.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      rightsPicSaveDTOS: [
+        {
+            "picOrder": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578ce4b86.png",
+            "popUps": "<div class='title'>自动化测试</div><p>1.自动化测试请忽略</p>"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-删除权益表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/deleteById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step4:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试权益表单更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"count":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase10:
+  casename: '喂小保后台-获客表单-新增咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-新增表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/new"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      name: "接口自动化测试咨询表单1页"
+      formCode: "JKZDHZXBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 3
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase11:
+  casename: '喂小保后台-获客表单-预览咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHZXBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单1页"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase12:
+  casename: '喂小保后台-获客表单-编辑咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试咨询表单1页更新"
+      formCode: "JKZDHZXBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 3
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase13:
+  casename: '喂小保后台-获客表单-发布咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-发布表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/publish"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"已发布"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase14:
+  casename: '喂小保后台-获客表单-打开咨询表单(1页)链接查看内容'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHZXBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase15:
+  casename: '喂小保后台-获客表单-下架咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-下架表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/offline"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"下架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase16:
+  casename: '喂小保后台-获客表单-咨询表单(1页)详情'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询咨询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/findById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单1页更新"},{"formCode":"JKZDHZXBD"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase17:
+  casename: '喂小保后台-获客表单-删除咨询表单(1页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-咨询表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单1页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试咨询表单1页更新"
+      formCode: "JKZDHQYBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 3
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-删除咨询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/deleteById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step4:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单1页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"count":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase18:
+  casename: '喂小保后台-获客表单-新增咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-新增表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/new"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      name: "接口自动化测试咨询表单2页"
+      formCode: "JKZDHZXBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 2
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase19:
+  casename: '喂小保后台-获客表单-预览咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHZXBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单2页"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase20:
+  casename: '喂小保后台-获客表单-编辑咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试咨询表单2页更新"
+      formCode: "JKZDHZXBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 2
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase21:
+  casename: '喂小保后台-获客表单-发布咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-发布表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/publish"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"已发布"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase22:
+  casename: '喂小保后台-获客表单-打开咨询表单(2页)链接查看内容'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/form/show"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      code: "JKZDHZXBD"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase23:
+  casename: '喂小保后台-获客表单-下架咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-下架表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/offline"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusStr":"下架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase24:
+  casename: '喂小保后台-获客表单-咨询表单(2页)详情'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-查询咨询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/findById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口自动化测试咨询表单2页更新"},{"formCode":"JKZDHZXBD"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase25:
+  casename: '喂小保后台-获客表单-删除咨询表单(2页)'
+  Enabled : 'YES'
+  step1:
+    name: "获客表单-咨询表单详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"formName":"接口自动化测试咨询表单2页更新"}]
+      expected_code: 200
+  step2:
+    name: "获客表单-编辑表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+      name: "接口自动化测试咨询表单2页更新"
+      formCode: "JKZDHQYBD"
+      title: "接口自动化测试"
+      description: "接口自动化测试"
+      keyword: "接口自动化测试"
+      formType: 2
+      beginTime: "2020-09-08 00:00:00"
+      endTime: "2021-10-31 23:59:59"
+      remark: "测试备注"
+      contentConfigDTOS: [
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 0,
+            "keyName": "name",
+            "name": "您的称呼",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 1,
+            "keyName": "insureAmount",
+            "name": "基本保额",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 2,
+            "keyName": "insuredPerson",
+            "name": "给谁投保",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 3,
+            "keyName": "age",
+            "name": "年龄",
+            "type": "String"
+        },
+        {
+            "checkClass": "com.ideacome.customer.handler.form.DefaultValueCheck",
+            "contentOrder": 4,
+            "keyName": "childAge",
+            "name": "孩子年龄",
+            "type": "String"
+        }
+      ]
+      bgPicSaveDTOS: [
+        {
+            "picSubType": 1,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e90dac.png"
+        },
+        {
+            "picSubType": 2,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e91d41.png"
+        },
+        {
+            "picSubType": 4,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93039.png"
+        },
+        {
+            "picSubType": 5,
+            "picUrl": "https://static-zh.wxb.com.cn/customer/form/2020/10/17578e93f40.png"
+        }
+      ]
+      juJiBaoBenefit: {"hasBenefit": false}
+      buttonValue: "提交表单"
+      rightsPicSaveDTOS: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "获客表单-删除咨询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/deleteById"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      formId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step4:
+    name: "获客表单-查询表单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/form/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      formName: "接口自动化测试咨询表单2页更新"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"count":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

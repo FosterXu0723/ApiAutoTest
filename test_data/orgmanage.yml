@@ -1,0 +1,73 @@
+testcase1:
+  casename: '喂小保后台-机构管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "机构管理-查询信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/orgInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "currentPage": 1,
+        "orgChargeName": "",
+        "orgName": "",
+        "orgRank": "",
+        "pageSize": 10
+    }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: total
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: '喂小保后台-机构管理-获取机构层级'
+  Enabled : 'YES'
+  step1:
+    name: "机构管理-获取机构层级接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/orgRank"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: labelName
+  headersparamsvalue: {"jwt": '$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase3:
+  casename: '喂小保后台-机构管理-按机构名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "机构管理-按机构名称查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/orgInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "currentPage": 1,
+        "orgChargeName": "",
+        "orgName": "西溪2号书院",
+        "orgRank": "",
+        "pageSize": 10
+    }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"total":1}]
+      expected_code: 200
+      assert_key_exists: orgName
+  headersparamsvalue: {"jwt": '$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

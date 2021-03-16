@@ -1,0 +1,375 @@
+testcase1:
+  casename: '喂小保后台-商品上下架管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsName
+  step2:
+    name: "商品上下架管理-查询条件配置接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"人保财险"},{"text":"中介"},{"text":"计划书"},{"text":"计划书列表"},{"text":"待上架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-商品上下架管理-按商品名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":2}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-商品上下架管理-计划书详情'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      sceneType: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/detail/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: "${goodsCode}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"sceneTypeName":"计划书"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-商品上下架管理-计划书上架'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      sceneType: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-上架接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/detail/submitShelveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      configWeight: 10
+      goodsCode: ${goodsCode}
+      isAllOrgShelved: 1
+      marketList: ["planTemplate"]
+      tagList: []
+      isSend: false
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      sceneType: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":1},{"shelveStatusName":"上架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase5:
+  casename: '喂小保后台-商品上下架管理-计划书下架'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      sceneType: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-下架接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/pullOffShelves"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      goodsCode: ${goodsCode}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "大白智能定期寿险"
+      sceneType: 2
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"大白智能定期寿险"},{"total":1},{"shelveStatusName":"下架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-商品上下架管理-在线投保产品详情'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "司机综合意外险"
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/detail/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: "${goodsCode}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"sceneTypeName":"在线投保"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-商品上下架管理-在线投保产品上架'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "司机综合意外险"
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-上架接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/detail/submitShelveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      configWeight: 70
+      goodsCode: ${goodsCode}
+      isAllOrgShelved: 1
+      marketList: ["wechatGoods001","wechatGoods002","wechatGoods003","alipayGoods001","lyfGoods001","wechatGoods004"]
+      tagList: [2]
+      isSend: false
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "司机综合意外险"
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"total":1},{"shelveStatusName":"上架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase8:
+  casename: '喂小保后台-商品上下架管理-在线投保产品下架'
+  Enabled : 'YES'
+  step1:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "司机综合意外险"
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10
+    extract:
+      goodsCode: $..goodsCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "商品上下架管理-下架接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/pullOffShelves"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      goodsCode: ${goodsCode}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "商品上下架管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/shelve/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsName: "司机综合意外险"
+      sceneType: 1
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"司机综合意外险"},{"total":1},{"shelveStatusName":"下架"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

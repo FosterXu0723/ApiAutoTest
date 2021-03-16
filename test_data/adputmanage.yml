@@ -1,0 +1,331 @@
+testcase1:
+  casename: '喂小保后台-广告投放管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-广告投放信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: ""
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: title
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-广告投放管理-按文章标题+状态查询'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-广告投放信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "回归测试文章"
+      status: 0
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: title
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: '喂小保后台-广告投放管理-创建广告'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-引流主体接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/wxArticle"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      title: ""
+      wxType: "2C"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: sn
+  step2:
+    name: "广告投放管理-保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/saveScratchpad"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      content: "<p>接口自动化测试，勿动！</p>"
+      channelArticleInfos: [
+        {
+            "channel": "2C",
+            "originalArticleId": "d89e8c00c518fe876bf02182ef5fde5c"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-广告投放管理-编辑广告'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      articleInfoId: $..articleInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "广告投放管理-查询详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      articleInfoId: '${articleInfoId}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  step3:
+    name: "广告投放管理-保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/saveScratchpad"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: '接口自动化测试'
+      content: '<p>接口自动化测试，勿动！！</p>'
+      articleInfoId: '${articleInfoId}'
+      channelArticleInfos: [
+        {
+            "channel": "2C",
+            "originalArticleId": "d89e8c00c518fe876bf02182ef5fde5c"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: '喂小保后台-广告投放管理-预览广告'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      articleInfoId: $..articleInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "广告投放管理-查询详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      articleInfoId: '${articleInfoId}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  step3:
+    name: "广告投放管理-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/preview"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: '接口自动化测试'
+      content: '<p>接口自动化测试，勿动！！</p>'
+      articleInfoId: '${articleInfoId}'
+      channelArticleInfos: [
+        {
+            "channel": "2C",
+            "originalArticleId": "bd5abc9eb53753f000950b86e5b5a167"
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: articleUrl
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase6:
+  casename: '喂小保后台-广告投放管理-发布广告'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-查询详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      articleInfoId: '5fbb2821d31e0a9a465286f0'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "广告投放管理-发布接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/issue"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: '回归测试文章'
+      content: '<p>回归测试文章回归测试文章</p>'
+      articleInfoId: '5fbb2821d31e0a9a465286f0'
+      channelArticleInfos: [
+        {
+            "channel": "2C",
+            "originalArticleId": ""
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase7:
+  casename: '喂小保后台-广告投放管理-查看发布的广告详情'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-获取二维码接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/channel/articleQrCode"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      source: ""
+      keyWord: ""
+      infoId: "5fbb2821d31e0a9a465286f0"
+      articleNo: "10"
+      comefromUrl: "http://192.168.1.190:8899/article/10?infoId=5fbb2821d31e0a9a465286f0&wCh=2C"
+      platform: "pc"
+      wCh: "2C"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_in_text: 'https://oss-tmp.wxb.com.cn/durotar/wxQRCode/test'
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase8:
+  casename: '喂小保后台-广告投放管理-删除广告'
+  Enabled : 'YES'
+  step1:
+    name: "广告投放管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      articleInfoId: $..articleInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: title
+  step2:
+    name: "广告投放管理-删除接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      articleInfoId: '${articleInfoId}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+

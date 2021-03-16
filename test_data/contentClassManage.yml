@@ -1,0 +1,300 @@
+testcase1:
+  casename: '喂小保后台-内容分类管理-图文分类列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-图文分类数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: contentCount
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-内容分类管理-创建,更新,删除图文分类'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-保存图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "ATes"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174bdff6409.png"
+      id: ""
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"ATes"}]
+      expected_code: 200
+  step2:
+    name: "内容分类管理-保存图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "Ates"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174bdff6409.png"
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"Ates"}]
+      expected_code: 200
+  step3:
+    name: "内容分类管理-删除图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-内容分类管理-图文分类下移'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-图文分类下移接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/moveDown"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: 68
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: '喂小保后台-内容分类管理-图文分类上移'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-图文分类上移接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/moveUp"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: 68
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase5:
+  casename: '喂小保后台-内容分类管理-批量删除图文分类'
+  Enabled : 'NO'
+  step1:
+    name: "内容分类管理-保存图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "ATe1"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174bdff6409.png"
+      id: ""
+    extract:
+      id1: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"ATe1"}]
+      expected_code: 200
+  step2:
+    name: "内容分类管理-保存图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "ATe2"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174bdff6409.png"
+      id: ""
+    extract:
+      id2: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"ATe2"}]
+      expected_code: 200
+  step3:
+    name: "内容分类管理-删除图文分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id1},${id2}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-内容分类管理-海报分类列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-海报分类数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      type: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: contentCount
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-内容分类管理-创建,更新,删除海报分类'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-保存海报分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "ATes"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174cd62f6ad.png"
+      id: ""
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"ATes"}]
+      expected_code: 200
+  step2:
+    name: "内容分类管理-保存海报分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      className: "Ates"
+      classIcon: "https://static-zh.wxb.com.cn/karazhan/content/icon/2020/9/174bdff6409.png"
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"Ates"}]
+      expected_code: 200
+  step3:
+    name: "内容分类管理-删除海报分类接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase8:
+  casename: '喂小保后台-内容分类管理-海报分类下移'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-海报分类下移接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/moveDown"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: 69
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase9:
+  casename: '喂小保后台-内容分类管理-海报分类上移'
+  Enabled : 'YES'
+  step1:
+    name: "内容分类管理-海报分类上移接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/moveUp"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: 69
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

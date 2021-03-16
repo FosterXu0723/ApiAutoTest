@@ -1,0 +1,23 @@
+testcase1:
+  casename: '寿险业务-展示订单确认信息'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/showConfirm"
+      method: "get"
+    headers:
+      Ev: "v4"
+      Token: '$get_token(14100000000)'
+    data:
+      tradeKey: "${tradeKey}"
+      _nocache1599549089056:
+    extract:
+    setparam:
+      tradeKey: $..tradeKey
+    setname: '/test_data/InsureController_data/single_port_data/submit.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: addPrice,firstTermPrice,eachTermPrice
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

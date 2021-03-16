@@ -1,0 +1,97 @@
+testcase1:
+  casename: 民惠保企业参保
+  Enabled: 'yes'
+  step1:
+    name: 提交信息
+    general:
+      path: https://test.wxb.com.cn/gateway/c/customerCompanyActivity/save
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      companyName: $companyGenerator()
+      contactPerson: $nameGenerator()
+      contactsInformation: $phoneGenerator()
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - code: 10000
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: 民惠保企业参保-异常流程
+  Enabled: 'yes'
+  step1:
+    name: 提交信息-没有company名称
+    general:
+      path: https://test.wxb.com.cn/gateway/c/customerCompanyActivity/save
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      companyName:
+      contactPerson: $nameGenerator()
+      contactsInformation: $phoneGenerator()
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - code: 10000
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 民惠保企业参保-异常流程
+  Enabled: 'yes'
+  step1:
+    name: 提交信息-没有企业联系人
+    general:
+      path: https://test.wxb.com.cn/gateway/c/customerCompanyActivity/save
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      companyName: $companyGenerator()
+      contactPerson:
+      contactsInformation: $phoneGenerator()
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: "联系人或者联系方式不能为空"
+        - code: 99999
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase4:
+  casename: 民惠保企业参保-异常流程
+  Enabled: 'yes'
+  step1:
+    name: 提交信息-没有企业联系方式
+    general:
+      path: https://test.wxb.com.cn/gateway/c/customerCompanyActivity/save
+      method: post
+    headers:
+      Content-Type: application/json
+      Ev: v4
+    data:
+      companyName: $companyGenerator()
+      contactPerson: $nameGenerator()
+      contactsInformation:
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: "联系人或者联系方式不能为空"
+        - code: 99999
+  headersparamsvalue: {}
+  dataparamsvalue: {}

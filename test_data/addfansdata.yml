@@ -1,0 +1,96 @@
+testcase1:
+  casename: '喂小保后台-投放加粉数据-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "投放加粉数据-公众号查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/wxCode/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: name
+  step2:
+    name: "投放加粉数据-渠道查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryAllSource"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: data
+  step3:
+    name: "投放加粉数据-加粉数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryGainList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      followWayCode: 0
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: nickName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-投放加粉数据-微信昵称+公众号查询'
+  Enabled : 'YES'
+  step1:
+    name: "投放加粉数据-加粉数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/queryGainList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      nickName: "Leo"
+      wxType: "2C"
+      followWayCode: 0
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: nickName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: '喂小保后台-投放加粉数据-过程数据导出'
+  Enabled : 'YES'
+  step1:
+    name: "投放加粉数据-过程数据导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/channelArticle/export"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      startTime: "2020-08-01 00:00:00"
+      endTime: "2020-08-15 23:59:59"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

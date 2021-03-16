@@ -1,0 +1,91 @@
+testcase1:
+  casename: '喂小保后台-客户提交信息查询-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "客户提交信息查询-渠道查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryChannels"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      {}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: channelNo
+  step2:
+    name: "客户提交信息查询-客户信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/orcCustomer/operationList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      nickName: ""
+      mobile: ""
+      channel: ""
+      realName: ""
+      statusCode: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: total
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-客户提交信息查询-根据昵称+状态条件查询'
+  Enabled : 'YES'
+  step1:
+    name: "客户提交信息查询-客户信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/orcCustomer/operationList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      nickName: "Leo"
+      mobile: ""
+      channel: ""
+      realName: ""
+      statusCode: 3
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+      assert_key_exists: customerId
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: '喂小保后台-客户提交信息查询-客户信息详情查看'
+  Enabled : 'YES'
+  step1:
+    name: "客户提交信息查询-客户信息详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/orcCustomer/operationInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      customerId: 666000476
+      channelNo: "C000001"
+      wxCode: "qwb"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"nickName":"Leo"},{"yearIncome":"25万~40万"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

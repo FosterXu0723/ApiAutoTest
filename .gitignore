@@ -1,0 +1,11 @@
+*.Log
+*.pyc
+.idea/
+.log/
+log/
+test_report/*
+test_report_old/*
+common/Config/runtime.txt
+runtime.txt
+
+

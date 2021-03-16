@@ -1,0 +1,90 @@
+testcase1:
+  casename: '寿险业务-计划书-计划书创建页面初始化'
+  Enabled : 'NO'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/initPlanPageInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      goodsCode: 'JHSHGBG00401'
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{'title':'大麦2021定期寿险'}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: '寿险业务-计划书-计划书创建页面初始化'
+  Enabled : 'NO'
+  step1:
+    name: "goodsCode不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/initPlanPageInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark: "10"
+      goodsCode:
+    extract:
+    validate:
+      assert_kes_value: [{"code":99999},{"msg":"Required String parameter 'goodsCode' is not present"}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+testcase3:
+  casename: '寿险业务-计划书-计划书创建页面初始化'
+  Enabled : 'NO'
+  step1:
+    name: "appMark	不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/initPlanPageInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      Token: '$get_token(14100000000)'
+      appMark:
+      goodsCode: 'JHSHGBG00401'
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{'title':'大麦2021定期寿险'}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '寿险业务-计划书-计划书创建页面初始化'
+  Enabled : 'YES'
+  step1:
+    name: "token不传"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/plan/initPlanPageInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded;charset=utf-8"
+      Ev: "v4"
+      Token:
+    data:
+      Token:
+      appMark: "10"
+      goodsCode: 'JHSHGBG00401'
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{"msg":"Success"},{'title':'大麦2021定期寿险'}]
+  headersparamsvalue: {"Token":'$get_token(14100000000)'}
+  dataparamsvalue: {}
+

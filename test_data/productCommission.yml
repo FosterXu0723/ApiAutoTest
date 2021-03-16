@@ -1,0 +1,183 @@
+testcase1:
+  casename: 'APP-我的产品佣金表-列表初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-险企信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCompanyList"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"复星联合健康"}]
+      expected_code: 200
+  step2:
+    name: "我的产品佣金表-产品类型信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryProductType"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"value":"意外"}]
+      expected_code: 200
+  step3:
+    name: "我的产品佣金表-全部佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName,productName
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}
+
+
+testcase2:
+  casename: 'APP-我的产品佣金表-重疾佣金列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-重疾佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: "1"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName,productName
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}
+
+
+
+
+testcase3:
+  casename: 'APP-我的产品佣金表-意外佣金列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-意外佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: "2"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName,productName
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}
+
+
+
+testcase4:
+  casename: 'APP-我的产品佣金表-医疗佣金列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-医疗佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: "3"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName,productName
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}
+
+
+
+testcase5:
+  casename: 'APP-我的产品佣金表-寿险佣金列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-寿险佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: "4"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}
+
+
+
+
+testcase6:
+  casename: 'APP-我的产品佣金表-理财佣金列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "我的产品佣金表-理财佣金表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/commission/queryCommissionList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      commissionStatus: 2
+      productType: "5"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName,productName
+  headersparamsvalue: {"Token": '$get_token(13728711535)'}
+  dataparamsvalue: {"token": '$get_token(13728711535)'}

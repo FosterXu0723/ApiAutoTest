@@ -1,0 +1,532 @@
+testcase1:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 按不存在的名称查询方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name: autotest
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: auditList
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name:
+      currentPage: 1
+      pageSize: 10
+    extract:
+      schemeId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  step2:
+    name: 方案定制详情
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoById
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      schemeId: ${schemeId}
+    extract:
+      id: $..id
+      version: $..version
+      name: $..name
+      wxCode: $..wxCode
+      freeInviteNum: $..freeInviteNum
+      supportPushAdviser: $..supportPushAdviser
+      supportShareFree: $..supportShareFree
+      supportPrePay: $..supportPrePay
+      agentVersionFlag: $..agentVersionFlag
+      channelNo: $..channelNo
+      detailImageUrl: $..detailImageUrl
+      url: $..url
+      remark: $..remark
+      navigationBarTitle: $..navigationBarTitle
+      headImageUrl: $..headImageUrl
+      letterOfCommitment: $..letterOfCommitment
+      marketingTitle: $..marketingTitle
+      price: $..price
+      originalPrice: $..originalPrice
+      endTime: $..endTime
+      limitApplyNum: $..limitApplyNum
+      applyNum: $..applyNum
+      canApplyNum: $..canApplyNum
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+#  step3:
+#    name: 编辑方案名称，保存方案定制信息
+#    general:
+#      path: https://test.wxb.com.cn/dalaran/orcCustomer/saveSchemeMakeVersionInfo
+#      method: post
+#    headers:
+#      Content-Type: application/json
+#      Ev: v4
+#      jwt: $get_jwt(yangwuxie,123456)
+#    data:
+#      id: ${id}
+#      version: ${version}
+#      name: test
+#      wxCode: ${wxCode}
+#      freeInviteNum: ${freeInviteNum}
+#      supportPushAdviser: ${supportPushAdviser}
+#      supportShareFree: ${supportShareFree}
+#      supportPrePay: ${supportPrePay}
+#      agentVersionFlag: ${agentVersionFlag}
+#      channelNo: ${channelNo}
+#      detailImageUrl: ${detailImageUrl}
+#      url: ${url}
+#      remark: ${remark}
+#      head:
+#        navigationBarTitle: ${navigationBarTitle}
+#        headImageUrl: ${headImageUrl}
+#        letterOfCommitment: ${letterOfCommitment}
+#      marketing:
+#        marketingTitle: ${marketingTitle}
+#        price: ${price}
+#        originalPrice: ${originalPrice}
+#        endTime: ${endTime}
+#        limitApplyNum: ${limitApplyNum}
+#        applyNum: ${applyNum}
+#        canApplyNum: ${canApplyNum}
+#    extract:
+#    validate:
+#      expected_code: 200
+#      assert_kes_value:
+#        - msg: Success
+#        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 按存在的方案名称查询方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name: test
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase5:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name:
+      currentPage: 1
+      pageSize: 10
+    extract:
+      schemeId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  step2:
+    name: 方案定制详情
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoById
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      schemeId: ${schemeId}
+    extract:
+      id: $..id
+      version: $..version
+      name: $..name
+      wxCode: $..wxCode
+      freeInviteNum: $..freeInviteNum
+      supportPushAdviser: $..supportPushAdviser
+      supportShareFree: $..supportShareFree
+      supportPrePay: $..supportPrePay
+      agentVersionFlag: $..agentVersionFlag
+      channelNo: $..channelNo
+      detailImageUrl: $..detailImageUrl
+      url: $..url
+      remark: $..remark
+      navigationBarTitle: $..navigationBarTitle
+      headImageUrl: $..headImageUrl
+      letterOfCommitment: $..letterOfCommitment
+      marketingTitle: $..marketingTitle
+      price: $..price
+      originalPrice: $..originalPrice
+      endTime: $..endTime
+      limitApplyNum: $..limitApplyNum
+      applyNum: $..applyNum
+      canApplyNum: $..canApplyNum
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+#  step3:
+#    name: 编辑方案为空，保存方案定制信息
+#    general:
+#      path: https://test.wxb.com.cn/dalaran/orcCustomer/saveSchemeMakeVersionInfo
+#      method: post
+#    headers:
+#      Content-Type: application/json
+#      Ev: v4
+#      jwt: $get_jwt(yangwuxie,123456)
+#    data:
+#      id: ${id}
+#      version: ${version}
+#      name:
+#      wxCode: ${wxCode}
+#      freeInviteNum: ${freeInviteNum}
+#      supportPushAdviser: ${supportPushAdviser}
+#      supportShareFree: ${supportShareFree}
+#      supportPrePay: ${supportPrePay}
+#      agentVersionFlag: ${agentVersionFlag}
+#      channelNo: ${channelNo}
+#      detailImageUrl: ${detailImageUrl}
+#      url: ${url}
+#      remark: ${remark}
+#      head:
+#        navigationBarTitle: ${navigationBarTitle}
+#        headImageUrl: ${headImageUrl}
+#        letterOfCommitment: ${letterOfCommitment}
+#      marketing:
+#        marketingTitle: ${marketingTitle}
+#        price: ${price}
+#        originalPrice: ${originalPrice}
+#        endTime: ${endTime}
+#        limitApplyNum: ${limitApplyNum}
+#        applyNum: ${applyNum}
+#        canApplyNum: ${canApplyNum}
+#    extract:
+#    validate:
+#      expected_code: 200
+#      assert_kes_value:
+#        - msg: Success
+#        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+testcase6:
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name:
+      currentPage: 1
+      pageSize: 10
+    extract:
+      schemeId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  step2:
+    name: 方案定制详情
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoById
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      schemeId: ${schemeId}
+    extract:
+      id: $..id
+      version: $..version
+      name: $..name
+      wxCode: $..wxCode
+      freeInviteNum: $..freeInviteNum
+      supportPushAdviser: $..supportPushAdviser
+      supportShareFree: $..supportShareFree
+      supportPrePay: $..supportPrePay
+      agentVersionFlag: $..agentVersionFlag
+      channelNo: $..channelNo
+      detailImageUrl: $..detailImageUrl
+      url: $..url
+      remark: $..remark
+      navigationBarTitle: $..navigationBarTitle
+      headImageUrl: $..headImageUrl
+      letterOfCommitment: $..letterOfCommitment
+      marketingTitle: $..marketingTitle
+      price: $..price
+      originalPrice: $..originalPrice
+      endTime: $..endTime
+      limitApplyNum: $..limitApplyNum
+      applyNum: $..applyNum
+      canApplyNum: $..canApplyNum
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+#  step3:
+#    name: 编辑方案为代理人版本，保存方案定制信息
+#    general:
+#      path: https://test.wxb.com.cn/dalaran/orcCustomer/saveSchemeMakeVersionInfo
+#      method: post
+#    headers:
+#      Content-Type: application/json
+#      Ev: v4
+#      jwt: $get_jwt(yangwuxie,123456)
+#    data:
+#      id: ${id}
+#      version: ${version}
+#      name: ${name}
+#      wxCode: ${wxCode}
+#      freeInviteNum: ${freeInviteNum}
+#      supportPushAdviser: ${supportPushAdviser}
+#      supportShareFree: ${supportShareFree}
+#      supportPrePay: ${supportPrePay}
+#      agentVersionFlag: true
+#      channelNo: ${channelNo}
+#      detailImageUrl: ${detailImageUrl}
+#      url: ${url}
+#      remark: ${remark}
+#      head:
+#        navigationBarTitle: ${navigationBarTitle}
+#        headImageUrl: ${headImageUrl}
+#        letterOfCommitment: ${letterOfCommitment}
+#      marketing:
+#        marketingTitle: ${marketingTitle}
+#        price: ${price}
+#        originalPrice: ${originalPrice}
+#        endTime: ${endTime}
+#        limitApplyNum: ${limitApplyNum}
+#        applyNum: ${applyNum}
+#        canApplyNum: ${canApplyNum}
+#    extract:
+#    validate:
+#      expected_code: 200
+#      assert_kes_value:
+#        - msg: Success
+#        - success: true
+#  step4:
+#    name: 方案定制详情
+#    general:
+#      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoById
+#      method: get
+#    headers:
+#      Content-Type: application/json
+#      Ev: v4
+#      jwt: $get_jwt(yangwuxie,123456)
+#    data:
+#      schemeId: ${schemeId}
+#    extract:
+#    validate:
+#      expected_code: 200
+#      assert_kes_value:
+#        - msg: Success
+#        - success: true
+#        - agentVersionFlag: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+
+testcase7:   # todo
+  casename: 方案定制管理
+  Enabled: "yes"
+  step1:
+    name: 方案定制列表
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoList
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      name:
+      currentPage: 1
+      pageSize: 10
+    extract:
+      schemeId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+      assert_key_exists: limitApplyNum,modifyTime
+  step2:
+    name: 方案定制详情
+    general:
+      path: https://test.wxb.com.cn/dalaran/orcCustomer/querySchemeMakeVersionInfoById
+      method: get
+    headers:
+      Content-Type: application/json
+      Ev: v4
+      jwt: $get_jwt(yangwuxie,123456)
+    data:
+      schemeId: ${schemeId}
+    extract:
+      id: $..id
+      version: $..version
+      name: $..name
+      wxCode: $..wxCode
+      freeInviteNum: $..freeInviteNum
+      supportPushAdviser: $..supportPushAdviser
+      supportShareFree: $..supportShareFree
+      supportPrePay: $..supportPrePay
+      agentVersionFlag: $..agentVersionFlag
+      channelNo: $..channelNo
+      detailImageUrl: $..detailImageUrl
+      url: $..url
+      remark: $..remark
+      navigationBarTitle: $..navigationBarTitle
+      headImageUrl: $..headImageUrl
+      letterOfCommitment: $..letterOfCommitment
+      marketingTitle: $..marketingTitle
+      price: $..price
+      originalPrice: $..originalPrice
+      endTime: $..endTime
+      limitApplyNum: $..limitApplyNum
+      applyNum: $..applyNum
+      canApplyNum: $..canApplyNum
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - msg: Success
+        - success: true
+#  step3:
+#    name: 编辑方案，保存方案定制信息
+#    general:
+#      path: https://test.wxb.com.cn/dalaran/orcCustomer/saveSchemeMakeVersionInfo
+#      method: post
+#    headers:
+#      Content-Type: application/json
+#      Ev: v4
+#      jwt: $get_jwt(yangwuxie,123456)
+#    data:
+#      id: ${id}
+#      version: ${version}
+#      name: ${name}
+#      wxCode: ${wxCode}
+#      freeInviteNum: ${freeInviteNum}
+#      supportPushAdviser: ${supportPushAdviser}
+#      supportShareFree: ${supportShareFree}
+#      supportPrePay: ${supportPrePay}
+#      agentVersionFlag: ${agentVersionFlag}
+#      channelNo: ${channelNo}
+#      detailImageUrl: ${detailImageUrl}
+#      url: ${url}
+#      remark: ${remark}
+#      head:
+#        navigationBarTitle: ${navigationBarTitle}
+#        headImageUrl: ${headImageUrl}
+#        letterOfCommitment: ${letterOfCommitment}
+#      marketing:
+#        marketingTitle: ${marketingTitle}
+#        price: ${price}
+#        originalPrice: ${originalPrice}
+#        endTime: ${endTime}
+#        limitApplyNum: ${limitApplyNum}
+#        applyNum: ${applyNum}
+#        canApplyNum: ${canApplyNum}
+#    extract:
+#    validate:
+#      expected_code: 200
+#      assert_kes_value:
+#        - msg: Success
+#        - success: true
+  headersparamsvalue: {}
+  dataparamsvalue: {}

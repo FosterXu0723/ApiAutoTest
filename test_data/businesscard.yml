@@ -1,0 +1,130 @@
+testcase1:
+  casename: 'APP-我的名片-查询信息'
+  Enabled : 'YES'
+  step1:
+    name: "名片-查询信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/info"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase2:
+  casename: 'APP-我的名片-编辑个人基本信息'
+  Enabled : 'YES'
+  step1:
+    name: "名片-编辑个人基本信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/edit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      agentBasicInfo: {
+        "headImg": "https://static-zh.wxb.com.cn/shattrath/business-card/avatar/2020/8/1740ed22a76.jpg",
+        "mobile": "13770703079",
+        "rankName": "资深经理",
+        "servicePersonCount": 10,
+        "vxQrImg": "https://static-zh.wxb.com.cn/shattrath/business-card/qr-code/2019/12/16f3abcc816.jpg",
+        "workYear": "2"}
+      editType: "basicInfo"
+      token: "${token}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase3:
+  casename: 'APP-我的名片-编辑个人介绍'
+  Enabled : 'YES'
+  step1:
+    name: "名片-编辑个人介绍接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/edit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      editType: "introduction"
+      introduction: "本人拥有丰富的保险行业从业经验，可提供寿险、财险、车险、团体险，以及全方位专业科学的保险方案推荐。用保险筑起家庭的防火墙，让财富有效增值。"
+      token: "${token}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+testcase4:
+  casename: 'APP-我的名片-编辑从业经历'
+  Enabled : 'YES'
+  step1:
+    name: "名片-编辑从业经历接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/edit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      editType: "workExperience"
+      agentWorkExperience: {
+        "companyName": "心有灵犀保代",
+        "joinDate": "2019.08",
+        "leftDate": "至今",
+        "rankName": "规划师",
+        "workExperienceId": 1}
+      token: "${token}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase5:
+  casename: 'APP-我的名片-编辑个人风采'
+  Enabled : 'YES'
+  step1:
+    name: "名片-编辑个人风采接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/edit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      editType: "personalShow"
+      peronalShow: ["https://static-zh.wxb.com.cn/shattrath/business-card/personal-show/2020/8/1740ef4beaa.jpg"]
+      token: "${token}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+

@@ -1,0 +1,55 @@
+testcase1:
+  casename: '喂小保后台-聚积宝权益-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "聚积宝权益-领取聚积宝权益信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/customer/jujibao/getMemberList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      enrollBeginDate: "2019-12-01 00:00:00"
+      enrollEndDate: "2020-12-31 23:59:59"
+      keyword: ""
+      sourceList: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: benefitTypeDesc
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-聚积宝权益-导出列表信息'
+  Enabled : 'YES'
+  step1:
+    name: "聚积宝权益-导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/customer/jujibao/exportMemberList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      enrollBeginDate: "2019-12-01 00:00:00"
+      enrollEndDate: "2020-12-31 23:59:59"
+      keyword: ""
+      sourceList: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

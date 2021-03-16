@@ -1,0 +1,20 @@
+testcase1:
+  casename: '喂小保后台-登录'
+  Enabled : 'YES'
+  step1:
+    name: "喂小保后台-登录接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/login"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: ''
+    data:
+      userName: 'admin'
+      pwd: '123456'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"}]
+      expected_code: 200
+  headersparamsvalue: {}
+  dataparamsvalue: {}

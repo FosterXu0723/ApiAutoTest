@@ -1,0 +1,23 @@
+testcase1:
+  casename: '喂小保后台-公众号数据统计-数据信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "公众号数据统计-数据信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/fansStatistics/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      dateFrom: "2020-12-03 00:00:00"
+      dateTo: "2020-12-17 23:59:59"
+      sort: "actual_date"
+      userType: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"totalStr":"1"}]
+      expected_code: 200
+      assert_key_exists: daySilenceNumRatioStr
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

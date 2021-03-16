@@ -1,0 +1,21 @@
+testcase1:
+  casename: 'APP-我的考核晋升-页面初始化信息查询'
+  Enabled : 'NO'
+  step1:
+    name: "我的考核晋升-页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agent/assessment"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: imageUrl,targetValue
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

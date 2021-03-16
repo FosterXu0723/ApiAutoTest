@@ -1,0 +1,140 @@
+testcase1:
+  casename: '喂小保后台-banner管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "banner管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/get"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      createName: ""
+      bannerTitle: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: bannerTitle
+  step2:
+    name: "banner管理-状态查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/status/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusName":"待生效"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-banner管理-创建banner'
+  Enabled : 'NO'
+  step1:
+    name: "banner管理-创建接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/add"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      bannerTitle: "自动化测试勿动"
+      bannerPicUrl: "https://static-zh.wxb.com.cn/dalaran/agent/baner/2020/9/174d859d22b.png"
+      effectTime: "${effectTime}"
+      closeTime: "${closeTime}"
+      userLimit: 0
+      msgContent: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: id
+  step2:
+    name: "banner管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/get"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      createName: ""
+      bannerTitle: "自动化测试勿动"
+      currentPage: 1
+      pageSize: 10
+      bannerStatus: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"bannerTitle":"自动化测试勿动"},{"bannerStatusName":"待生效"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"effectTime":'$generate_date(1)',"closeTime":'$generate_date(3)'}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-banner管理-撤销banner'
+  Enabled : 'NO'
+  step1:
+    name: "banner管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/get"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      createName: ""
+      bannerTitle: "自动化测试勿动"
+      currentPage: 1
+      pageSize: 10
+      bannerStatus: 1
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"bannerTitle":"自动化测试勿动"},{"bannerStatusName":"待生效"}]
+      expected_code: 200
+  step2:
+    name: "banner管理-撤销banner接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/update"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      bannerStatus: 4
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "banner管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/banner/get"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      createName: ""
+      bannerTitle: "自动化测试勿动"
+      currentPage: 1
+      pageSize: 10
+      bannerStatus: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

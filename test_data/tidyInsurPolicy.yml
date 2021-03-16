@@ -1,0 +1,230 @@
+testcase1:
+  casename: '喂小保后台-整理保单-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "整理保单-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyManagerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentName: ""
+      beginDate: ""
+      currentPage: 1
+      customerPhone: ""
+      endDate: ""
+      pageSize: 10
+      state: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-整理保单-保单整理'
+  Enabled : 'YES'
+  step1:
+    name: "整理保单-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyManagerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentName: "朱卫杰"
+      beginDate: "${beginDate}"
+      currentPage: 1
+      customerPhone: ""
+      endDate: "${endDate}"
+      pageSize: 10
+      state: 0
+    extract:
+      agentId: $..agentId
+      customerId: $..customerId
+      customerName: $..customerName
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerName
+  step2:
+    name: "整理保单-提交数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/policyFileCommit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "${agentId}"
+      customerId: "${customerId}"
+      customerName: "${customerName}"
+      customerType: "null"
+      fileName: "nmon工具的使用和案例分析.pdf"
+      fileUrl: "https://static-zh.wxb.com.cn/dalaran/agent/baner/2020/11/176025e4e84.pdf"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"beginDate":'$generate_short_date(0)',"endDate":'$generate_short_date(0)'}
+
+
+
+testcase3:
+  casename: '喂小保后台-整理保单-保单数据详情查看'
+  Enabled : 'YES'
+  step1:
+    name: "整理保单-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyManagerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentName: "朱卫杰"
+      beginDate: "${beginDate}"
+      currentPage: 1
+      customerPhone: ""
+      endDate: "${endDate}"
+      pageSize: 10
+      state: ""
+    extract:
+      agentId: $..agentId
+      customerId: $..customerId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerName
+  step2:
+    name: "整理保单-客户基础数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/getCustomerBasicInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "${agentId}"
+      customerId: "${customerId}"
+      customerType: "null"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  step3:
+    name: "整理保单-客户保单图片数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyPicturesInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "${agentId}"
+      customerId: "${customerId}"
+      customerType: "null"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: state
+  step4:
+    name: "整理保单-客户保单文件上传数据列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyPicturesInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "${agentId}"
+      customerId: "${customerId}"
+      customerType: "null"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step5:
+    name: "整理保单-客户保单分析报告数据列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyWrapReporttList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: "${agentId}"
+      customerId: "${customerId}"
+      customerType: "null"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"beginDate":'$generate_short_date(0)',"endDate":'$generate_short_date(0)'}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-整理保单-删除保单'
+  Enabled : 'YES'
+  step1:
+    name: "整理保单-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/queryPolicyManagerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentName: "朱卫杰"
+      beginDate: "${beginDate}"
+      currentPage: 1
+      customerPhone: ""
+      endDate: "${endDate}"
+      pageSize: 10
+      state: ""
+    extract:
+      agentId: $..agentId
+      customerId: $..customerId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerName
+  step2:
+    name: "整理保单-删除保单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/policy/deleteCustomerPolicyInfos"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: ${agentId}
+      customerId: ${customerId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"beginDate":'$generate_short_date(0)',"endDate":'$generate_short_date(0)'}

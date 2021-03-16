@@ -1,0 +1,318 @@
+testcase1:
+  casename: '喂小保后台-订单录入-页面初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-机构查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/organization/allOrgInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orgName
+  step2:
+    name: "订单录入-代理公司查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryAgencyList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: value
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-订单录入-代理人信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-代理人信息查询"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/queryAgentInfoByMobile"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      data: {
+        "agentMobile": "13770703079"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"朱卫杰"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase3:
+  casename: '喂小保后台-订单录入-保险公司查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-保险公司查询"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/queryCompany"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agencyCode: WUTONGSHU
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"value":"sinatay"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: '喂小保后台-订单录入-保险产品查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-保险产品查询"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/goods/query"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      insuranceCompanyCode: 'sinatay'
+      agencyCode: 'WUTONGSHU'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsCode
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: '喂小保后台-订单录入-产品配置信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-产品配置信息查询"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/queryGoodsConfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: 'WZXXTBG01001'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"本人"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase6:
+  casename: '喂小保后台-订单录入-提交订单'
+  Enabled : 'YES'
+  step1:
+    name: "订单录入-提交订单接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/AddManualOrder"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentInfo: {
+        "agentCode": "W20190708002"
+      }
+      goodsInfo:  {
+        "goodsCode": "WZXXTBG01001",
+        "mainProductInfo": {
+            "amount": 10000000,
+            "payPeriod": {
+                "optionCode": "pay_period",
+                "optionValue": "30y",
+                "valueList": [
+                    {
+                        "code": "pay_period",
+                        "label": "5年交",
+                        "value": "5y"
+                    },
+                    {
+                        "code": "pay_period",
+                        "label": "10年交",
+                        "value": "10y"
+                    },
+                    {
+                        "code": "pay_period",
+                        "label": "15年交",
+                        "value": "15y"
+                    },
+                    {
+                        "code": "pay_period",
+                        "label": "20年交",
+                        "value": "20y"
+                    },
+                    {
+                        "code": "pay_period",
+                        "label": "30年交",
+                        "value": "30y"
+                    }
+                ],
+                "valueName": "30年交"
+            },
+            "policyNum": "1",
+            "price": 176800,
+            "productName": "信泰完美人生守护（典藏版）重大疾病保险",
+            "salesCode": "WZXXTBM01001",
+            "securityTime": {
+                "optionCode": "security_period",
+                "optionValue": "t999y",
+                "valueList": [
+                    {
+                        "code": "security_period",
+                        "label": "至70岁",
+                        "value": "t70y"
+                    },
+                    {
+                        "code": "security_period",
+                        "label": "终身",
+                        "value": "t999y"
+                    }
+                ],
+                "valueName": "终身"
+            },
+            "selected": 0
+        },
+        "relatedProductInfoList": [
+            {
+                "amount": 0,
+                "payPeriod": {
+                    "valueList": [
+                        {
+                            "code": "pay_period",
+                            "label": "5年交",
+                            "value": "5y"
+                        },
+                        {
+                            "code": "pay_period",
+                            "label": "10年交",
+                            "value": "10y"
+                        },
+                        {
+                            "code": "pay_period",
+                            "label": "15年交",
+                            "value": "15y"
+                        },
+                        {
+                            "code": "pay_period",
+                            "label": "20年交",
+                            "value": "20y"
+                        },
+                        {
+                            "code": "pay_period",
+                            "label": "30年交",
+                            "value": "30y"
+                        }
+                    ]
+                },
+                "price": 0,
+                "productName": "信泰附加完美人生守护（典藏版）两全保险",
+                "salesCode": "WZXTBR00401",
+                "securityTime": {
+                    "valueList": [
+                        {
+                            "code": "security_period",
+                            "label": "至70岁",
+                            "value": "t70y"
+                        },
+                        {
+                            "code": "security_period",
+                            "label": "终身",
+                            "value": "t999y"
+                        }
+                    ]
+                },
+                "selected": 0
+            },
+            {
+                "amount": 0,
+                "payPeriod": {
+                    "valueList": []
+                },
+                "price": 0,
+                "productName": "信泰附加投保人豁免保险费重大疾病保险",
+                "salesCode": "WZXXTBR00101",
+                "securityTime": {
+                    "valueList": []
+                },
+                "selected": 0
+            }
+        ]
+      }
+      policyInfo: {
+        "checkTime": "${checkTime}",
+        "applyTime": "${checkTime}",
+        "holderPersonInfo": {
+            "birthday": "1991-01-01",
+            "cardNo": "110101199101012990",
+            "cardType": "1",
+            "mobile": "17090152974",
+            "name": "自动化测试",
+            "sex": "1"
+        },
+        "insuredPersonInfo": [
+            {
+                "birthday": "1991-01-01",
+                "cardNo": "11010119910101534X",
+                "cardType": "1",
+                "mobile": "17090152975",
+                "name": "测试",
+                "personRel": "2",
+                "sex": "2"
+            }
+        ],
+        "issueTime": "${issueTime}",
+        "policyNo": "${policyNo}",
+        "startTime": "${startTime}",
+        "status": ""
+      }
+    extract:
+      linkNo: $..linkNo
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "订单录入-订单查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: "${addTimeBegin}"
+      addTimeEnd: "${addTimeEnd}"
+      agentCompany: ""
+      currentPage: 1
+      dalaranAgentName: ""
+      holderName: ""
+      insuranceCompany: ""
+      issueTimeBegin: ""
+      issueTimeEnd: ""
+      pageSize: 10
+      uniqueBusinessNo: "${linkNo}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"checkTime":'$generate_short_date(0)',"issueTime":'$generate_short_date(0)',"policyNo":'$generate_policyNo()',"startTime":'$generate_short_date(30)','addTimeBegin':'$generate_short_date(0)','addTimeEnd':'$generate_short_date(0)'}

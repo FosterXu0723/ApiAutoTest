@@ -1,0 +1,47 @@
+testcase1:
+  casename: '喂小保后台-App数据报表-页面初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "App数据报表-页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxbdata/getDataTypeList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-App数据报表-导出数据'
+  Enabled : 'YES'
+  step1:
+    name: "App数据报表-导出数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxbdata/exportData"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      dataTypeList: [
+        "1",
+        "2",
+        "3",
+        "4"
+      ]
+      endDate: "2020-12-13 23:59:59"
+      startDate: "2020-12-01 00:00:00"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

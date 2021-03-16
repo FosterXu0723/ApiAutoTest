@@ -1,0 +1,121 @@
+testcase1:
+  casename: '喂小保后台-订单可回溯-列表初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单可回溯-险企查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryInsuranceCompany"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "订单可回溯-渠道查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryZhChannels"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step3:
+    name: "订单可回溯-订单数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/tc/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      linkNo: ""
+      insuranceCompany: ""
+      goodsCode: ""
+      tcCode: ""
+      policyNo: ""
+      channelNo: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: insuranceCompanyName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-订单可回溯-根据可回溯编码查询'
+  Enabled : 'YES'
+  step1:
+    name: "订单可回溯-订单数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/tc/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      linkNo: ""
+      insuranceCompany: ""
+      goodsCode: ""
+      tcCode: "6C3F2055E3594F148D659C466E700586"
+      policyNo: ""
+      channelNo: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"tcCode":"6C3F2055E3594F148D659C466E700586"},{"total":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-订单可回溯-订单回溯详情查看'
+  Enabled : 'YES'
+  step1:
+    name: "订单可回溯-回溯数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/timecaverns/tc/detailData"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      tcCode: "6C3F2055E3594F148D659C466E700586"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: startTime
+  step2:
+    name: "订单可回溯-订单基础数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/tc/detailBaseInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      tcCode: "6C3F2055E3594F148D659C466E700586"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: tcCode,cardNo
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

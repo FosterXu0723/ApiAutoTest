@@ -1,0 +1,278 @@
+testcase1:
+  casename: 设置数据权限
+  Enabled: 'yes'
+  step1:
+    name: 根据名称筛选用户
+    general:
+      path: https://test.wxb.com.cn/dalaran/sys/getUserDataRoleList
+      method: post
+    headers:
+      Content-Type: application/json
+      jwt: $get_jwt(yangwuxie,123456)
+      Ev: v4
+    data:
+      currentPage: 1
+      nameRemark: 杨无邪
+      pageSize: 10
+    extract:
+      userId: $..id
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - code: 10000
+        - msg: Success
+  step2:
+    name: 设置权限
+    general:
+      path: https://test.wxb.com.cn/dalaran/sys/setUserDataRole
+      method: post
+    headers:
+      Content-Type: application/json
+      jwt: $get_jwt(yangwuxie, 123456)
+      Ev: v4
+    data:
+      - dataRoleId: 1
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: ${userId}
+      - dataRoleId: 2
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: ${userId}
+      - dataRoleId: 3
+        deleteId: 0
+        permissons: [
+          "KJGSIX",
+          "FZFD61",
+          "NIMJ1W",
+          "R00400",
+          "R00388",
+          "R00384",
+          "R00418",
+          "TUAACK",
+          "9PUZJ8",
+          "R00426",
+          "IOARCU",
+          "R00442",
+          "R00462",
+          "XUHL9F",
+          "R00464",
+          "R00465",
+          "R00385",
+          "R00387",
+          "R00405",
+          "R00409",
+          "R00417",
+          "R00459",
+          "O8L0KO",
+          "R00466",
+          "R00469",
+          "R00470",
+          "R00471",
+          "AIFBRW",
+          "R00461",
+          "AABWQ0",
+          "R00489",
+          "R00498",
+          "R00499",
+          "R00500",
+          "R00513",
+          "WAAWX3",
+          "B3XCIN",
+          "R00361",
+          "R00363",
+          "R00364",
+          "R00375",
+          "R00376",
+          "R00379",
+          "MZRUHB",
+          "R00365",
+          "MVYTBY",
+          "3K95GP",
+          "COPUIB",
+          "R00341",
+          "R00347",
+          "OSVKWM",
+          "4AZMMQ",
+          "OSMLCJ",
+          "YMEIC5",
+          "R00452",
+          "R00410",
+          "R00414",
+          "R00415",
+          "BMHWVY",
+          "BHYRAP",
+          "R00446",
+          "R00447",
+          "X3PJWO",
+          "FDYTDT",
+          "NPJDOX",
+          "R00354",
+          "R00505",
+          "R00506",
+          "R00507",
+          "R00355",
+          "R00368",
+          "R00509",
+          "R00495",
+          "R00496"
+        ]
+        userId: ${userId}
+    extract:
+    validate:
+      expected_code: 200
+      assert_kes_value:
+        - code: 10000
+        - msg: Success
+  headersparamsvalue: {}
+  dataparamsvalue: {}

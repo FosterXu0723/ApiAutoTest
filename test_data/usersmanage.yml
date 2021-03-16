@@ -1,0 +1,271 @@
+testcase1:
+  casename: '喂小保后台-用户管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: ""
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: userName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase2:
+  casename: '喂小保后台-用户管理-按姓名查询'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-用户管理-查看用户详情'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "用户管理-数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/getUserDetail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      userId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"userName":"zdhtest"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase4:
+  casename: '喂小保后台-用户管理-编辑用户信息'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "用户管理-信息保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/upsertUser"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      createTimeStr: "2020-09-17 15:52:09"
+      id: ${id}
+      nameRemark: "自动化测试"
+      remark: "自动化测试勿动"
+      roleIds:  [1]
+      state: 0
+      userName: "zdhtest"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase5:
+  casename: '喂小保后台-用户管理-停用用户'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "用户管理-停用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/disableUser"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      userId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1},{"state":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-用户管理-启用用户'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "用户管理-启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/enableUser"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      userId: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "用户管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/sys/queryUsers"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      nameRemark: "自动化测试"
+      agentName: ""
+      state: ""
+      roleId: ""
+      orgCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"nameRemark":"自动化测试"},{"total":1},{"state":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

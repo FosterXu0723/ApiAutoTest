@@ -1,0 +1,243 @@
+testcase1:
+  casename: '喂小保后台-产品管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-配置信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/list/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "产品管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyCode: ""
+      sceneType: 2
+      productName: ""
+      productType: ""
+      salesCode: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-产品管理-商品编码有效性查询'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-商品编码有效性校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/list/checkSalesCode"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      salesCode: "JHSYABM00101"
+      sceneType: 2
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "产品管理-商品编码有效性校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/list/checkSalesCode"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      salesCode: "WZXTCBM00301"
+      sceneType: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-产品管理-计划书产品详情'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-详情信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/detail/initInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      salesCode: "JHSHK001M01"
+      operateType: 2
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: productName
+  step2:
+    name: "产品管理-详情信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/detail/initInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      salesCode: "WNQHKBM00101"
+      operateType: 2
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: productName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-产品管理-保存计划书产品'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-保存信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/detail/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      operateType: "2"
+      productInfo: {
+        "attachType": 0,
+        "clauseList": [
+            {
+                "name": "弘康多倍保重大疾病保险条款",
+                "status": "success",
+                "uid": '${uid1}',
+                "url": "https://zh-static-files.oss-cn-hangzhou.aliyuncs.com/ins_flying/ins_picture/product/JHSHK001M01/clause1.pdf"
+            }
+        ],
+        "companyCode": "hklife",
+        "exemptFlag": 0,
+        "n22PolCode": "511505",
+        "planList": [],
+        "productName": "弘康多倍保重大疾病保险",
+        "productType": 5,
+        "salesCode": "JHSHK001M01",
+        "sceneType": 2
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {"uid":$get_timestamp(13)}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-产品管理-产品权益详情信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-责任页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/risk/initInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      salesCode: "JHSHK001M01"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: salesCode
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-产品管理-产品权益信息保存'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-产品权益信息保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/risk/saveInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      riskList: [
+        {
+            "amounts": "300万",
+            "riskCode": "PLAN1",
+            "riskDesc": "重疾医疗保险金",
+            "riskDescDetail": "等待期90天，等待期内确诊退还已交保费;每组最多报销300万，最多报销三组;免赔额：主险的基本保额，且最高为50万",
+            "riskDiseaseCode": "JHSHK001R01RSCODE01",
+            "riskSubDesc": "105种重疾分为四组，每次赔付医疗费用，最多给付3次",
+            "riskType": 2
+        }
+      ]
+      salesCode: "JHSHK001R01"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase7:
+  casename: '喂小保后台-产品管理-批量导出'
+  Enabled : 'YES'
+  step1:
+    name: "产品管理-批量导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/product/manage/list/exportConfigs"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      salesCodes: [
+        "JHSHK001M01",
+        "JHSDJYM00101"
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

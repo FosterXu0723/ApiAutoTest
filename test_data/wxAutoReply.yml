@@ -1,0 +1,251 @@
+testcase1:
+  casename: '喂小保后台-公众号自动回复-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "公众号自动回复-公众号数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxData/wxCode/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"喂小保"}]
+      expected_code: 200
+  step2:
+    name: "公众号自动回复-规则数据枚举值查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/getEnums"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"关注来源"},{"text":"首次关注"},{"text":"已激活用户"}]
+      expected_code: 200
+  step3:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: ruleName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-公众号自动回复-新增话术规则'
+  Enabled : 'NO'
+  step1:
+    name: "公众号自动回复-新增接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/add"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      triggerDay: 1
+      triggerMode: 2
+      triggerTime: "09:00"
+      activeInRestTime: false
+      delayMinutes: 1
+      event: 2
+      messages: [
+        {
+            "content": "自动化测试，请忽略",
+            "msgType": 1
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-公众号自动回复-更新话术规则'
+  Enabled : 'YES'
+  step1:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      ruleId: $..ruleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"ruleName":"自动化测试规则勿动"}]
+      expected_code: 200
+  step2:
+    name: "公众号自动回复-更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/edit"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleId: "${ruleId}"
+      ruleName: "自动化测试规则勿动"
+      triggerDay: 1
+      triggerMode: 2
+      triggerTime: "09:00"
+      activeInRestTime: false
+      event: 2
+      messages: [
+        {
+            "content": "自动化测试，请忽略",
+            "msgType": 1
+        }
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-公众号自动回复-发布话术规则'
+  Enabled : 'YES'
+  step1:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      ruleId: $..ruleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"ruleName":"自动化测试规则勿动"}]
+      expected_code: 200
+  step2:
+    name: "公众号自动回复-发布接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/publish"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ids: ['${ruleId}']
+      wxTypes: ["2C"]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      ruleId: $..ruleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"ruleName":"自动化测试规则勿动"},{"wxType":"灵犀喂小保"},{"published":true}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase5:
+  casename: '喂小保后台-公众号自动回复-停用话术规则'
+  Enabled : 'YES'
+  step1:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      ruleId: $..ruleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"ruleName":"自动化测试规则勿动"}]
+      expected_code: 200
+  step2:
+    name: "公众号自动回复-停用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/disable"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ids: ['${ruleId}']
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "公众号自动回复-规则数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/replyrule/list"
+      method: "post"
+    headers:
+      Content-Type: application/json
+      jwt: '${jwt}'
+    data:
+      ruleName: "自动化测试规则勿动"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      ruleId: $..ruleId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"ruleName":"自动化测试规则勿动"},{"wxType":"灵犀喂小保"},{"published":false}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

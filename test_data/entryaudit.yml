@@ -1,0 +1,182 @@
+testcase1:
+  casename: '喂小保后台-入职审核-页面初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "入职审核-执业地区数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/workAreaList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江省"}]
+      expected_code: 200
+  step2:
+    name: "入职审核-入职人员数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/auditList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      auditStatus: ""
+      agentName: ""
+      channelNo: ""
+      agentWorkArea: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-入职审核-按申请人姓名查询'
+  Enabled : 'YES'
+  step1:
+    name: "入职审核-入职人员数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/auditList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      auditStatus: ""
+      agentName: "言林炜"
+      channelNo: ""
+      agentWorkArea: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"言林炜"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-入职审核-入职人员详情信息查看'
+  Enabled : 'YES'
+  step1:
+    name: "入职审核-入职人员数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/auditList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      auditStatus: ""
+      agentName: "言林炜"
+      channelNo: ""
+      agentWorkArea: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      infoId: $..infoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"言林炜"}]
+      expected_code: 200
+  step2:
+    name: "入职审核-入职人员详情信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/auditDetail"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      infoId: '${infoId}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"言林炜"}]
+      expected_code: 200
+  step3:
+    name: "入职审核-入职人员详情信息-学历枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryEducation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"本科"}]
+      expected_code: 200
+  step4:
+    name: "入职审核-入职人员详情信息-学历枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryEducation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"本科"}]
+      expected_code: 200
+  step5:
+    name: "入职审核-入职人员详情信息-执业地区枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/querySalesArea"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江省"}]
+      expected_code: 200
+  step6:
+    name: "入职审核-入职人员详情信息-政治面貌枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryPolitical"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"群众"}]
+      expected_code: 200
+  step7:
+    name: "入职审核-入职人员详情信息-民族枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryNation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"汉族"}]
+      expected_code: 200
+  step8:
+    name: "入职审核-入职人员详情信息-银行枚举值接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/common/queryBanks"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"中国农业银行"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

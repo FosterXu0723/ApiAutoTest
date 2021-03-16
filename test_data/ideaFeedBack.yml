@@ -1,0 +1,24 @@
+testcase1:
+  casename: 'APP-意见反馈-提交意见反馈'
+  Enabled : 'NO'
+  step1:
+    name: "意见反馈-提交意见反馈接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agent/saveAdvice"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      content: "自动化测试意见反馈,请忽略"
+      pictureList: [
+        "https://static-zh.wxb.com.cn/hattrath/agent/agent_advice_image/2020/12/1764122f0f6.jpg"
+      ]
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

@@ -1,0 +1,104 @@
+testcase1:
+  casename: '供应链-复星联合倍吉星产品核保数据提交'
+  Enabled : 'NO'
+  step1:
+    name: "复星联合倍吉星产品-核保接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-kunlai/kunlai/message"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      asyn: "0"
+      batchNo : '${batchNo}'
+      body: "{\"additionCoverages\":[],\"agentInfo\":{\"agentCode\":\"W20190708002\",\"agentName\":\"朱卫杰\",\"certificateNo\":\"21009000000080002019000232\",\"gender\":\"1\",\"identityCode\":\"21312313232312347\",\"identityType\":\"1\",\"mobile\":\"13770703079\"},\"applyTime\":\"${applyTime}\",\"bankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"},\"beneficiaries\":[],\"companyName\":\"复星联合\",\"effectiveDate\":\"${effectiveDate}\",\"enquiryPremium\":\"1560.00\",\"goodsCode\":\"WZXFXBG00101\",\"insuredInfos\":[{\"age\":30,\"birthday\":\"1990-01-02\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"444@qq.com\",\"gender\":\"1\",\"height\":\"170\",\"identityCode\":\"440115199001025959\",\"identityExpirationDate\":\"2023-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":1,\"isLegalBeneficiary\":\"1\",\"jobCateDesc\":\"机关团体内勤人员\",\"jobCateId\":\"000101\",\"jobCateLevel\":1,\"mobile\":\"17035551263\",\"name\":\"接口数据\",\"relationWithProposer\":\"1\",\"taxPayerType\":\"1\",\"weight\":\"60\"}],\"mainCoverages\":[{\"amount\":\"100000.00\",\"coveragePeriod\":\"0\",\"coverageType\":\"L\",\"insurePlan\":\"PLAN1\",\"insuredIds\":[\"1\"],\"payPeriod\":\"30\",\"payPeriodType\":\"Y\",\"premiumInsure\":\"1560.00\",\"productName\":\"倍吉星重大疾病保险\",\"salesCode\":\"WZXFXBM00101\"}],\"orderNo\":\"${orderNo}\",\"proposerInfo\":{\"age\":30,\"birthday\":\"1990-01-02\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"444@qq.com\",\"gender\":\"1\",\"identityCode\":\"440115199001025959\",\"identityExpirationDate\":\"2023-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":0,\"mobile\":\"17035551263\",\"name\":\"接口数据\",\"taxPayerType\":\"1\"},\"upperBankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"}}"
+      companyCode: "fosun"
+      orderNo: "${orderNo}"
+      type: "insure"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orderNo
+  headersparamsvalue: {}
+  dataparamsvalue: {"batchNo":"$fosun_batchno()","applyTime":'$fosun_applytime()',"effectiveDate":'$fosun_effectivedate()',"orderNo":'$fosun_orderno()'}
+
+testcase2:
+  casename: '供应链-复星联合超越保产品核保数据提交'
+  Enabled : 'NO'
+  step1:
+    name: "复星联合超越保产品-核保接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-kunlai/kunlai/message"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      asyn: "0"
+      batchNo : '${batchNo}'
+      body: "{\"additionCoverages\":[],\"agentInfo\":{\"agentCode\":\"W20190708002\",\"agentName\":\"朱卫杰\",\"certificateNo\":\"21009000000080002019000232\",\"gender\":\"1\",\"identityCode\":\"21312313232312347\",\"identityType\":\"1\",\"mobile\":\"13770703079\"},\"applyTime\":\"${applyTime}\",\"autoRenewFlag\":\"0\",\"bankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"},\"beneficiaries\":[],\"companyName\":\"复星联合\",\"effectiveDate\":\"${effectiveDate}\",\"enquiryPremium\":\"1292.00\",\"goodsCode\":\"WZXFXBG00201\",\"insuredInfos\":[{\"age\":30,\"birthday\":\"1990-01-01\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"333@qq.com\",\"gender\":\"1\",\"hasSocialInsurance\":\"1\",\"height\":\"170\",\"identityCode\":\"360000199001012592\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":1,\"isLegalBeneficiary\":\"1\",\"jobCateDesc\":\"机关团体内勤人员\",\"jobCateId\":\"000101\",\"jobCateLevel\":1,\"mobile\":\"17090150017\",\"name\":\"接口数据\",\"relationWithProposer\":\"1\",\"taxPayerType\":\"1\",\"weight\":\"60\"}],\"mainCoverages\":[{\"amount\":\"4015000.00\",\"coveragePeriod\":\"1\",\"coverageType\":\"Y\",\"insurePlan\":\"PLAN1\",\"insuredIds\":[\"1\"],\"payPeriod\":\"0\",\"payPeriodType\":\"D\",\"premiumInsure\":\"1292.00\",\"productName\":\"超越保医疗保险\",\"salesCode\":\"WZXFXBM00201\"}],\"orderNo\":\"${orderNo}\",\"proposerInfo\":{\"age\":30,\"birthday\":\"1990-01-01\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"333@qq.com\",\"gender\":\"1\",\"identityCode\":\"360000199001012592\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":0,\"mobile\":\"17090150017\",\"name\":\"接口数据\",\"taxPayerType\":\"1\"},\"upperBankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"}}"
+      companyCode: "fosun"
+      orderNo: "${orderNo}"
+      type: "insure"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orderNo
+  headersparamsvalue: {}
+  dataparamsvalue: {"batchNo":"$fosun_batchno()","applyTime":'$fosun_applytime()',"effectiveDate":'$fosun_effectivedate()',"orderNo":'$fosun_orderno()'}
+
+
+testcase3:
+  casename: '供应链-复星联合康乐一生B款产品核保数据提交'
+  Enabled : 'NO'
+  step1:
+    name: "复星联合康乐一生B款产品-核保接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-kunlai/kunlai/message"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      asyn: "0"
+      batchNo : '${batchNo}'
+      body: "{\"additionCoverages\":[{\"amount\":\"100000.00\",\"coveragePeriod\":\"0\",\"coverageType\":\"L\",\"insurePlan\":\"B\",\"insuredIds\":[\"1\"],\"payPeriod\":\"30\",\"payPeriodType\":\"Y\",\"premiumInsure\":\"589.00\",\"productName\":\"附加轻症疾病\",\"salesCode\":\"WXBFXB00102\"}],\"agentInfo\":{\"agentCode\":\"W20190708002\",\"agentName\":\"朱卫杰\",\"certificateNo\":\"21009000000080002019000232\",\"gender\":\"1\",\"identityCode\":\"21312313232312347\",\"identityType\":\"1\",\"mobile\":\"13770703079\"},\"applyTime\":\"${applyTime}\",\"bankInfo\":{\"accountName\":\"展飞\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"},\"beneficiaries\":[],\"companyName\":\"复星联合\",\"effectiveDate\":\"${effectiveDate}\",\"enquiryPremium\":\"8094.00\",\"goodsCode\":\"WXBFXB001\",\"insuredInfos\":[{\"age\":30,\"birthday\":\"1990-01-01\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"333@qq.com\",\"gender\":\"1\",\"height\":\"170\",\"identityCode\":\"130706199001012676\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":1,\"isLegalBeneficiary\":\"1\",\"jobCateDesc\":\"机关团体内勤人员\",\"jobCateId\":\"000101\",\"jobCateLevel\":1,\"mobile\":\"13390158422\",\"name\":\"展飞\",\"relationWithProposer\":\"1\",\"taxPayerType\":\"1\",\"weight\":\"60\"}],\"mainCoverages\":[{\"amount\":\"500000.00\",\"coveragePeriod\":\"0\",\"coverageType\":\"L\",\"insurePlan\":\"B\",\"insuredIds\":[\"1\"],\"payPeriod\":\"30\",\"payPeriodType\":\"Y\",\"premiumInsure\":\"7505.00\",\"productName\":\"康乐一生重大疾病保险（B款升级款）\",\"salesCode\":\"WXBFXB00101\"}],\"orderNo\":\"${orderNo}\",\"proposerInfo\":{\"age\":30,\"birthday\":\"1990-01-01\",\"contactAddressInfo\":{\"address\":\"西溪银座E座4楼\",\"areaCode\":\"330106\",\"areaName\":\"西湖区\",\"cityCode\":\"330100\",\"cityName\":\"杭州市\",\"provinceCode\":\"330000\",\"provinceName\":\"浙江省\"},\"email\":\"333@qq.com\",\"gender\":\"1\",\"identityCode\":\"130706199001012676\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":0,\"mobile\":\"13390158422\",\"name\":\"展飞\",\"taxPayerType\":\"1\"},\"upperBankInfo\":{\"accountName\":\"展飞\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"}}"
+      companyCode: "fosun"
+      orderNo: "${orderNo}"
+      type: "insure"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orderNo
+  headersparamsvalue: {}
+  dataparamsvalue: {"batchNo":"$fosun_batchno()","applyTime":'$fosun_applytime()',"effectiveDate":'$fosun_effectivedate()',"orderNo":'$fosun_orderno()'}
+
+
+
+testcase4:
+  casename: '供应链-复星联合妈咪保贝产品核保数据提交'
+  Enabled : 'NO'
+  step1:
+    name: "复星联合妈咪保贝产品-核保接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-kunlai/kunlai/message"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      asyn: "0"
+      batchNo : '${batchNo}'
+      body: "{\"additionCoverages\":[{\"amount\":\"456.00\",\"coveragePeriod\":\"30\",\"coverageType\":\"Y\",\"insurePlan\":\"PLAN1\",\"insuredIds\":[\"1\"],\"payPeriod\":\"9\",\"payPeriodType\":\"Y\",\"premiumInsure\":\"6.00\",\"productName\":\"复星联合附加投保人豁免险\",\"salesCode\":\"WNQFXB004R03\"}],\"agentInfo\":{\"agentCode\":\"W20190708002\",\"agentName\":\"朱卫杰\",\"certificateNo\":\"21009000000080002019000232\",\"gender\":\"1\",\"identityCode\":\"21312313232312347\",\"identityType\":\"1\",\"mobile\":\"13770703079\"},\"applyTime\":\"${applyTime}\",\"bankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"},\"beneficiaries\":[],\"companyName\":\"复星联合\",\"effectiveDate\":\"${effectiveDate}\",\"enquiryPremium\":\"462.00\",\"goodsCode\":\"WNQGFXB00401\",\"insuredInfos\":[{\"age\":2,\"birthday\":\"2018-01-02\",\"contactAddressInfo\":{},\"gender\":\"1\",\"height\":\"110\",\"identityCode\":\"61090220180102785X\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":1,\"isLegalBeneficiary\":\"1\",\"jobCateDesc\":\"学生（军警校除外）（17周岁以下）\",\"jobCateId\":\"120102\",\"jobCateLevel\":1,\"mobile\":\"17035551292\",\"name\":\"小飞\",\"relationWithProposer\":\"4\",\"taxPayerType\":\"1\",\"weight\":\"20\"}],\"mainCoverages\":[{\"amount\":\"300000.00\",\"coveragePeriod\":\"30\",\"coverageType\":\"Y\",\"insurePlan\":\"PLAN1\",\"insuredIds\":[\"1\"],\"payPeriod\":\"10\",\"payPeriodType\":\"Y\",\"premiumInsure\":\"456.00\",\"productName\":\"复星联合妈咪保贝少儿重大疾病保险\",\"salesCode\":\"WNQFXB004M01\"}],\"orderNo\":\"${orderNo}\",\"proposerInfo\":{\"age\":29,\"birthday\":\"1991-01-01\",\"contactAddressInfo\":{\"address\":\"西溪街道111号\",\"areaCode\":\"320102\",\"areaName\":\"玄武区\",\"cityCode\":\"320100\",\"cityName\":\"南京市\",\"provinceCode\":\"320000\",\"provinceName\":\"江苏省\"},\"email\":\"555@qq.com\",\"gender\":\"1\",\"identityCode\":\"110101199101019711\",\"identityExpirationDate\":\"2022-01-01\",\"identityLongTermEffective\":\"0\",\"identityType\":\"1\",\"index\":0,\"mobile\":\"17035551292\",\"name\":\"接口数据\",\"taxPayerType\":\"1\"},\"upperBankInfo\":{\"accountName\":\"接口数据\",\"bankAccountNo\":\"6226096555840043\",\"bankCode\":\"icbc\",\"bankName\":\"工商银行\"}}"
+      companyCode: "fosun"
+      orderNo: "${orderNo}"
+      type: "insure"
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000}]
+      expected_code: 200
+      assert_key_exists: orderNo
+  headersparamsvalue: {}
+  dataparamsvalue: {"batchNo":"$fosun_batchno()","applyTime":'$fosun_applytime()',"effectiveDate":'$fosun_effectivedate()',"orderNo":'$fosun_orderno()'}
+
+

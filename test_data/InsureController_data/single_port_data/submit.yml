@@ -1,0 +1,26 @@
+testcase1:
+  casename: '寿险业务-提交订单相关信息,生成订单报价premiumKey-正常流程'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/submit"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      propValues: {"holder_info":{"name":"吴春雨","ins_card_type":"1","card_no":"210303198508131214","mobile":"13500000000","email":"123456@qq.com","card_valid_type":"1","card_invalid_date":"2023-01-01","reside_area":110101,"reside_detail_address":"莫干山路2幢2单元202","job_code":"000202","height":"180","weight":"90","ins_tax_resident_type":"1"},"insurer_info":{"rel_code":"1"},"valid_info":{"valid_time":"2020-09-09"},"pay_way_info":{"bank_type":"icbc","bank_card_no":"6217000010041311234"}}
+      insuredOptionGroups: [[{"salesCode":"WZXFXBM00301","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN2"},{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"security_sex","optionValue":"1"},{"optionCode":"security_period","optionValue":"t999y"},{"optionCode":"pay_period","optionValue":"15y"},{"optionCode":"insur_amount","optionValue":100000}]},{"salesCode":"WNQFXB004R03","insure":0,"optionValues":[]}]]
+      tradeKey: "${tradeKey}"
+      beneficiaryType: 1
+    extract:
+    setparam:
+      tradeKey: $..tradeKey
+    setname: '/test_data/InsureController_data/single_port_data/savaScheme.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: tradeKey
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

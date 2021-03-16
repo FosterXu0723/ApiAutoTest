@@ -1,0 +1,85 @@
+testcase1:
+  casename: '喂小保后台-报表中心-页面初始化信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "报表中心-页面初始化信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/dataExport/getExportMenus"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: path
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+testcase2:
+  casename: '喂小保后台-报表中心-微信激活数据导出'
+  Enabled : 'YES'
+  step1:
+    name: "报表中心-微信激活数据导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxActive/exportData"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      startDate: "2020-12-01 00:00:00"
+      endDate: "2020-12-13 23:59:59"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-报表中心-抖音儿童方案定制表单数据导出'
+  Enabled : 'YES'
+  step1:
+    name: "报表中心-抖音儿童方案定制表单数据导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/customerAd/exportData"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      startDate: "2020-12-01 00:00:00"
+      endDate: "2020-12-13 23:59:59"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-报表中心-安心赠险数据导出'
+  Enabled : 'YES'
+  step1:
+    name: "报表中心-安心赠险数据导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/anxin/serIllnes"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      startDate: "2020-12-01 00:00:00"
+      endDate: "2020-12-13 23:59:59"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

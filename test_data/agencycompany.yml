@@ -1,0 +1,102 @@
+testcase1:
+  casename: '喂小保后台-代理公司-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "代理公司-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agency/queryAgencys"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agencyName: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agencyId
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-代理公司-获得代理公司详情'
+  Enabled : 'YES'
+  step1:
+    name: "代理公司-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agency/queryAgencys"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agencyName: "小雨伞"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      agencyId: $..agencyId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agencyName":"小雨伞"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "代理公司-数据详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agency/getAgencyDetail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agencyId: ${agencyId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agencyName":"小雨伞"},{"agencyCode":"XIAOYUSAN"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-代理公司-更新代理公司数据'
+  Enabled : 'YES'
+  step1:
+    name: "代理公司-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agency/queryAgencys"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agencyName: "小雨伞"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      agencyId: $..agencyId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agencyName":"小雨伞"},{"total":1}]
+      expected_code: 200
+  step2:
+    name: "代理公司-更新数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agency/upsert"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agencyId: ${agencyId}
+      agencyName: "小雨伞"
+      agencyCode: "XIAOYUSAN"
+      agencyType: "2"
+      agencyCooperationType: "2"
+      remark: "初版初始化"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

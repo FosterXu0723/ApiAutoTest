@@ -1,0 +1,56 @@
+testcase1:
+  casename: '用例1'
+  Enabled : 'YES'
+  step1:
+    name: "获取登录验证码"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/login/getAuthCode"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+    data:
+      mobile: '${mobile}'
+    extract: 
+    validate:
+  step2:
+    name: "登录"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/login/doLogin"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: v4
+    data:
+      mobile: '${mobile}'
+      authCode: "1234"
+      pCode: -1
+      deviceModel: "Win32"
+      channalId: ""
+      version: ""
+      OSVersion: ""
+    extract:
+      token: $..token
+    validate:
+  headersparamsvalue: {}
+  dataparamsvalue: {"mobile": '$phoneGenerator()'}
+
+
+testcase2:
+  casename: '用例1'
+  Enabled : 'YES'
+  step1:
+    name: "获取登录验证码"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/login/getAuthCode"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+    data:
+      mobile: '${mobile}'
+    extract: 
+    validate:
+  headersparamsvalue: {}
+  dataparamsvalue: {"mobile": '$phoneGenerator()'}
+    

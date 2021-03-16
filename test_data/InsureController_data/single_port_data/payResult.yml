@@ -1,0 +1,19 @@
+testcase1:
+  casename: '寿险业务-支付结果页'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/payResult"
+      method: "get"
+    headers:
+      Ev: "v4"
+      Token: '$get_token(14100000000)'
+    data:
+      linkNo: "20200927162734702534"
+      _nocache1601195858364:
+    extract:
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

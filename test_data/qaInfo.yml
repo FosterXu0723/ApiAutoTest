@@ -1,0 +1,39 @@
+testcase1:
+  casename: '喂小保后台-投保常见问题-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "投保常见问题-信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/productCore/qaInfoList"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: product
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-投保常见问题-导出问题表'
+  Enabled : 'YES'
+  step1:
+    name: "投保常见问题-导出问题表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/productCore/downloadQaFile"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      {}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

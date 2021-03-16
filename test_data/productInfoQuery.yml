@@ -1,0 +1,75 @@
+testcase1:
+  casename: '喂小保后台-产品信息查询-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "产品信息查询-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/undercity/productList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      insuranceCompanyName: ""
+      productName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-产品信息查询-按产品名称查询'
+  Enabled : 'YES'
+  step1:
+    name: "产品信息查询-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/undercity/productList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      insuranceCompanyName: ""
+      productName: "大麦2020"
+    extract:
+      productCode: $..productCode
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"productName":"大麦2020"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-产品信息查询-产品详情'
+  Enabled : 'YES'
+  step1:
+    name: "产品信息查询-产品详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/undercity/productInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      productCode: '${productCode}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: suitablePerson
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

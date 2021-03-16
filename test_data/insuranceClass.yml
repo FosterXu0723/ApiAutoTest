@@ -1,0 +1,63 @@
+testcase1:
+  casename: '喂小保后台-保险课堂-页面列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "保险课堂-公众号数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxData/wxCode/list"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"喂小保"}]
+      expected_code: 200
+  step2:
+    name: "保险课堂-保险课堂数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/insuranceCourse/listArticle"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      sync: 1
+      wxType: "qwb"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-保险课堂-编辑词条'
+  Enabled : 'YES'
+  step1:
+    name: "保险课堂-编辑词条接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/insuranceCourse/editArticle"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      sn: "d89e8c00c518fe876bf02182ef5fde5c"
+      values: [
+        "jkgz"
+      ]
+      weight: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

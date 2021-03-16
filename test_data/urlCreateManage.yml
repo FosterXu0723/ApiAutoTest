@@ -1,0 +1,289 @@
+testcase1:
+  casename: '喂小保后台-URL生成管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: ""
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-URL生成管理-创建URL'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/saveScratchpad"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      richText: "<p>接口自动化测试--接口自动化测试--接口自动化测试</p>"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"接口自动化测试"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-URL生成管理-预览'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"接口自动化测试"}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-预览接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/preview"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      richText: "<p>接口自动化测试--接口自动化测试--接口自动化测试</p>"
+      richTextInfoId: "${richTextInfoId}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: richTextUrl
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-URL生成管理-查看详情'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"接口自动化测试"}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/queryInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      richTextInfoId: "${richTextInfoId}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"接口自动化测试"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-URL生成管理-删除'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "接口自动化测试"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"接口自动化测试"}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-删除接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      richTextInfoId: "${richTextInfoId}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase6:
+  casename: '喂小保后台-URL生成管理-发布'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "测试URL生成1"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"测试URL生成1"}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-发布接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/issue"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "测试URL生成1"
+      richText: "<p>测试124</p>"
+      richTextInfoId: "${richTextInfoId}"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "测试URL生成1"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"status":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase7:
+  casename: '喂小保后台-URL生成管理-获取微信签名'
+  Enabled : 'YES'
+  step1:
+    name: "URL生成管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/contentRichText/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "测试URL生成1"
+      status: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+      richTextInfoId: $..richTextInfoId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"测试URL生成1"}]
+      expected_code: 200
+  step2:
+    name: "URL生成管理-获取微信签名接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway/c/wx/signature"
+      method: "get"
+    headers:
+    data:
+      url: "http:%2F%2F192.168.1.190:8899%2Fnormal%2F5e547729d31e0a7a9188e22f"
+      wxCode: "LX02"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: signature
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

@@ -1,0 +1,274 @@
+testcase1:
+  casename: '喂小保后台-险企账号管理-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyCode
+  step2:
+    name: "险企账号管理-险企和分公司查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: secondOrgList
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '喂小保后台-险企账号管理-新增险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-新增接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/createWorkNumber"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      agentMobile: 13390158106
+      companyCode: "jdallianz"
+      workNumber: "JDAL1"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"该代理人在该险企已有险企工号，请勿重复添加"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-险企账号管理-修改险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      agentId: $..agentId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"}]
+      expected_code: 200
+  step2:
+    name: "险企账号管理-更新接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/modifyWorkNumber"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      agentId: ${agentId}
+      companyCode: "jdallianz"
+      workNumber: "JDAL1"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      agentId: $..agentId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase4:
+  casename: '喂小保后台-险企账号管理-停用险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-停/启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/updateStatus"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      newStatus: 0
+      recordIds: [17]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"},{"status":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase5:
+  casename: '喂小保后台-险企账号管理-启用险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-停/启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/updateStatus"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      newStatus: 1
+      recordIds: [17]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"},{"status":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-险企账号管理-批量停用险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-停/启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/updateStatus"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      newStatus: 0
+      recordIds: [17,12]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"},{"status":0}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-险企账号管理-批量启用险企账号'
+  Enabled : 'YES'
+  step1:
+    name: "险企账号管理-停/启用接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/updateStatus"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      newStatus: 1
+      recordIds: [17,12]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "险企账号管理-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agent/companyNumber/list/info"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      agentName: "展飞一"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"agentName":"展飞一"},{"status":1}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

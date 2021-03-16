@@ -1,0 +1,40 @@
+testcase1:
+  casename: '喂小保后台-投放数据漏斗-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "投放数据漏斗-查询信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxFansData/query"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      day: 7
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '喂小保后台-投放数据漏斗-按近30日查询'
+  Enabled : 'YES'
+  step1:
+    name: "投放数据漏斗-查询信息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/wxFansData/query"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      jwt: '${jwt}'
+    data:
+      day: 30
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

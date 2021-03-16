@@ -1,0 +1,275 @@
+testcase1:
+  casename: 'APP-保单管理-保单服务列表页面信息初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-客户保单服务列表查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/policy/queryCustomerPoliyList"
+      method: "post"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: customerType,name
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase2:
+  casename: 'APP-保单管理-已有客户列表信息默认查询'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-已有客户列表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryCustomerInfos"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      customerTags: []
+      pageNo: 1
+      pageSize: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: birthday,cardNo
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+
+testcase3:
+  casename: 'APP-保单管理-已有客户列表信息按手机号查询'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-已有客户列表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryCustomerInfos"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      fastQuery: "17090152974"
+      pageNo: 1
+      pageSize: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: birthday,cardNo
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase4:
+  casename: 'APP-保单管理-已有客户列表信息按姓名查询'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-已有客户列表信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryCustomerInfos"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      fastQuery: "自动化测试"
+      pageNo: 1
+      pageSize: 10
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: birthday,cardNo
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase5:
+  casename: 'APP-保单管理-创建客户'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-地区信息查询接口(查询省份)"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getArea"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: 0
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: hasChild
+  step2:
+    name: "保单管理-地区信息查询接口(查询市)"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getArea"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: 330000
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: hasChild
+  step3:
+    name: "保单管理-地区信息查询接口(查询区)"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/common/getArea"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      code: 330100
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: hasChild
+  step4:
+    name: "保单管理-查询代理人客户标签简单信息接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/getAgentTagCustomerList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      mobile: 17090150069
+      token: '${token}'
+    extract:
+      agentCusId: $..agentCusId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"接口测试"}]
+      expected_code: 200
+  step5:
+    name: "保单管理-客户新增接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/upsertCustomerInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      age: 41
+      area: '浙江省杭州市余杭区'
+      areaCode: 330110
+      birthday: "1980-01-01"
+      budget: "5000"
+      cardNo: "110101198001019939"
+      cardType: 1
+      debt: "10"
+      detail: "无备注"
+      income: 2
+      intention: 1
+      isVerified: false
+      marriage: 0
+      name: "接口测试"
+      phone: "17090150069"
+      saleStage: 1
+      sex: 1
+      tags: {
+        "10026": "",
+        "10052": ""
+      }
+      token: '${token}'
+      targetId: '${agentCusId}'
+    extract:
+      customerId: $..customerId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase6:
+  casename: 'APP-保单管理-上传保单'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-上传保单接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/policy/uploadCustomerPolicyPhotoUrls"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      customerId: ${customerId}
+      pictureUrlList:  [
+        "https://static-zh.wxb.com.cn/shattrath/agent/agent_customer_image/2020/11/175aaf55832.jpg"
+      ]
+      sourceType: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+
+testcase7:
+  casename: 'APP-保单管理-查看历史图片'
+  Enabled : 'YES'
+  step1:
+    name: "保单管理-查看历史图片接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/policy/queryCustomerPolicyHistoryPhotos"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+      customerId: ${customerId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

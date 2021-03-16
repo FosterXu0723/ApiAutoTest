@@ -1,0 +1,28 @@
+testcase1:
+  casename: '民惠保-提交订单相关信息'
+  Enabled : 'YES'
+  step1:
+    name: "正常流程"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/submit"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      propValues: {"holder_info":{"name":"东方武","ins_card_type":"1","card_no":"110101199002026318","mobile":"13400000000"},"insurer_info":{"rel_code":"1"},"valid_info":{"valid_time":"2021-02-06"}}
+      insuredOptionGroups: [[{"salesCode":"WZXYCBM00101","insure":1,"optionValues":[{"optionCode":"security_period","optionValue":"1y"},{"optionCode":"has_socialInsur","optionValue":"YES"},{"optionCode":"insur_amount","optionValue":"2000000"}]}]]
+      insurer_info: {"rel_code":"1"}
+      valid_info: "2021-02-05"
+      tradeKey: "${tradeKey}"
+      beneficiaryType: 1
+    extract:
+    setparam:
+      tradeKey: $..tradeKey
+    setname: '/test_data/InsureController_data/mhb/mhbFill.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: tradeKey
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}
