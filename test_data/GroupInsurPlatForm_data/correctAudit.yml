@@ -1,0 +1,93 @@
+testcase1:
+  casename: '企团险平台-批改审核-审核信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "批改审核-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "批改审核-审核查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/audit/correctAuditOrder/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      appntName: ""
+      correctLinkNo: ""
+      correctOperationType: ""
+      currentPage: 1
+      cvalidateBegin: ""
+      cvalidateEnd: ""
+      grpPolicyNo: ""
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: total
+  step3:
+    name: "批改审核-审核查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/audit/correctAuditOrder/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: "2021-10-01 00:00:00"
+      addTimeEnd: "2021-10-08 23:59:59"
+      appntName: ""
+      correctLinkNo: ""
+      correctOperationType: ""
+      currentPage: 1
+      cvalidateBegin: ""
+      cvalidateEnd: ""
+      grpPolicyNo: ""
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: total
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+testcase2:
+  casename: '企团险平台-批改审核-审核提交'
+  Enabled : 'YES'
+  step1:
+    name: "投保审核-审核提交接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/correct/submitCorrectCheckResult"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      auditState: 3
+      correctLinkNo: "pc20211009174007836237"
+      remark: "自动化测试审核不通过"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

@@ -11,9 +11,9 @@ testcase1:
       jwt: '${jwt}'
     data:
       currentPage: 1
-      endDate: "2021-02-05 23:59:59"
+      endDate: "2022-04-15 23:59:59"
       pageSize: 10
-      startDate: "2021-01-29 00:00:00"
+      startDate: "2019-04-08 00:00:00"
       teams: []
     extract:
     validate:
@@ -56,10 +56,10 @@ testcase2:
       jwt: '${jwt}'
     data:
       currentPage: 1
-      endDate: "2021-02-05 23:59:59"
+      endDate: "2022-04-15 23:59:59"
       mixQuery: "吴国庆"
       pageSize: 10
-      startDate: "2021-01-29 00:00:00"
+      startDate: "2019-04-08 00:00:00"
       teams: []
     extract:
     validate:

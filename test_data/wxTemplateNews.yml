@@ -1,0 +1,383 @@
+testcase1:
+  casename: '喂小保后台-公众号模版消息-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      date: []
+      mpName: ""
+      sort: ""
+      statusList: ""
+      templateId: ""
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: templateTitle
+  step2:
+    name: "公众号模版消息-获取公众号模版接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/template/getExtMsg"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: templateId
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-公众号模版消息-新建发送任务'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-保存接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/insertTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      content: [{"name":"first","value":"民惠保测试大礼包"},{"name":"productType","value":"京东安联"},{"name":"productName","value":"民惠保"},{"name":"name","value":"自动化测试"},{"name":"remark","value":"祝你好运"}]
+      count: 3
+      example: "你好，你送给好友的保险礼物已被领取\n\n众安保险礼物名称：37℃高温险\n领取者姓名：邹XX\n已有1个人领取了保险礼物，等待3人领取后，便可支付后让保险生效，请尽快支付。其他需要的话术。"
+      miniappUrl: ""
+      mpName: "民惠保"
+      name: "自动化测试发送任务"
+      originalContent: "{{first.DATA}}\n\n{{productType.DATA}}保险礼物名称：{{productName.DATA}}\n领取者姓名：{{name.DATA}}\n{{remark.DATA}}"
+      peopleList: ["o-xTvweTzRb82cIzzCwMoUOT7GDs", "o-xTvwVF6QCa3HTXTVZoQWSOeQL8", "o-xTvwWQoL7ZOL7X8FEwv48crAcQ"]
+      remark: ""
+      sendTime: "2025-06-11 12:00:00"
+      templateId: "wG6-j-spFWyorrPCsuYliWIqMkNZbwRXtxDclLmavqM"
+      templateTitle: "礼物被领取通知"
+      webUrl: "https://wxb.com.cn/apps/wxb/"
+      wxCode: "lx02"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"data":"添加任务成功"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '喂小保后台-公众号模版消息-获取编辑页面信息'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      afterTime: "2025-06-30T15:59:59.000Z"
+      beforeTime: "2025-05-31T16:00:00.000Z"
+      currentPage: 1
+      pageSize: 10
+      mpName: ""
+      sort: ""
+      statusList: "0"
+      templateId: ""
+    extract:
+      taskId: $..taskId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "公众号模版消息-获取编辑页面信息"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryDetail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      taskId: ${taskId}
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"自动化测试发送任务"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '喂小保后台-公众号模版消息-发送测试消息'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      afterTime: "2025-06-30T15:59:59.000Z"
+      beforeTime: "2025-05-31T16:00:00.000Z"
+      currentPage: 1
+      pageSize: 10
+      mpName: ""
+      sort: ""
+      statusList: "0"
+      templateId: ""
+    extract:
+      taskId: $..taskId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "公众号模版消息-发送测试消息接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/testTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      content: [{"name":"first","value":"民惠保测试大礼包"},{"name":"productType","value":"京东安联"},{"name":"productName","value":"民惠保"},{"name":"name","value":"自动化测试"},{"name":"remark","value":"祝你好运"}]
+      deleteId: 0
+      example: "你好，你送给好友的保险礼物已被领取\n\n众安保险礼物名称：37℃高温险\n领取者姓名：邹XX\n已有1个人领取了保险礼物，等待3人领取后，便可支付后让保险生效，请尽快支付。其他需要的话术。"
+      miniappUrl: ""
+      mpName: "民惠保"
+      name: "自动化测试发送任务"
+      originalContent: "{{first.DATA}}\n\n{{productType.DATA}}保险礼物名称：{{productName.DATA}}\n领取者姓名：{{name.DATA}}\n{{remark.DATA}}"
+      remark: ""
+      sendTime: "2025-06-11 12:00:00"
+      status: 0
+      taskId: ${taskId}
+      id: ${id}
+      templateId: "wG6-j-spFWyorrPCsuYliWIqMkNZbwRXtxDclLmavqM"
+      templateTitle: "礼物被领取通知"
+      testOpenId: "o-xTvweTzRb82cIzzCwMoUOT7GDs"
+      webUrl: "https://wxb.com.cn/apps/wxb/"
+      wxCode: "lx02"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"data":"发送成功"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-公众号模版消息-更新任务'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      afterTime: "2025-06-30T15:59:59.000Z"
+      beforeTime: "2025-05-31T16:00:00.000Z"
+      currentPage: 1
+      pageSize: 10
+      mpName: ""
+      sort: ""
+      statusList: "0"
+      templateId: ""
+    extract:
+      taskId: $..taskId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "公众号模版消息-更新任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/updateTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      content: [{"name":"first","value":"民惠保测试大礼包"},{"name":"productType","value":"京东安联"},{"name":"productName","value":"民惠保"},{"name":"name","value":"自动化测试"},{"name":"remark","value":"祝你好运"}]
+      count: 3
+      deleteId: 0
+      example: "你好，你送给好友的保险礼物已被领取\n\n众安保险礼物名称：37℃高温险\n领取者姓名：邹XX\n已有1个人领取了保险礼物，等待3人领取后，便可支付后让保险生效，请尽快支付。其他需要的话术。"
+      miniappUrl: ""
+      mpName: "民惠保"
+      name: "自动化测试发送任务"
+      originalContent: "{{first.DATA}}\n\n{{productType.DATA}}保险礼物名称：{{productName.DATA}}\n领取者姓名：{{name.DATA}}\n{{remark.DATA}}"
+      peopleList: ["o-xTvweTzRb82cIzzCwMoUOT7GDs", "o-xTvwVF6QCa3HTXTVZoQWSOeQL8", "o-xTvwWQoL7ZOL7X8FEwv48crAcQ"]
+      remark: ""
+      sendTime: "2025-06-11 12:00:00"
+      status: 0
+      taskId: ${taskId}
+      templateId: "wG6-j-spFWyorrPCsuYliWIqMkNZbwRXtxDclLmavqM"
+      templateTitle: "礼物被领取通知"
+      webUrl: "https://wxb.com.cn/apps/wxb/"
+      wxCode: "lx02"
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"data":"编辑任务成功"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase6:
+  casename: '喂小保后台-公众号模版消息-提交任务'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      afterTime: "2025-06-30T15:59:59.000Z"
+      beforeTime: "2025-05-31T16:00:00.000Z"
+      currentPage: 1
+      pageSize: 10
+      mpName: ""
+      sort: ""
+      statusList: "0"
+      templateId: ""
+    extract:
+      taskId: $..taskId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "公众号模版消息-提交任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/commitTask"
+      method: "get"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      taskId: ${taskId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"data":"提交任务成功"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '喂小保后台-公众号模版消息-取消任务'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-查询数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/queryTask"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      afterTime: "2025-06-30T15:59:59.000Z"
+      beforeTime: "2025-05-31T16:00:00.000Z"
+      currentPage: 1
+      pageSize: 10
+      mpName: ""
+      sort: ""
+      statusList: "1"
+      templateId: ""
+    extract:
+      taskId: $..taskId
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "公众号模版消息-取消任务接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/templateMsg/cancleTask"
+      method: "get"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      taskId: ${taskId}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"data":"取消任务成功"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase8:
+  casename: '喂小保后台-公众号模版消息-获取模版'
+  Enabled : 'YES'
+  step1:
+    name: "公众号模版消息-列表数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/template/list"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      statusList: [0]
+      wxCodeList: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: templateId
+  step2:
+    name: "公众号模版消息-获取最新模版接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/template/pull"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      statusList: []
+      wxCodeList: []
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: templateId
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

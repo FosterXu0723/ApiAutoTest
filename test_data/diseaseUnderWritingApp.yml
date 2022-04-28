@@ -183,7 +183,7 @@ testcase7:
     name: "非标体专区-查看商品详情接口"
     general:
       path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/getProcessInfo"
-      method: "get"
+      method: "post"
     headers:
       Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"

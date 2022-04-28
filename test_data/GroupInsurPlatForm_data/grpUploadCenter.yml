@@ -1,0 +1,58 @@
+testcase1:
+  casename: '企团险平台-上传中心-数据查询'
+  Enabled : 'YES'
+  step1:
+    name: "上传中心-状态枚举查询"
+    general:
+      path: "https://test.wxb.com.cn/northrend/import/getEnum"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: value
+  step2:
+    name: "上传中心-数据查询"
+    general:
+      path: "https://test.wxb.com.cn/northrend/import/getUploadFileList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      taskStatus: ""
+      pageSize: 20
+      uploadType: 21
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: fileName
+  step3:
+    name: "上传中心-数据查询"
+    general:
+      path: "https://test.wxb.com.cn/northrend/import/getUploadFileList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      startDate: "2021-12-01 00:00:00"
+      endDate: "2021-12-25 23:59:59"
+      taskStatus: ""
+      pageSize: 20
+      uploadType: 21
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: fileName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+

@@ -2,9 +2,9 @@ testcase1:
   casename: '喂小保后台-佣金率管理-列表初始化查询'
   Enabled : 'YES'
   step1:
-    name: "佣金率管理-机构数据查询接口"
+    name: "佣金率管理-状态数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/organization/orgInfoByRank"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/list/config"
       method: "get"
     headers:
       jwt: '${jwt}'
@@ -18,7 +18,7 @@ testcase1:
   step2:
     name: "佣金率管理-险企数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/company"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/company"
       method: "get"
     headers:
       jwt: '${jwt}'
@@ -31,23 +31,32 @@ testcase1:
   step3:
     name: "佣金率管理-佣金率数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/commissionList"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/getCommissionConfigListByPage"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      commissionStatus: []
-      companyCode: ""
       currentPage: 1
-      orgCode: ""
       pageSize: 10
-      productName: ""
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: companyName,commissionStatus
+      assert_key_exists: companyShortName,stateStr
+  step4:
+    name: "佣金率管理-商品数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/coreGoods"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: companyShortName,insureTypeStr
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
 
@@ -60,28 +69,26 @@ testcase2:
   step1:
     name: "佣金率管理-佣金率数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/commissionList"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/getCommissionConfigListByPage"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      commissionStatus: [2]
-      companyCode: ""
+      coreGoodsCode: "3DA603B2-207F-04F0-44D9-4FBE1D72DCC7"
       currentPage: 1
-      orgCode: ""
       pageSize: 10
-      productName: "复星康乐一生C款重大疾病保险（升级版）"
+      state: "2"
     extract:
       id: $..id
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: companyName,commissionStatus
+      assert_key_exists: companyShortName,coreGoodsName
   step2:
     name: "佣金率管理-佣金率详情接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/queryDetail"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/getCommissionConfDetailInfoById"
       method: "get"
     headers:
       jwt: '${jwt}'
@@ -89,8 +96,21 @@ testcase2:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"productName":"复星康乐一生C款重大疾病保险（升级版）"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"coreGoodsName":"超级玛丽重疾险2020Max"}]
       expected_code: 200
+  step3:
+    name: "佣金率管理-分公司数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/secondDepts"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name,n22ShowCode
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
 
@@ -99,122 +119,108 @@ testcase2:
 
 
 testcase3:
-  casename: '喂小保后台-佣金率管理-修改佣金率详情'
+  casename: '喂小保后台-佣金率管理-新增佣金率配置'
   Enabled : 'NO'
   step1:
-    name: "佣金率管理-佣金率数据查询接口"
+    name: "佣金率管理-分公司数据接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/commissionList"
-      method: "post"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/secondDepts"
+      method: "get"
     headers:
-      Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      commissionStatus: [2]
-      companyCode: ""
-      currentPage: 1
-      orgCode: ""
-      pageSize: 10
-      productName: "复星康乐一生C款重大疾病保险（升级版）"
     extract:
-      id: $..id
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: companyName,commissionStatus
+      assert_key_exists: name,n22ShowCode
   step2:
-    name: "佣金率管理-产品名称接口"
+    name: "佣金率管理-商品数据接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/queryProductList"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/coreGoods"
       method: "get"
     headers:
-      Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      companyCode: "54F8DF19-A0A3-582B-4F43-383B297E4804"
-      type: 2
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"label":"泰康在线尊享意外险2019版"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
+      assert_key_exists: companyShortName,name
   step3:
-    name: "佣金率管理-产品类型接口"
+    name: "佣金率管理-创建佣金率配置接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/productType"
-      method: "get"
-    headers:
-      jwt: '${jwt}'
-    data:
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"label":"重疾"}]
-      expected_code: 200
-  step4:
-    name: "佣金率管理-更新佣金率详情接口"
-    general:
-      path: "https://test.wxb.com.cn/dalaran/commission/updateCommission"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/insertCommissionConfig"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      commissionStatus: 2
-      companyCode: "54F8DF19-A0A3-582B-4F43-383B297E4804"
-      effectiveTime: "2020-06-30 00:00:00"
-      id: ${id}
-      immediatelyEffective: 0
-      invalidTime: "2021-06-30 23:59:59"
-      ownDeal: 1
-      platformDeal: 0
-      productCode: "83F07F1C-5959-FC8A-5AB4-75905A23A7E7"
-      productName: "泰众保百万医疗"
-      productType: "3"
-      protectedPeriodExist: 0
-      rate: [
+      allOrg: 0
+      companyCode: "sinatay"
+      companyShortName: "信泰保险"
+      confType: 0
+      coreGoodsCode: "BC664376-C5DB-B000-CB0E-3FA95E4FB922"
+      coreGoodsName: {
+        "companyCode": "sinatay",
+        "companyShortName": "信泰保险",
+        "insureType": 5,
+        "insureTypeStr": "重疾险",
+        "name": "达尔文3号（不含身故）",
+        "polGuid": "BC664376-C5DB-B000-CB0E-3FA95E4FB922",
+        "prodcuts": [
+            {
+                "name": "信泰如意安和（臻藏版）重大疾病保险",
+                "polGuid": "6106BBA8-6C86-2020-E3D9-10F01CF350B8"
+            },
+            {
+                "name": "信泰附加投保人豁免保险费重大疾病保险",
+                "polGuid": "D661483C-8DDD-55EB-F6E0-D29E87566BD9"
+            }
+        ]
+      }
+      coreGoodsType: 5
+      coreGoodsTypeStr: "重疾险"
+      endTime: "2023-06-30 23:59:59"
+      immediatelyEffective: 1
+      ownDealRates: [
         {
-            "firstPlatformRate": "",
-            "firstRate": "12",
-            "laterPlatformRate": [
+            "DRateDisabled": false,
+            "MRateDisabled": false,
+            "drate": "5",
+            "firstCommissionRate": "30",
+            "firstRateDisabled": false,
+            "laterRates": [
                 {
-                    "label": "2",
-                    "value": ""
+                    "disabled": false,
+                    "laterCommissionRate": "10",
+                    "laterCount": "2"
                 },
                 {
-                    "label": "3",
-                    "value": ""
+                    "disabled": false,
+                    "laterCommissionRate": "",
+                    "laterCount": "3"
                 },
                 {
-                    "label": "4",
-                    "value": ""
+                    "disabled": false,
+                    "laterCommissionRate": "",
+                    "laterCount": "4"
                 },
                 {
-                    "label": "5",
-                    "value": ""
+                    "disabled": false,
+                    "laterCommissionRate": "",
+                    "laterCount": "5"
                 }
             ],
-            "laterRate": [
-                {
-                    "label": "2",
-                    "value": ""
-                },
-                {
-                    "label": "3",
-                    "value": ""
-                },
-                {
-                    "label": "4",
-                    "value": ""
-                },
-                {
-                    "label": "5",
-                    "value": ""
-                }
-            ],
-            "payPeriod": "1",
-            "protectedPeriod": ""
+            "mrate": "5",
+            "orderType": 1,
+            "payPeriod": "30",
+            "securityPerioDisabled": true
         }
       ]
-      type: 2
+      plateformRates: []
+      securityPeriodExist: 0
+      showOrgCodes: []
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
@@ -224,22 +230,103 @@ testcase3:
 
 
 
+
 testcase4:
-  casename: '喂小保后台-佣金率管理-下载'
+  casename: '喂小保后台-佣金率管理-停用佣金率配置'
   Enabled : 'YES'
   step1:
-    name: "佣金率管理-下载接口"
+    name: "佣金率管理-佣金率数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/commission/audit/export"
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/getCommissionConfigListByPage"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      commissionStatus: []
-      companyCode: ""
-      orgCode: ""
-      productName: ""
+      ruleId: "cf20210906160736433847"
+      currentPage: 1
+      pageSize: 10
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: coreGoodsCode
+  step2:
+    name: "佣金率管理-停用佣金率配置校验接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/checkCommissionConfig"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      commissionIds: [123]
+      endTime: "2022-07-30 23:59:59"
+      stopNow: 0
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "佣金率管理-停用佣金率配置接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/operate"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      commissionIds: [123]
+      endTime: "2022-07-30 23:59:59"
+      operation: 2
+      stopNow: 0
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '喂小保后台-佣金率管理-作废佣金率配置'
+  Enabled : 'YES'
+  step1:
+    name: "佣金率管理-作废佣金率配置接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/operate"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      commissionIds: [68]
+      operation: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase6:
+  casename: '喂小保后台-佣金率管理-下载'
+  Enabled : 'YES'
+  step1:
+    name: "佣金率管理-下载接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/storm/commission/download"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]

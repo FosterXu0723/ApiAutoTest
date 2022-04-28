@@ -1,0 +1,245 @@
+testcase1:
+  casename: '京航京东安联雇主责任险-投保接口-单个被保人'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-投保接口"
+    general:
+      path: " http://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/insure"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"channelOrderNo\":\"autotest110010\",\"fileProps\":[{\"fileName\":\"营业执照\",\"fileType\":\"UWA_B01\",\"url\":\"http://insurer.qilianbao.cn/upload/upload_5e38599719eb610045d042fd909e8136.jpg\"},{\"fileName\":\"雇员清单\",\"fileType\":\"UWA_A03\",\"url\":\"http://insurer.qilianbao.cn/upload/upload_5e38599719eb610045d042fd909e8136.jpg\"}],\"holderInfo\":{\"holderAddress\":\"浙江省杭州市余杭区仓前街道鼎创财富中心2号楼16楼\",\"holderCardNum\":\"91330106MA2KFERU66\",\"holderCardType\":4,\"holderEmail\":\"1670775081@qq.com\",\"holderMobile\":\"17035551282\",\"holderName\":\"灵犀科技\",\"holderPostCode\":\"311121\"},\"insureInfos\":[{\"employeeInfos\":[{\"birthday\":\"1982-04-07\",\"employeeCardNum\":\"410803198204071632\",\"employeeCardType\":1,\"employeeName\":\"徐丽\",\"gender\":\"1\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1994-02-19\",\"employeeCardNum\":\"65432519940219360X\",\"employeeCardType\":1,\"employeeName\":\"苏丽娟\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1967-11-30\",\"employeeCardNum\":\"130424196711306209\",\"employeeCardType\":1,\"employeeName\":\"牛冬梅\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1982-10-28\",\"employeeCardNum\":\"210811198210289585\",\"employeeCardType\":1,\"employeeName\":\"彭雪\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1997-08-13\",\"employeeCardNum\":\"150781199708136844\",\"employeeCardType\":1,\"employeeName\":\"唐龙\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1997-06-20\",\"employeeCardNum\":\"440400199706209389\",\"employeeCardType\":1,\"employeeName\":\"陈丹丹\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"}],\"insureAddress\":\"浙江省杭州市余杭区鼎创财富中心\",\"insureCardNum\":\"913701037535461553\",\"insureCardType\":4,\"insureName\":\"灵犀保代一\",\"sumInsuredCount\":6}],\"policyInfo\":{\"businessNature\":\"A10\",\"businessScope\":\"制造业-食品制造业-罐头食品制造\",\"cvalidate\":\"2022-10-24\",\"endDate\":\"2022-10-30\",\"goodsCode\":\"WZXJABG00812\",\"gracePeriod\":\"10\",\"industryClass\":\"C145\",\"is24flag\":\"1\",\"totalPrem\":\"50.5\"}}"
+    extract:
+    validate:
+      assert_kes_value: [{"success":true},{"errorCode":10000}]
+      assert_in_text: linkNo
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '京航京东安联雇主责任险-投保接口-多个被保人'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-投保接口"
+    general:
+      path: " http://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/insure"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"channelOrderNo\":\"autotest110011\",\"fileProps\":[{\"fileName\":\"营业执照\",\"fileType\":\"UWA_B01\",\"url\":\"http://insurer.qilianbao.cn/upload/upload_5e38599719eb610045d042fd909e8136.jpg\"},{\"fileName\":\"雇员清单\",\"fileType\":\"UWA_A03\",\"url\":\"http://insurer.qilianbao.cn/upload/upload_5e38599719eb610045d042fd909e8136.jpg\"}],\"holderInfo\":{\"holderAddress\":\"浙江省杭州市余杭区仓前街道鼎创财富中心2号楼16楼\",\"holderCardNum\":\"91330106MA2KFERU66\",\"holderCardType\":4,\"holderEmail\":\"1670775081@qq.com\",\"holderMobile\":\"17035551282\",\"holderName\":\"灵犀科技\",\"holderPostCode\":\"311121\"},\"insureInfos\":[{\"employeeInfos\":[{\"birthday\":\"1982-10-02\",\"employeeCardNum\":\"33112119821002917X\",\"employeeCardType\":1,\"employeeName\":\"齐敏\",\"gender\":\"1\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1963-10-26\",\"employeeCardNum\":\"360902196310266439\",\"employeeCardType\":1,\"employeeName\":\"任芳\",\"gender\":\"1\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1968-05-16\",\"employeeCardNum\":\"532622196805164509\",\"employeeCardType\":1,\"employeeName\":\"杜梅\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1964-02-17\",\"employeeCardNum\":\"532932196402178999\",\"employeeCardType\":1,\"employeeName\":\"胡龙\",\"gender\":\"1\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1996-06-01\",\"employeeCardNum\":\"152501199606011345\",\"employeeCardType\":1,\"employeeName\":\"孙华\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"},{\"birthday\":\"1983-03-02\",\"employeeCardNum\":\"140727198303025666\",\"employeeCardType\":1,\"employeeName\":\"易文\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代一\"}],\"insureAddress\":\"浙江省杭州市余杭区鼎创财富中心\",\"insureCardNum\":\"913701037535461553\",\"insureCardType\":4,\"insureName\":\"灵犀保代一\",\"sumInsuredCount\":6},{\"employeeInfos\":[{\"birthday\":\"1970-07-11\",\"employeeCardNum\":\"360401197007119920\",\"employeeCardType\":1,\"employeeName\":\"张慧\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"},{\"birthday\":\"1964-07-31\",\"employeeCardNum\":\"510321196407317962\",\"employeeCardType\":1,\"employeeName\":\"王梅\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"},{\"birthday\":\"1984-07-31\",\"employeeCardNum\":\"210181198407311265\",\"employeeCardType\":1,\"employeeName\":\"袁娜\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"},{\"birthday\":\"1971-12-22\",\"employeeCardNum\":\"520112197112221751\",\"employeeCardType\":1,\"employeeName\":\"陈利\",\"gender\":\"1\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"},{\"birthday\":\"1996-06-12\",\"employeeCardNum\":\"650000199606127383\",\"employeeCardType\":1,\"employeeName\":\"郑飞\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"},{\"birthday\":\"1997-12-10\",\"employeeCardNum\":\"211011199712107640\",\"employeeCardType\":1,\"employeeName\":\"丁志强\",\"gender\":\"2\",\"health\":\"1\",\"jobCateClass\":\"D03\",\"jobCateId\":\"D03009\",\"limits\":\"700000\",\"planCode\":\"SCCODE1\",\"unitName\":\"灵犀保代二\"}],\"insureAddress\":\"浙江省杭州市余杭区鼎创财富中心\",\"insureCardNum\":\"913701037535461554\",\"insureCardType\":4,\"insureName\":\"灵犀保代二\",\"sumInsuredCount\":6}],\"policyInfo\":{\"businessNature\":\"A10\",\"businessScope\":\"制造业-食品制造业-罐头食品制造\",\"cvalidate\":\"2022-10-24\",\"endDate\":\"2022-10-30\",\"goodsCode\":\"WZXJABG00812\",\"gracePeriod\":\"10\",\"industryClass\":\"C145\",\"is24flag\":\"1\",\"totalPrem\":\"50.5\"}}"
+    extract:
+    validate:
+      assert_kes_value: [{"success":true},{"errorCode":10000}]
+      assert_in_text: linkNo
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '京航京东安联雇主责任险-获取承保支付链接'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取支付链接接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/getPayUrl"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"linkNo\":\"grp20211228154549922386\",,\"payWay\":\"99\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: https://test.wxb.com.cn
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '京航京东安联雇主责任险-获取雇主保险凭证'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取保险凭证接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyProof"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"certificateType\":\"GZ02\",\"linkNo\":\"grp20210623143058451254\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: https://static-zh.wxb.com.cn,保单凭证下载成功
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase5:
+  casename: '京航京东安联雇主责任险-获取雇主险雇员清单'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取保险凭证接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyProof"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"certificateType\":\"GZ01\",\"linkNo\":\"grp20210623143058451254\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: https://static-zh.wxb.com.cn,保单凭证下载成功
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase6:
+  casename: '京航京东安联雇主责任险-获取承保电子发票'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取电子发票接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyInvoice"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"email\":\"shengze.xu@ideacome.com\",\"invoiceApplyType\":\"02\",\"invoiceHead\":\"灵犀保代\",\"invoiceHeadType\":\"02\",\"invoiceTaxNum\":\"9151000007611942XT\",\"phone\":\"17090150153\",\"invoicePhone\":\"13390158018\",\"invoiceBankName\":\"农业银行翡翠城支行\",\"invoiceBankAccount\":\"677777799999998866\",\"invoiceAddress\":\"鼎创财富中心2号楼17楼\",\"invoiceOrders\":[{\"invoiceApplyType\":\"01\",\"linkNo\":\"grp20220110140853690163\"}]}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: 成功您已开具电子发票了，2小时内发送电子发票短链接到您预留的电子邮箱或手机号码，请留意查收。
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase7:
+  casename: '京航京东安联雇主责任险-获取批单支付链接'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取支付链接接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/getPayUrl"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"linkNo\":\"pc20211224170359233693\",\"payWay\":\"99\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: https://test.wxb.com.cn
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase8:
+  casename: '京航京东安联雇主责任险-获取批单凭证'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取保险凭证接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyProof"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"certificateType\":\"C02\",\"linkNo\":\"pc20210623092753605288\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: https://static-zh.wxb.com.cn,保单凭证下载成功
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase9:
+  casename: '京航京东安联雇主责任险-获取雇主责任险人员变更清单'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取保险凭证接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyProof"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"certificateType\":\"GZ01_A\",\"linkNo\":\"pc20210623092753605288\"}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: 保单凭证下载成功,https://static-zh.wxb.com.cn
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+
+testcase10:
+  casename: '京航京东安联雇主责任险-获取批单电子发票'
+  Enabled : 'YES'
+  step1:
+    name: "京航京东安联雇主责任险-获取电子发票接口"
+    general:
+      path: "https://test.wxb.com.cn/gateway-fourwinds/thirdParty/jinghang/group/downloadPolicyInvoice"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      serialNo: "jinghang001"
+      channelNo: "SJHGZX01"
+      timestamp: 1620624605000
+      sign: ''
+      body: "{\"email\":\"shengze.xu@ideacome.com\",\"invoiceApplyType\":\"02\",\"invoiceHead\":\"灵犀保代\",\"invoiceHeadType\":\"02\",\"invoiceTaxNum\":\"9151000007611942XT\",\"phone\":\"17090150153\",\"invoicePhone\":\"13390158018\",\"invoiceBankName\":\"农业银行翡翠城支行\",\"invoiceBankAccount\":\"677777799999998866\",\"invoiceAddress\":\"鼎创财富中心2号楼17楼\",\"invoiceOrders\":[{\"invoiceApplyType\":\"02\",\"linkNo\":\"pc20220119134007102541\"}]}"
+    extract:
+    validate:
+      assert_kes_value: []
+      assert_in_text: 调用ironforge电子发票申请，失败，result=VMS系统汇总金额与请求合开汇总金额不一致金额1：0.0;金额2：19.2
+  headersparamsvalue: {}
+  dataparamsvalue: {}

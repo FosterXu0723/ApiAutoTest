@@ -2,7 +2,7 @@ testcase1:
   casename: '寿险业务-提交订单相关信息,生成订单报价premiumKey-正常流程'
   Enabled : 'YES'
   step1:
-    name: "正常流程"
+    name: "正常流程-城市地区下面有区"
     general:
       path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/submit"
       method: "post"
@@ -11,8 +11,8 @@ testcase1:
       Ev: "v4"
       Token: '${Token}'
     data:
-      propValues: {"holder_info":{"name":"吴春雨","ins_card_type":"1","card_no":"210303198508131214","mobile":"13500000000","email":"123456@qq.com","card_valid_type":"1","card_invalid_date":"2023-01-01","reside_area":110101,"reside_detail_address":"莫干山路2幢2单元202","job_code":"000202","height":"180","weight":"90","ins_tax_resident_type":"1"},"insurer_info":{"rel_code":"1"},"valid_info":{"valid_time":"2020-09-09"},"pay_way_info":{"bank_type":"icbc","bank_card_no":"6217000010041311234"}}
-      insuredOptionGroups: [[{"salesCode":"WZXFXBM00301","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN2"},{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"security_sex","optionValue":"1"},{"optionCode":"security_period","optionValue":"t999y"},{"optionCode":"pay_period","optionValue":"15y"},{"optionCode":"insur_amount","optionValue":100000}]},{"salesCode":"WNQFXB004R03","insure":0,"optionValues":[]}]]
+      propValues: {"holder_info":{"name":"吴雨","ins_card_type":"1","card_no":"110101198508137758","mobile":"13500000888","email":"1838483@qq.com","card_valid_type":"1","card_invalid_date":"2032-06-25","reside_area":110101,"reside_detail_address":"奔走呼号大半年没现买现卖1","ins_tax_resident_type":"1"},"insurer_info":{"rel_code":"1","has_socialInsur":"YES","job_code":"0104001","height":"180","weight":"80"},"valid_info":{"valid_time":"2021-06-26"},"pay_way_info":{"bank_type":"icbc","bank_card_no":"6217000010041311234","mobile":"13500000000"}}
+      insuredOptionGroups: [[{"salesCode":"WZXFXBM01201","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN1"},{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"has_socialInsur","optionValue":"YES"},{"optionCode":"security_period","optionValue":"1y"},{"optionCode":"pay_period","optionValue":"0y"},{"optionCode":"deductible_franchise","optionValue":"0"},{"optionCode":"compensation_ratio","optionValue":"100"}]},{"salesCode":"WZXFXBR00703","insure":1,"optionValues":[]},{"salesCode":"WZXFXBR00702","insure":0,"optionValues":[]}]]
       tradeKey: "${tradeKey}"
       beneficiaryType: 1
     extract:
@@ -24,3 +24,5 @@ testcase1:
       assert_key_exists: tradeKey
   headersparamsvalue: {"Token": '$get_token(14100000000)'}
   dataparamsvalue: {}
+
+

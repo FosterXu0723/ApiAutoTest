@@ -1,0 +1,334 @@
+testcase1:
+  casename: '企团险平台-理赔查询-理赔信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "理赔查询-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/claimconfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "理赔查询-理赔查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claimlist"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: []
+      companyCode: ""
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      operateTypes: []
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      reportorName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: claimLinkNo
+  step3:
+    name: "理赔查询-理赔查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claimlist"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: []
+      companyCode: ""
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      operateTypes: []
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: "2021-12-01 00:00:00"
+      reportTimeEnd: "2021-12-01 23:59:59"
+      reportorName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"claimLinkNo":"claim20211201180251686822"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '企团险平台-理赔查询-修改理赔资料'
+  Enabled : 'YES'
+  step1:
+    name: "理赔查询-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/claimconfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "理赔查询-获取报案基本信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/getReportAndUploadInfo"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141834358517"
+      companyCode: "jdallianz"
+      goodsCode: "WZXJABG00801"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: docName
+  step3:
+    name: "理赔查询-获取日志记录信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/getClaimOperationLog"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141834358517"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operTypeName
+  step4:
+    name: "理赔查询-提交审核接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claim/submitAudit"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimDocDTOS:  [
+        {
+            "docName": "员工身份证正反面",
+            "fileInfos": [
+                {
+                    "fileName": "test3.png",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d75bfa.png"
+                }
+            ],
+            "propCode": "128"
+        },
+        {
+            "docName": "医疗资料",
+            "fileInfos": [
+                {
+                    "fileName": "test3.png",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d71f1f.png"
+                }
+            ],
+            "propCode": "123"
+        },
+        {
+            "docName": "劳动合同",
+            "fileInfos": [
+                {
+                    "fileName": "test2.jpg",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d740e2.jpg"
+                }
+            ],
+            "propCode": "999"
+        },
+        {
+            "docName": "医疗发票及费用清单",
+            "fileInfos": [
+                {
+                    "fileName": "test2.jpg",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d77f73.jpg"
+                }
+            ],
+            "propCode": "122"
+        },
+        {
+            "docName": "医生出具的病假证明",
+            "fileInfos": [
+                {
+                    "fileName": "test2.jpg",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d79a6b.jpg"
+                }
+            ],
+            "propCode": "016"
+        },
+        {
+            "docName": "员工缺勤记录",
+            "fileInfos": [
+                {
+                    "fileName": "test3.png",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d7b2d6.png"
+                }
+            ],
+            "propCode": "059"
+        },
+        {
+            "docName": "公司支付工资记录",
+            "fileInfos": [
+                {
+                    "fileName": "test1.jpeg",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d828d1.jpeg"
+                }
+            ],
+            "propCode": "070"
+        },
+        {
+            "docName": "入院记录、出院小结",
+            "fileInfos": [
+                {
+                    "fileName": "test2.jpg",
+                    "fileUrl": "https://static-zh.wxb.com.cn/northrend/file/claimdoc/2021/11/17d54d828d0.jpg"
+                }
+            ],
+            "propCode": "203"
+        }
+      ]
+      claimLiabilityDTOS: []
+      claimLinkNo: "claim20211125100453788387"
+      payeeInfos: {
+        "accountNo": "6228483646091428568",
+        "bankCode": "boc",
+        "bankName": "中国银行",
+        "certifyNo": "91370281061067073D",
+        "certifyType": 4,
+        "payObjectKind": 1,
+        "payObjectType": 2,
+        "payeeMobile": "13390158161",
+        "payeeName": "青岛长兴环保设备有限公司"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '企团险平台-理赔查询-查看详情'
+  Enabled : 'YES'
+  step1:
+    name: "理赔查询-获取理赔详情信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claim/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141910211833"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: endCaseNo
+  step2:
+    name: "理赔查询-获取日志记录信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/getClaimOperationLog"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141910211833"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operTypeName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '企团险平台-理赔查询-导出'
+  Enabled : 'YES'
+  step1:
+    name: "理赔查询-获取理赔详情信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claimdownload"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: []
+      companyCode: ""
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      operateTypes: []
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      reportorName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase5:
+  casename: '企团险平台-理赔查询-取消'
+  Enabled : 'YES'
+  step1:
+    name: "理赔查询-取消接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/cancelClaim"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211119143710987417"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

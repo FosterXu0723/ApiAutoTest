@@ -1,0 +1,38 @@
+testcase1:
+  casename: '企团险平台-下载中心-数据查询'
+  Enabled : 'YES'
+  step1:
+    name: "下载中心-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/export/getFileList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     currentPage: 1
+     endDate: ""
+     exportStatus: ""
+     pageSize: 20
+     startDate: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: fileName
+  step2:
+    name: "下载中心-状态枚举查询"
+    general:
+      path: "https://test.wxb.com.cn/northrend/export/getEnum"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"生成中"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+

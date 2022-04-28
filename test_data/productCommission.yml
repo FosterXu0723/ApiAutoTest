@@ -14,7 +14,7 @@ testcase1:
       token: '${token}'
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"复星联合健康"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"复星联合"}]
       expected_code: 200
   step2:
     name: "我的产品佣金表-产品类型信息查询接口"
@@ -29,7 +29,7 @@ testcase1:
       token: '${token}'
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"value":"意外"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"意外"}]
       expected_code: 200
   step3:
     name: "我的产品佣金表-全部佣金表信息查询接口"
@@ -41,16 +41,15 @@ testcase1:
       Ev: "v4"
       Token: '${Token}'
     data:
+      coreGoodsType: ""
       token: '${token}'
-      commissionStatus: 2
-      productType: ""
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: orgName,productName
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+      assert_key_exists: companyCode,coreGoodsName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
 testcase2:
@@ -66,16 +65,15 @@ testcase2:
       Ev: "v4"
       Token: '${Token}'
     data:
+      coreGoodsType: "5"
       token: '${token}'
-      commissionStatus: 2
-      productType: "1"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: orgName,productName
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+      assert_key_exists: companyCode,coreGoodsName
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
 
@@ -94,15 +92,13 @@ testcase3:
       Token: '${Token}'
     data:
       token: '${token}'
-      commissionStatus: 2
-      productType: "2"
+      coreGoodsType: "1"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: orgName,productName
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
 
@@ -120,15 +116,13 @@ testcase4:
       Token: '${Token}'
     data:
       token: '${token}'
-      commissionStatus: 2
-      productType: "3"
+      coreGoodsType: "103"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: orgName,productName
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
 
@@ -146,14 +140,13 @@ testcase5:
       Token: '${Token}'
     data:
       token: '${token}'
-      commissionStatus: 2
-      productType: "4"
+      coreGoodsType: "101"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
 
@@ -172,12 +165,10 @@ testcase6:
       Token: '${Token}'
     data:
       token: '${token}'
-      commissionStatus: 2
-      productType: "5"
+      coreGoodsType: "6"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: orgName,productName
-  headersparamsvalue: {"Token": '$get_token(13728711535)'}
-  dataparamsvalue: {"token": '$get_token(13728711535)'}
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}

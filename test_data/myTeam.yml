@@ -2,10 +2,10 @@ testcase1:
   casename: 'APP-我的团队-页面初始化查询'
   Enabled : 'YES'
   step1:
-    name: "我的团队-页面初始化信息查询接口"
+    name: "我的团队-本月业绩接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getTeamInfo"
-      method: "post"
+      path: "https://test.wxb.com.cn/substation/gateway/a/salary/getTeamInfoCurrentMonth"
+      method: "get"
     headers:
       Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"
@@ -16,36 +16,65 @@ testcase1:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"teamName":"朱卫杰团队"}]
       expected_code: 200
-      assert_key_exists: month,year,premiums,fyc
-  headersparamsvalue: {"Token": '$get_token(13770703079)'}
-  dataparamsvalue: {"token": '$get_token(13770703079)'}
-
-
-testcase2:
-  casename: 'APP-我的团队-小组成员年度业绩查询'
-  Enabled : 'YES'
-  step1:
-    name: "我的团队-小组成员年度业绩查询接口"
+      assert_key_exists: month,year,premiums
+  step2:
+    name: "我的团队-团队信息查询接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getTeamMembers"
-      method: "post"
+      path: "https://test.wxb.com.cn/substation/gateway/a/salary/getTeamInfo"
+      method: "get"
     headers:
       Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"
       Token: '${Token}'
     data:
-      cycle: 3
+      year: '2021'
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"teamName":"朱卫杰团队"}]
+      expected_code: 200
+      assert_key_exists: month,year,premiums
+  step3:
+    name: "我的团队-订单类型接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/salary/getTeamOrderType"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      year: '2021'
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"医疗险"}]
+      expected_code: 200
+  step4:
+    name: "我的团队-团队成员信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/salary/getTeamMembers"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      year: '2021'
+      month: '10'
       token: '${token}'
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: teamName
+      assert_key_exists: rankName,premiums
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}
 
 
-testcase3:
+
+
+testcase2:
   casename: 'APP-我的团队-我的育成信息查询'
   Enabled : 'YES'
   step1:
@@ -84,7 +113,7 @@ testcase3:
 
 
 
-testcase4:
+testcase3:
   casename: 'APP-我的团队-我的增员信息查询'
   Enabled : 'YES'
   step1:
@@ -123,7 +152,7 @@ testcase4:
 
 
 
-testcase5:
+testcase4:
   casename: 'APP-我的团队-离职人员信息查询'
   Enabled : 'YES'
   step1:
@@ -144,9 +173,9 @@ testcase5:
       expected_code: 200
       assert_key_exists: agentRankName
   step2:
-    name: "我的团队-离职人员FYC详情查询接口"
+    name: "我的团队-离职人员详情查询接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/rhinoAgent/getAgentFYCSalaryDetails"
+      path: "https://test.wxb.com.cn/substation/gateway/a/salary/getAgentMonthSalaryDetails"
       method: "get"
     headers:
       Content-Type: "application/x-www-form-urlencoded"
@@ -159,6 +188,6 @@ testcase5:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: agentRankName,fyc
+      assert_key_exists: rankName,teamName
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}

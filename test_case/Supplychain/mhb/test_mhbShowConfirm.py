@@ -19,7 +19,7 @@ print(getdata)
 
 
 @ddt
-class TestMhbSubmit(unittest.TestCase):
+class TestMhbShowConfirm(unittest.TestCase):
     @data(*getdata)
     @unpack
     def test_mhbSubmit(self, casename, caseno, step):

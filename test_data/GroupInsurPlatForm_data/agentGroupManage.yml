@@ -1,0 +1,47 @@
+testcase1:
+  casename: '企团险平台-代理人管理-代理人查询'
+  Enabled : 'YES'
+  step1:
+    name: "代理人管理-代理人查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/agent/getAgentList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     agentEffective: 1
+     agentName: ""
+     currentPage: 1
+     pageSize: 10
+     registerEndTime: ""
+     registerStartTime: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: 
+  step2:
+    name: "代理人管理-代理人查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/agent/getAgentList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     agentEffective: 1
+     agentName: "朱卫杰"
+     currentPage: 1
+     pageSize: 10
+     registerEndTime: ""
+     registerStartTime: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: agentCode
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+

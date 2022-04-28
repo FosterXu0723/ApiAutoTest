@@ -32,12 +32,12 @@ testcase2:
     headers:
       jwt: '${jwt}'
     data:
-      companyName: "京东安联"
+      companyName: "美亚保险"
       currentPage: 1
       pageSize: 10
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"京东安联"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"美亚保险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -56,10 +56,10 @@ testcase3:
     headers:
       jwt: '${jwt}'
     data:
-      companyCode: "jdallianz"
+      companyCode: "meiya"
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"companyCode":"jdallianz"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"companyCode":"meiya"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -79,14 +79,20 @@ testcase4:
       jwt: '${jwt}'
     data:
       companyInfo: {
-        "companyCode": "jdallianz",
-        "fullName": "京东安联财产保险有限公司",
-        "introduction": "",
-        "logoUrl": "https://static-zh.wxb.com.cn/common/company/logo/2020/2/17019987fc9.png",
+        "clientNotification": {
+            "id": 13,
+            "name": "客户告知书",
+            "status": "success",
+            "uid": 1623218747970,
+            "url": "https://static-zh.wxb.com.cn/common/company/pdf/2020/12/17665ce7671.pdf"
+        },
+        "companyCode": "meiya",
+        "fullName": "美亚财产保险有限公司",
+        "logoUrl": "https://static-zh.wxb.com.cn/common/company/logo/2020/12/17665ceb2ff.png",
         "securityAndClaims": [],
-        "servicePhone": "400-800-2020",
-        "shortName": "京东安联",
-        "website": "www.JDallianz.com"
+        "servicePhone": "4008208858",
+        "shortName": "美亚保险",
+        "website": "www.aig.com.cn"
       }
       operateType: 2
     extract:
@@ -101,12 +107,12 @@ testcase4:
     headers:
       jwt: '${jwt}'
     data:
-      companyName: "京东安联"
+      companyName: "美亚保险"
       currentPage: 1
       pageSize: 10
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"京东安联"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"total":1},{"shortName":"美亚保险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}

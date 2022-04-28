@@ -19,10 +19,10 @@ print(getdata)
 
 
 @ddt
-class TestMhbSaveScheme(unittest.TestCase):
+class TestMhbSaveOrder(unittest.TestCase):
     @data(*getdata)
     @unpack
-    def test_mhbSaveScheme(self, casename, caseno, step):
+    def test_mhbSaveOrder(self, casename, caseno, step):
         result = api_send_check('/test_data/InsureController_data/mhb/mhbSaveOrder.yml', caseno, step)
 
 

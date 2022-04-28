@@ -1,0 +1,149 @@
+testcase1:
+  casename: '企团险平台-立即投保-产品列表信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "立即投保-产品列表信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/goods/getInsGrpGoods"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      goodsName: ""
+      pageSize: 20
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsName
+  step2:
+    name: "立即投保-产品列表信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/goods/getInsGrpGoods"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      goodsName: "京东安联雇主责任险(不涉高10%)"
+      pageSize: 20
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsCode":"WZXJABG00812"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '企团险平台-立即投保-产品投保'
+  Enabled : 'YES'
+  step1:
+    name: "立即投保-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "立即投保-行业分类接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/companyConfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: "WZXJABG00801"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nodeCode
+  step3:
+    name: "立即投保-附加险接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getGoodsOptionsAndRisks"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: "WZXJABG00811"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: salesCode
+  step4:
+    name: "立即投保-所属区域接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getAreaInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      parentCode: "000000"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  step5:
+    name: "立即投保-产品属性接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getProductRisk"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsCode: "WZXJABG00811"
+      optionGroups: [
+        {
+            "insure": 1,
+            "optionValues": [
+                {
+                    "optionCode": "high_work",
+                    "optionName": "涉高类型",
+                    "optionValue": "NO_HIGH",
+                    "valueName": "不涉高"
+                },
+                {
+                    "optionCode": "compensation_ratio",
+                    "optionName": "伤残赔付比例",
+                    "optionValue": "5",
+                    "valueName": "十级5%"
+                },
+                {
+                    "optionCode": "plan_code",
+                    "optionName": "保障方案",
+                    "optionValue": "PLAN1",
+                    "valueName": "方案1(不涉高)"
+                }
+            ],
+            "salesCode": "WZXJABM00802"
+        },
+        {
+            "insure": 0,
+            "optionValues": [],
+            "salesCode": "WZXJABR00301"
+        }
+      ]
+      securityPeriodOptionValue: "1m"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: title
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

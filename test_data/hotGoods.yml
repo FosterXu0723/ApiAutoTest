@@ -19,7 +19,7 @@ testcase1:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: companyName
+      assert_key_exists: goodsList
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}
 
@@ -34,7 +34,7 @@ testcase2:
     name: "热门商品-获取单个商品的流程配置信息接口"
     general:
       path: "https://test.wxb.com.cn/substation/ironforge/ins/goods/getProcessInfo"
-      method: "get"
+      method: "post"
     headers:
       Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"

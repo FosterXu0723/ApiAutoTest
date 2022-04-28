@@ -18,20 +18,49 @@ testcase1:
       expected_code: 200
       assert_key_exists: title
   step2:
-    name: "内容管理-文章分类数据查询接口"
+    name: "内容管理-标签数据查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/list"
+      path: "https://test.wxb.com.cn/dalaran/karazhan/actag/listAllTags"
+      method: "get"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: tagName
+  step3:
+    name: "内容管理-海报数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/list"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      {}
+      currentPage: 1
+      pageSize: 10
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: name
+      assert_key_exists: posterUrl
+  step4:
+    name: "内容管理-标签数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/actag/listAllTags"
+      method: "get"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: tagName
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
 
@@ -50,9 +79,11 @@ testcase2:
     data:
       title: "自动化测试"
       contentDetail: "<p>自动化测试，勿动</p>"
-      contentClassId: 68
+      acquireTagIds: [26, 31]
       author: "AutoTest"
       articleCover: "https://static-zh.wxb.com.cn/karazhan/content/article/2020/9/174d361bb18.png"
+      shareControl: 1
+      friendCircleShareContent: "自动化测试营销文案"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"}]
@@ -85,7 +116,7 @@ testcase2:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"已发布"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -124,7 +155,7 @@ testcase3:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"recommendStatus":"已推荐"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -160,7 +191,7 @@ testcase4:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"recommendStatus":"未推荐"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -196,7 +227,7 @@ testcase5:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"撤回"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -255,12 +286,14 @@ testcase7:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      contentClassId: 69
+      acquireTagIds: [26, 27]
       posterUrl: "https://static-zh.wxb.com.cn/karazhan/content/poster/2020/9/174d377ad5d.png"
+      canShareToFriendCircle: 1
+      shareToFriendCircleContent: "自动化测试营销文案"
     extract:
-      id: $..id
+      id: $..data
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已发布"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   step2:
     name: "推荐海报接口"
@@ -273,7 +306,7 @@ testcase7:
       id: ${id}
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"recommendMsg":"已推荐"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}

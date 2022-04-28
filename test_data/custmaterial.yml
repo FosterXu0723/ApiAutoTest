@@ -4,15 +4,16 @@ testcase1:
   step1:
     name: "获客素材-海报信息查询接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/content/poster/list"
-      method: "post"
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentPoster/list"
+      method: "get"
     headers:
-      Content-Type: "application/json"
+      Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"
       Token: '${Token}'
     data:
+      tagId: 0
       currentPage: 1
-      pageSize: 6
+      pageSize: 9
       token: '${token}'
     extract:
     validate:
@@ -24,47 +25,6 @@ testcase1:
 
 
 testcase2:
-  casename: 'APP-获客素材-海报分类查询'
-  Enabled : 'YES'
-  step1:
-    name: "获客素材-海报分类查询接口"
-    general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/contentClass/poster/list"
-      method: "get"
-    headers:
-      Content-Type: "application/x-www-form-urlencoded"
-      Ev: "v4"
-      Token: '${Token}'
-    data:
-      token: '${token}'
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000}]
-      expected_code: 200
-      assert_key_exists: totalCount
-  step2:
-    name: "获客素材-海报信息查询接口"
-    general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/content/poster/list"
-      method: "post"
-    headers:
-      Content-Type: "application/json"
-      Ev: "v4"
-      Token: '${Token}'
-    data:
-      currentPage: 1
-      pageSize: 9
-      token: '${token}'
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000}]
-      expected_code: 200
-      assert_key_exists: totalCount
-  headersparamsvalue: {"Token": '$get_token(13770703079)'}
-  dataparamsvalue: {"token": '$get_token(13770703079)'}
-
-
-testcase3:
   casename: 'APP-获客素材-海报内容查看'
   Enabled : 'YES'
   step1:
@@ -83,6 +43,7 @@ testcase3:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
       assert_key_exists: vxQrImg
+      assert_in_text: 'https://static-zh.wxb.com.cn/shattrath/business-card'
   step2:
     name: "获客素材-海报内容获客行为记录"
     general:
@@ -118,23 +79,41 @@ testcase3:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
       assert_key_exists: rhinoAgentId
-  headersparamsvalue: {"Token": '$get_token(13770703079)'}
-  dataparamsvalue: {"token": '$get_token(13770703079)'}
-
-testcase4:
-  casename: 'APP-获客素材-文章信息查询'
-  Enabled : 'YES'
-  step1:
-    name: "获客素材-文章信息查询接口"
+  step4:
+    name: "获客素材-海报内容分享控制"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/contentArticle/list"
-      method: "post"
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentShare/fcCtn"
+      method: "get"
     headers:
-      Content-Type: "application/json"
+      Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"
       Token: '${Token}'
     data:
-      currentPage: 1
+      ctnId: 367
+      ctnType: 1
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: shareControl
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+testcase3:
+  casename: 'APP-获客素材-头条信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-头条信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentArticle/list"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      tagId: 0
       pageSize: 9
       status: 1
       token: '${token}'
@@ -146,11 +125,11 @@ testcase4:
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}
 
-testcase5:
-  casename: 'APP-获客素材-文章内容查看'
+testcase4:
+  casename: 'APP-获客素材-头条内容查看'
   Enabled : 'YES'
   step1:
-    name: "获客素材-文章内容获取接口"
+    name: "获客素材-头条内容获取接口"
     general:
       path: "https://test.wxb.com.cn/substation/gateway/c/contentArticle/getById"
       method: "get"
@@ -159,61 +138,30 @@ testcase5:
       Ev: "v4"
       Token: '${Token}'
     data:
-      id: 31
+      id: 281
       token: '${token}'
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
       assert_key_exists: title
-  step2:
-    name: "获客素材-文章内容中个人名片信息查询接口"
-    general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/visitingCard/queryVisitingCardEasyInfo"
-      method: "get"
-    headers:
-      Content-Type: "application/x-www-form-urlencoded"
-      Ev: "v4"
-      Token: '${Token}'
-    data:
-      token: '${token}'
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000}]
-      expected_code: 200
-      assert_key_exists: vxQrImg
-  step3:
-    name: "获客素材-文章内容中获取行为记录接口"
-    general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/agentInsure/getAccount"
-      method: "get"
-    headers:
-      Content-Type: "application/x-www-form-urlencoded"
-      Ev: "v4"
-      Token: '${Token}'
-    data:
-      token: '${token}'
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000}]
-      expected_code: 200
-      assert_key_exists: account
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}
 
-testcase6:
-  casename: 'APP-获客素材-线索客户信息查询'
+testcase5:
+  casename: 'APP-获客素材-发圈信息查询'
   Enabled : 'YES'
   step1:
-    name: "获客素材-线索客户信息查询接口"
+    name: "获客素材-发圈信息查询接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/gainCustomer/gainCustomerList"
-      method: "post"
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentFC/list"
+      method: "get"
     headers:
-      Content-Type: "application/json"
+      Content-Type: "application/x-www-form-urlencoded"
       Ev: "v4"
       Token: '${Token}'
     data:
+      tagId: 0
       pageNo: 1
       pageSize: 10
       token: '${token}'
@@ -221,35 +169,19 @@ testcase6:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: totalCount
+      assert_key_exists: posterUrl
   step2:
-    name: "获客素材-线索客户跟踪记录查询接口"
+    name: "获客素材-发圈一键转发接口"
     general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/gainCustomer/trackList"
-      method: "post"
-    headers:
-      Content-Type: "application/x-www-form-urlencoded"
-      Ev: "v4"
-      Token: '${Token}'
-    data:
-      customerId: 666000531
-      token: '${token}'
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000}]
-      expected_code: 200
-      assert_key_exists: nickName
-  step3:
-    name: "获客素材-查询代理人客户详情查询接口"
-    general:
-      path: "https://test.wxb.com.cn/substation/gateway/a/agentCustomer/queryAgentCusInfoByOrcId"
+      path: "https://test.wxb.com.cn/substation/gateway/a/contentShare/fcShareCount"
       method: "post"
     headers:
       Content-Type: "application/json"
       Ev: "v4"
       Token: '${Token}'
     data:
-      orcCustomerId: 666000134
+      ctnId: 433
+      ctnType: 2
       token: '${token}'
     extract:
     validate:
@@ -260,7 +192,7 @@ testcase6:
 
 
 
-testcase7:
+testcase6:
   casename: 'APP-获客素材-分享文章添加商品'
   Enabled : 'YES'
   step1:
@@ -316,5 +248,29 @@ testcase7:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
       assert_key_exists: companyName,companyCode
+  headersparamsvalue: {"Token": '$get_token(13770703079)'}
+  dataparamsvalue: {"token": '$get_token(13770703079)'}
+
+
+
+testcase7:
+  casename: 'APP-获客素材-标签信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "获客素材-标签信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/substation/gateway/a/actag/listAllTags"
+      method: "get"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      token: '${token}'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: tagName
   headersparamsvalue: {"Token": '$get_token(13770703079)'}
   dataparamsvalue: {"token": '$get_token(13770703079)'}

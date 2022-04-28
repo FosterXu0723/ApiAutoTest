@@ -24,6 +24,7 @@ testcase1:
       jwt: '${jwt}'
     data:
       currentPage: 1
+      customerSort: "desc"
       editeBeginTime: ""
       editeEndTime: ""
       pageSize: 10
@@ -93,9 +94,11 @@ testcase3:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
+      customerId: "666000531"
       openId: "o-xTvweTzRb82cIzzCwMoUOT7GDs"
       unionId: "o2S3E0RN3vdkuhhdU5SPUp7Goai0"
-      wxType: "2C"
+      wxType: "lx02"
+      source: "test1"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"nickName":"Leo"}]

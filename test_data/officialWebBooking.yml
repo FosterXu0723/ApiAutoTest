@@ -1,0 +1,79 @@
+testcase1:
+  casename: '喂小保后台-官网预约-列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "官网预约-查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/reserve/queryReserveList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      enterpriseName: ""
+      mobile: ""
+      operator: ""
+      productName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: enterpriseName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-官网预约-导出数据'
+  Enabled : 'YES'
+  step1:
+    name: "官网预约-导出数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/reserve/reserveList/download"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      enterpriseName: ""
+      mobile: ""
+      operator: ""
+      productName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '喂小保后台-官网预约-批量处理数据'
+  Enabled : 'YES'
+  step1:
+    name: "官网预约-批量处理数据接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/reserve/dealReserve"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      ids: [2,4]
+      operator: "测试"
+      remark: "测试备注"
+      state: "2"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

@@ -13,8 +13,6 @@ testcase1:
     data:
       propValues: {"holder_info":{"name":"东方武","ins_card_type":"1","card_no":"110101199002026318","mobile":"13400000000"},"insurer_info":{"rel_code":"1"},"valid_info":{"valid_time":"2021-02-06"}}
       insuredOptionGroups: [[{"salesCode":"WZXYCBM00101","insure":1,"optionValues":[{"optionCode":"security_period","optionValue":"1y"},{"optionCode":"has_socialInsur","optionValue":"YES"},{"optionCode":"insur_amount","optionValue":"2000000"}]}]]
-      insurer_info: {"rel_code":"1"}
-      valid_info: "2021-02-05"
       tradeKey: "${tradeKey}"
       beneficiaryType: 1
     extract:

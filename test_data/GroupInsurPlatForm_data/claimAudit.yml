@@ -1,0 +1,108 @@
+testcase1:
+  casename: '企团险平台-理赔审核-审核信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "理赔审核-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/claimconfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "理赔审核-审核列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/audit/claimauditlist"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: []
+      companyCode: ""
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      operateTypes: []
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      reportorName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '企团险平台-理赔审核-审核详情'
+  Enabled : 'YES'
+  step1:
+    name: "理赔审核-获取理赔详情信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/claim/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211125100453788387"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: accountNo
+  step2:
+    name: "理赔审核-获取日志记录信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claimsquery/getClaimOperationLog"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211125100453788387"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operTypeName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase3:
+  casename: '企团险平台-理赔审核-审核'
+  Enabled : 'YES'
+  step1:
+    name: "理赔审核-审核接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/audit/submitClaimCheckResult"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211125100453788387"
+      auditState: 3
+      remark: "审核不通过"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

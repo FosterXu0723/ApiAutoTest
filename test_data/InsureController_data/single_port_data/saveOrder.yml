@@ -1,6 +1,6 @@
 testcase1:
   casename: '寿险业务-保存订单 真正下单接口'
-  Enabled : 'NO'
+  Enabled : 'YES'
   step1:
     name: "正常流程"
     general:

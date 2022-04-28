@@ -1,28 +1,26 @@
 testcase1:
-  casename: '喂小保后台-发布内容-图文分类查询'
+  casename: '喂小保后台-发布内容-图文标签查询'
   Enabled : 'YES'
   step1:
-    name: "发布内容-图文分类查询接口"
+    name: "发布内容-图文标签查询接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/article/list"
-      method: "post"
+      path: "https://test.wxb.com.cn/dalaran/karazhan/actag/listAllTags"
+      method: "get"
     headers:
-      Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      {}
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: contentCount
+      assert_key_exists: tagName
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
 
 
 
 testcase2:
-  casename: '喂小保后台-发布内容-保存图文'
+  casename: '喂小保后台-发布内容-保存图文且同步发圈'
   Enabled : 'YES'
   step1:
     name: "发布内容-保存图文接口"
@@ -35,9 +33,11 @@ testcase2:
     data:
       title: "自动化测试"
       contentDetail: "<p>自动化测试，勿动</p>"
-      contentClassId: 68
+      acquireTagIds: [26, 27]
       author: "AutoTest"
       articleCover: "https://static-zh.wxb.com.cn/karazhan/content/article/2020/9/174d361bb18.png"
+      shareControl: 1
+      friendCircleShareContent: "自动化测试发圈"
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"}]
@@ -79,31 +79,87 @@ testcase2:
 
 
 testcase3:
-  casename: '喂小保后台-发布内容-海报分类查询'
+  casename: '喂小保后台-发布内容-保存图文且不同步发圈'
   Enabled : 'YES'
   step1:
-    name: "发布内容-海报分类查询接口"
+    name: "发布内容-保存图文接口"
     general:
-      path: "https://test.wxb.com.cn/dalaran/karazhan/contentClass/poster/list"
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/save"
       method: "post"
     headers:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      {}
+      title: "自动化测试"
+      contentDetail: "<p>自动化测试，勿动</p>"
+      acquireTagIds: [26, 27]
+      author: "AutoTest"
+      articleCover: "https://static-zh.wxb.com.cn/karazhan/content/article/2020/9/174d361bb18.png"
+      shareControl: 0
+      friendCircleShareContent: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"}]
+      expected_code: 200
+  step2:
+    name: "查询图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      title: "自动化测试"
+      currentPage: 1
+      pageSize: 10
+    extract:
+      id: $..id
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"title":"自动化测试"},{"publishStatus":"草稿"}]
+      expected_code: 200
+  step3:
+    name: "删除图文接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/ContentArticle/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
-      assert_key_exists: contentCount
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase4:
+  casename: '喂小保后台-发布内容-海报标签查询'
+  Enabled : 'YES'
+  step1:
+    name: "发布内容-海报分类查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/actag/listAllTags"
+      method: "get"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: tagName
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
 
 
 
 
-testcase4:
-  casename: '喂小保后台-发布内容-保存海报'
+testcase5:
+  casename: '喂小保后台-发布内容-保存海报且同步发圈'
   Enabled : 'YES'
   step1:
     name: "发布内容-保存海报接口"
@@ -114,12 +170,65 @@ testcase4:
       Content-Type: "application/json"
       jwt: '${jwt}'
     data:
-      contentClassId: 69
+      acquireTagIds: [26, 27]
       posterUrl: "https://static-zh.wxb.com.cn/karazhan/content/poster/2020/9/174d377ad5d.png"
+      canShareToFriendCircle: 1
+      shareToFriendCircleContent: "自动化测试营销文案"
     extract:
-      id: $..id
+      id: $..data
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"statusMsg":"已发布"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "撤回海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/revocation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step3:
+    name: "删除海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/delete"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      id: ${id}
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+  testcase6:
+  casename: '喂小保后台-发布内容-保存海报且不同步发圈'
+  Enabled : 'YES'
+  step1:
+    name: "发布内容-保存海报接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/karazhan/contentPoster/save"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      acquireTagIds: [26, 27]
+      posterUrl: "https://static-zh.wxb.com.cn/karazhan/content/poster/2021/4/1791d5aa755.jpg"
+      canShareToFriendCircle: 0
+      shareToFriendCircleContent: ""
+    extract:
+      id: $..data
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
   step2:
     name: "撤回海报接口"

@@ -38,7 +38,7 @@ testcase1:
 
 testcase2:
   casename: '喂小保后台-整理保单-保单整理'
-  Enabled : 'YES'
+  Enabled : 'NO'
   step1:
     name: "整理保单-数据查询接口"
     general:
@@ -49,10 +49,10 @@ testcase2:
       jwt: '${jwt}'
     data:
       agentName: "朱卫杰"
-      beginDate: "${beginDate}"
+      beginDate: "2021-06-08"
       currentPage: 1
       customerPhone: ""
-      endDate: "${endDate}"
+      endDate: "2021-06-08"
       pageSize: 10
       state: 0
     extract:
@@ -100,10 +100,10 @@ testcase3:
       jwt: '${jwt}'
     data:
       agentName: "朱卫杰"
-      beginDate: "${beginDate}"
+      beginDate: "2021-04-16"
       currentPage: 1
       customerPhone: ""
-      endDate: "${endDate}"
+      endDate: "2021-04-16"
       pageSize: 10
       state: ""
     extract:
@@ -187,7 +187,7 @@ testcase3:
 
 testcase4:
   casename: '喂小保后台-整理保单-删除保单'
-  Enabled : 'YES'
+  Enabled : 'NO'
   step1:
     name: "整理保单-数据查询接口"
     general:

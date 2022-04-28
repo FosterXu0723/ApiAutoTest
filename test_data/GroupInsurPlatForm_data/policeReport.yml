@@ -1,0 +1,113 @@
+testcase1:
+  casename: '企团险平台-投保查询-报案页面信息展示'
+  Enabled : 'YES'
+  step1:
+    name: "报案-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/claimconfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "报案-就诊医院列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/hospital"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      companyCode: "jdallianz"
+      hospitalName: "浙江大学"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: hospitalCode
+  step3:
+    name: "报案-地区列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getAreaInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      parentCode: "000000"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  step4:
+    name: "报案-保单信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20211213111734727174"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: appntName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase2:
+  casename: '企团险平台-投保查询-提交报案'
+  Enabled : 'YES'
+  step1:
+    name: "报案-提交报案接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/claims/report"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimInfoDTO: {
+        "cardNo": "130421196306074820",
+        "cardType": 1,
+        "cardTypeStr": "身份证",
+        "cityCode": "330100",
+        "countyCode": "330110",
+        "cvalidate": "2021-12-14 00:00:00",
+        "damageAddress": "鼎创财富中心",
+        "damagePersonName": "耿文兰",
+        "damageRemark": "测试出险经历说明",
+        "damageResult": "0",
+        "damageTime": "2021-12-14 00:00:00",
+        "employeeId": 32040,
+        "endTime": "2022-01-13 23:59:59",
+        "hospitalCode": "0028174",
+        "personLoss": "3000",
+        "provinceCode": "330000",
+        "unitCardNo": "91512022071419909L",
+        "unitName": "四川海辰日用化工有限公司"
+      }
+      claimReportorInfoDTO: {
+        "reportorEmail": "444@qq.com",
+        "reportorName": "测试",
+        "reportorPhone": "13390157982",
+        "reportorRelation": "1"
+      }
+      companyCode: "jdallianz"
+      grpPolicyNo: "P3100C02108008100001982"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"同一保单、同一被保险人姓名、证件类型、证件号、同一日期只能一次报案"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

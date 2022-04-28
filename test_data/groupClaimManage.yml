@@ -1,0 +1,218 @@
+testcase1:
+  casename: '喂小保后台-团险理赔管理-理赔中列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "团险理赔管理-初始化配置接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/order/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"text":"心有灵犀"}]
+      expected_code: 200
+  step2:
+    name: "团险理赔管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: [1,2,11,12,13,14]
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      status: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: claimLinkNo
+  step3:
+    name: "团险理赔管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: [1,2,11,12,13,14]
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: "2021-12-01 00:00:00"
+      damageTimeEnd: "2021-12-16 23:59:59"
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      status: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: claimLinkNo
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+
+
+testcase2:
+  casename: '喂小保后台-团险理赔管理-已结案列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "团险理赔管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: [21,22,23]
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      status: 2
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: claimLinkNo
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase3:
+  casename: '喂小保后台-团险理赔管理-全部列表初始化查询'
+  Enabled : 'YES'
+  step1:
+    name: "团险理赔管理-数据查询接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: []
+      currentPage: 1
+      damagePersonName: ""
+      damageTimeBegin: ""
+      damageTimeEnd: ""
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      pageSize: 10
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: claimLinkNo
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase4:
+  casename: '喂小保后台-团险理赔管理-查看详情'
+  Enabled : 'YES'
+  step1:
+    name: "团险理赔管理-案件详情接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141910211833"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: endCaseNo
+  step2:
+    name: "团险理赔管理-流程接点接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/getClaimOperationLog"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      claimLinkNo: "claim20211201141910211833"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operTypeName
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase5:
+  casename: '喂小保后台-团险理赔管理-导出'
+  Enabled : 'YES'
+  step1:
+    name: "团险理赔管理-导出接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/ins/claim/download"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      claimStatus: [1,2,11,12,13,14]
+      damagePersonName: ""
+      damageTimeBegin: "2021-12-01 00:00:00"
+      damageTimeEnd: "2021-12-16 23:59:59"
+      endCaseTimeBegin: ""
+      endCaseTimeEnd: ""
+      enterpriseName: ""
+      grpPolicyNo: ""
+      registNo: ""
+      reportTimeBegin: ""
+      reportTimeEnd: ""
+      status: 1
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}

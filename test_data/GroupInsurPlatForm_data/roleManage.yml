@@ -1,0 +1,116 @@
+testcase1:
+  casename: '企团险平台-角色管理-角色查询'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-角色查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/queryRoles"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     currentPage: 1
+     pageSize: 10
+     roleName: ""
+     state: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: roleName
+  step2:
+    name: "角色管理-添加用户查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/queryUsers"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     currentPage: 1
+     pageSize: 9999
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nameRemark
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '企团险平台-角色管理-编辑角色'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-编辑角色接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/upsertRole"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     menus: [
+        "AGENT-MANAGE",
+        "MAKE-APPLICATION",
+        "QUERY-APPLICATION",
+        "REVIEW-APPLICATION"
+      ]
+     remark: "勿动"
+     roleId: 32
+     roleName: "自动化测试角色"
+     userIds: [
+        17
+      ]
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '企团险平台-角色管理-禁用角色'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-禁用角色接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/disableRole"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+     roleId: 32
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '企团险平台-角色管理-启用角色'
+  Enabled : 'YES'
+  step1:
+    name: "角色管理-启用角色接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/enableRole"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+     roleId: 32
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

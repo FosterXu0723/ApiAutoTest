@@ -1,0 +1,26 @@
+testcase1:
+  casename: '寿险业务-提交订单相关信息,生成订单报价premiumKey-正常流程'
+  Enabled : 'NO'
+  step1:
+    name: "正常流程-城市地区下面没有区"
+    general:
+      path: "https://test.wxb.com.cn/substation/ironforge/ins/insure/submit"
+      method: "post"
+    headers:
+      Content-Type: 'application/json'
+      Ev: "v4"
+      Token: '${Token}'
+    data:
+      propValues: {"holder_info":{"name":"吴春雨","ins_card_type":"1","card_no":"210303198508131214","mobile":"13500000888","email":"1637383@qq.com","card_valid_type":"2","card_effective_date":"2017-01-01","reside_area":441900,"reside_detail_address":"不是的话都或多或少1","job_code":"0104001","height":"180","weight":"80","ins_tax_resident_type":"1"},"insurer_info":{"rel_code":"1"},"valid_info":{"valid_time":"2021-04-16"},"pay_way_info":{"bank_type":"icbc","bank_card_no":"6217000010041311234"}}
+      insuredOptionGroups: [[{"salesCode":"WZXFXBM00701","insure":1,"optionValues":[{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"security_sex","optionValue":"1"},{"optionCode":"security_period","optionValue":"t999y"},{"optionCode":"pay_period","optionValue":"20y"},{"optionCode":"duty_WZXFXBM00701_01","optionValue":"NO"},{"optionCode":"duty_WZXFXBM00701_02","optionValue":"NO"},{"optionCode":"duty_WZXFXBM00701_03","optionValue":"YES"},{"optionCode":"insur_amount","optionValue":100000}]},{"salesCode":"WZXFXBR00501","insure":0,"optionValues":[]}]]
+      tradeKey: "${tradeKey}"
+      beneficiaryType: 1
+    extract:
+    setparam:
+      tradeKey: $..tradeKey
+    setname: '/test_data/InsureController_data/single_port_data/savaScheme.yml'
+    validate:
+      assert_kes_value: [{"code":10000},{'msg':'Success'}]
+      assert_key_exists: tradeKey
+  headersparamsvalue: {"Token": '$get_token(14100000000)'}
+  dataparamsvalue: {}

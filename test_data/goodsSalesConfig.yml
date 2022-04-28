@@ -52,10 +52,10 @@ testcase2:
       updateTimeOrder: "ascending"
       currentPage: 1
       pageSize: 10
-      goodsName: "超倍保"
+      goodsName: "福慧安康重疾险"
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超倍保重疾险"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"福慧安康重疾险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -73,10 +73,10 @@ testcase3:
     headers:
       jwt: '${jwt}'
     data:
-      goodsMarketId: 769
+      goodsMarketId: 1047
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保2020医疗保险"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"全民e保C款医疗险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}

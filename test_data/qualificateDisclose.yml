@@ -28,8 +28,7 @@ testcase2:
       method: "get"
     headers:
     data:
-      platformCode: 4
-      _nocache1604990061095: ""
+      platformCode: 11
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
@@ -37,14 +36,13 @@ testcase2:
   step2:
     name: "资质披露-获得险企接口"
     general:
-      path: "https://doclever.wxb.com.cn/mock/5d36a0617a7fa82bf50454b8/getCooperInsureCompany"
+      path: "https://yapi.wxb.com.cn/mock/268/getCooperInsureCompany"
       method: "get"
     headers:
     data:
-      _nocache1604990061100: ""
     extract:
     validate:
-      assert_kes_value: [{"code":10000},{"companyInfo":"天安人寿保险股份有限公司"}]
+      assert_kes_value: [{"code":10000},{"companyName":"天安财产保险股份有限公司"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}

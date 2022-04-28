@@ -1,0 +1,41 @@
+testcase1:
+  casename: '企团险平台-登录'
+  Enabled : 'YES'
+  step1:
+    name: "企团险平台-登录接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/login"
+      method: "get"
+    headers:
+      jwt: ''
+    data:
+      userName: 'admin'
+      pwd: '123456'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success","code":10000}]
+      expected_code: 200
+  headersparamsvalue: {}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '企团险平台-获取菜单'
+  Enabled : 'YES'
+  step1:
+    name: "企团险平台-获取菜单接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/getMenu"
+      method: "post"
+    headers:
+      Content-Type: ""
+      jwt: '${jwt}'
+    data:
+      userName: 'admin'
+      pwd: '123456'
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success","code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

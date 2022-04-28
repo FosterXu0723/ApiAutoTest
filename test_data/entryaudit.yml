@@ -11,7 +11,7 @@ testcase1:
     data:
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江省"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江分公司"}]
       expected_code: 200
   step2:
     name: "入职审核-入职人员数据查询接口"
@@ -119,18 +119,6 @@ testcase3:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"本科"}]
       expected_code: 200
   step4:
-    name: "入职审核-入职人员详情信息-学历枚举值接口"
-    general:
-      path: "https://test.wxb.com.cn/dalaran/common/queryEducation"
-      method: "get"
-    headers:
-      jwt: '${jwt}'
-    data:
-    extract:
-    validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"本科"}]
-      expected_code: 200
-  step5:
     name: "入职审核-入职人员详情信息-执业地区枚举值接口"
     general:
       path: "https://test.wxb.com.cn/dalaran/common/querySalesArea"
@@ -140,9 +128,9 @@ testcase3:
     data:
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江省"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"浙江分公司"}]
       expected_code: 200
-  step6:
+  step5:
     name: "入职审核-入职人员详情信息-政治面貌枚举值接口"
     general:
       path: "https://test.wxb.com.cn/dalaran/common/queryPolitical"
@@ -154,7 +142,7 @@ testcase3:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"群众"}]
       expected_code: 200
-  step7:
+  step6:
     name: "入职审核-入职人员详情信息-民族枚举值接口"
     general:
       path: "https://test.wxb.com.cn/dalaran/common/queryNation"
@@ -166,7 +154,7 @@ testcase3:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000},{"name":"汉族"}]
       expected_code: 200
-  step8:
+  step7:
     name: "入职审核-入职人员详情信息-银行枚举值接口"
     general:
       path: "https://test.wxb.com.cn/dalaran/common/queryBanks"
@@ -180,3 +168,30 @@ testcase3:
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
+
+
+
+
+
+
+testcase4:
+  casename: '喂小保后台-入职审核-查看入职图片文件列表'
+  Enabled : 'YES'
+  step1:
+    name: "入职审核-入职图片文件列表接口"
+    general:
+      path: "https://test.wxb.com.cn/dalaran/agentJoin/audit/docList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      infoId: "611c7afed31e0a0dd9d26fae"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"docName":"身份证国徽面"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+

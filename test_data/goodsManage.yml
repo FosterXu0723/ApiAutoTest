@@ -82,7 +82,7 @@ testcase3:
       goodsCode: "JHSFXBG00201"
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保医疗险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
@@ -323,7 +323,7 @@ testcase6:
       goodsCode: "WZXFXBG00201"
     extract:
     validate:
-      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保"}]
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"goodsName":"超越保医疗险"}]
       expected_code: 200
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}

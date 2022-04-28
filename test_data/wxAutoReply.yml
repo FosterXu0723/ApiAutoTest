@@ -165,7 +165,7 @@ testcase4:
       jwt: '${jwt}'
     data:
       ids: ['${ruleId}']
-      wxTypes: ["2C"]
+      wxTypes: ["lx01"]
     extract:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]

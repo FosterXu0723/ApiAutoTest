@@ -1,6 +1,6 @@
 testcase1:
   casename: '民惠保-阳光核保接口'
-  Enabled : 'YES'
+  Enabled : 'NO'
   step1:
     name: "正常流程"
     general:

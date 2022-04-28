@@ -1,0 +1,128 @@
+testcase1:
+  casename: '企团险平台-用户管理-用户查询'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-用户查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/queryUsers"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     currentPage: 1
+     nameRemark: ""
+     orgCode: ""
+     pageSize: 10
+     roleId: ""
+     state: ""
+     userName: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nameRemark
+  step2:
+    name: "用户管理-获取组织机构接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/org/getOrgTrees"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nodeName
+  step3:
+    name: "用户管理-获取角色接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/queryRoles"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 999
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: roleName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase2:
+  casename: '企团险平台-用户管理-编辑用户'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-编辑用户接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/upsertUser"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+     allOrgs: "KJGSIX,OSVKWM"
+     id: 21
+     nameRemark: "展飞审核2"
+     orgCode: "OSVKWM"
+     password: ""
+     remark: ""
+     roleIds: [30]
+     userName: "zhanfei3"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '企团险平台-用户管理-禁用用户'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-禁用用户接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/disableUser"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+     userId: 21
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase4:
+  casename: '企团险平台-用户管理-启用用户'
+  Enabled : 'YES'
+  step1:
+    name: "用户管理-启用用户接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/sys/enableUser"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+     userId: 21
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

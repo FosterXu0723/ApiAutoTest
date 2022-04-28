@@ -138,5 +138,109 @@ testcase4:
     validate:
       assert_kes_value: [{"msg":"Success"},{"code":10000}]
       expected_code: 200
+  step2:
+    name: "代理人认证-同步信息到核心接口"
+    general:
+      path: "http://116.62.154.16:8080/EliteGeneralHttpTask/GeneralService/Staff"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+    data:
+      staff: [
+        {
+            "ACCOUNT_TYPE": "2",
+            "AGENTCODE": "3207241996",
+            "Agent_id": "3207241996",
+            "CERTI_TYPE": "A00001",
+            "CHANNEL_CODE": "10",
+            "CITY": "",
+            "CLOSE_DATE": "",
+            "CONTRACT_EXPIRATION_DATE": "",
+            "CONTRACT_TYPE": "代理合同",
+            "EDU_DEGREE": "",
+            "ENGLISH_LEVEL": "",
+            "ENGLISH_NAME": "",
+            "E_mail": "123456@qq.com",
+            "GRADUATE_INSTITUTIONS": "",
+            "GRADUATION_TIME": "",
+            "HIGHEST_EDUCATION": "",
+            "HOUSEHOLD_REDISTER": "",
+            "HOUSEHOLD_TYPE": "",
+            "IC_FLAG": "",
+            "ID_DETAIL_ADDRESS": "",
+            "JOB": "",
+            "JOB_LEVEL": "",
+            "JOB_MARKET": "总公司",
+            "JOB_MARKET_DETAIL_ADDRESS": "",
+            "JOIN_TIME": "2021-05-13 09:49:07",
+            "LEAVE_TIME": "",
+            "LIVING_WAY": "",
+            "MARITAL_STATUS": "",
+            "MGNT_ORG_CODE": "",
+            "NAME": "",
+            "NATION": "汉族",
+            "NATIONALITY": "中国",
+            "OPEN_DATE": "",
+            "PARTY_TIME": "",
+            "PHTOT": "",
+            "POLITICAL_STATUS": "中共党员",
+            "POST_CODE": "",
+            "PROBATION_DEADLINE_DATE": "",
+            "PROBATION_PERIOD": "2021-05-13 09:49:07",
+            "PROFESSION": "",
+            "PROFESSION_LEVEL": "40",
+            "QUALIF_LEVEL": "",
+            "QUALIF_NO": "320724199633",
+            "RANK": "",
+            "STAFF": "",
+            "SURNAME": "",
+            "TEAM_CODE": "",
+            "USER_CODE": "3207241996",
+            "VIRTUAL_FLAG": "",
+            "WORKING_YEARS": "",
+            "Workstatus": "ONLINE",
+            "age": "35",
+            "bankcode": "301",
+            "bankname": "交通银行",
+            "bankno": "6226096555840043",
+            "banknote": "浙江省杭州市余杭区仓前支行",
+            "birthday": "1985-09-15",
+            "createddate": "2021-05-13 09:49:07",
+            "custid": "511303198509150654",
+            "defaultrolegroup": "R00415",
+            "duty_date": "2021-05-13 09:49:07",
+            "employeddate": "2021-05-13 09:49:07",
+            "fax": "",
+            "gender": "1",
+            "mobile": "17090150516",
+            "modifieddate": "",
+            "password": "qwe123",
+            "practice_number": "320724199633",
+            "qq": "",
+            "roleList": [
+                {
+                    "role_id": "SALE03",
+                    "rolename": "混合销售"
+                }
+            ],
+            "staffname": "冯海龙",
+            "tel_1": "17090150516",
+            "tel_2": "",
+            "type": "1",
+            "upload": [
+                {
+                    "filedesc": "身份证正面",
+                    "filename": "身份证正面",
+                    "filetype": "SF0001",
+                    "path": "https://static-zh.wxb.com.cn/shattrath/test/agent/agent-join-image/2021/05/ef9da54bfbcb4af5bfda49e98b6a63b1"
+                }
+            ],
+            "weChatID": ""
+        }
+    ]
+    extract:
+    validate:
+      assert_kes_value: [{"result_code":"0"},{"result_desc":"该工号已存在，不能新增"}]
   headersparamsvalue: {"jwt":'$get_jwt(admin,123456)'}
   dataparamsvalue: {}
+

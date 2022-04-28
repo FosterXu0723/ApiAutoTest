@@ -30,7 +30,7 @@ from utils.DingTalkRobot import remindFailure
 
 
 case_paths = [os.path.dirname('./test_case/App/'), os.path.join('./test_case/Supplychain/'),
-              os.path.join('./test_case/WxbBackGround/'), os.path.join('./test_case/Supplychain/InsureController/'), os.path.join('./test_case/Supplychain/Prospectus/')]
+              os.path.join('./test_case/WxbBackGround/'), os.path.join('./test_case/Supplychain/InsureController/'), os.path.join('./test_case/Supplychain/Prospectus/'), os.path.join('./test_case/Supplychain/mhb/'),os.path.join('./test_case/Supplychain/employerInsurance/'),os.path.join('./test_case/GroupInsurPlatForm/')]
 
 
 def all_case():

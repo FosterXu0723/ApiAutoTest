@@ -26,6 +26,7 @@ f = faker.Faker(locale='zh-CN')
 
 token_cache = dict()
 jwt_cache = dict()
+jwt_cache_group=dict()
 
 
 def get_token(mobile):
@@ -193,6 +194,25 @@ def get_timestamp(units):
 def companyGenerator():
     return f.company()
 
+
+def get_groupinsur_jwt(username1, password1):
+    if username1 in jwt_cache_group.keys():
+        return jwt_cache_group[username1]
+    # 在喂小保后台调接口时,请求头需要用到jwt参数,此参数从登录接口中获取
+    url = 'https://test.wxb.com.cn/northrend/login'
+    requests.packages.urllib3.disable_warnings()
+    try:
+        rs = requests.get(url, params={"userName": username1, "pwd": password1},
+                           headers={"jwt": ""},verify=False)
+        if json.loads(rs.text)['code'] == 10000 and json.loads(rs.text)['msg'] == 'Success':
+            jwt = json.loads(rs.text)['data']['jwt']
+            jwt_cache_group[username1] = jwt
+            logger.info(f"获取jwt:{jwt} 成功")
+            return jwt
+        else:
+            logger.info(f"{rs.text} 获取jwt失败")
+    except Exception as e:
+        logger.error(f"调用获取jwt接口失败{e}")
 
 if __name__ == '__main__':
     print(companyGenerator())

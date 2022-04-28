@@ -42,7 +42,7 @@ class ReqApi:
         self.dataparamsvalues = self.yml_data.get_dataparamsvalue(self.caseno)
         if is_args_contains_function(self.headersparamsvalues):
             self.headersparamsvalues = process_function(self.headersparamsvalues)
-        self.dataparamsvalues = self.yml_data.get_dataparamsvalue(self.caseno)
+        #self.dataparamsvalues = self.yml_data.get_dataparamsvalue(self.caseno)
         if is_args_contains_function(self.dataparamsvalues):
             self.dataparamsvalues = process_function(self.dataparamsvalues)
 
@@ -88,7 +88,9 @@ class ReqApi:
             # host = self.pre_host(host)
             host = get_app_host()
             url = data['general']['path']
-            if 'wxb' not in url:
+            if '116.62.154.16' in url:
+                url=data['general']['path']
+            elif 'wxb' not in url:
                 url = host + data['general']['path']
 
             method = data['general']['method']

@@ -1,0 +1,649 @@
+testcase1:
+  casename: '企团险平台-投保查询-投保信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "投保查询-投保查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      appntName: ""
+      companyCode: ""
+      currentPage: 1
+      cvalidateBegin: ""
+      cvalidateEnd: ""
+      dalaranAgentName: ""
+      operateTypes: []
+      orderStatus: []
+      pageSize: 10
+      uniqueBusinessNo: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: dalaranAgentName
+  step3:
+    name: "投保查询-投保查询列表接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/list"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      appntName: ""
+      companyCode: ""
+      currentPage: 1
+      cvalidateBegin: ""
+      cvalidateEnd: ""
+      dalaranAgentName: ""
+      operateTypes: []
+      orderStatus: []
+      pageSize: 10
+      uniqueBusinessNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000},{"grpLinkNo":"grp20210906134558122366"}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase2:
+  casename: '企团险平台-投保查询-投保信息详情查看'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-投保信息详情接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/detail"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: salesCode
+  step2:
+    name: "投保查询-详情日志记录接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getOperationLog"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: operTypeName
+  step3:
+    name: "投保查询-详情雇员信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/employeeList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: unitName
+  step4:
+    name: "投保查询-详情被保人信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getInsuredList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 10
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: linkMan
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase3:
+  casename: '企团险平台-投保查询-去修改投保信息'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-基础信息配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/config"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: text
+  step2:
+    name: "投保查询-险企配置接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/companyConfig"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      goodsCode: "WZXJABG00811"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: nodeCode
+  step3:
+    name: "投保查询-保险基础信息修改接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/order/toModify"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: goodsCode
+  step4:
+    name: "投保查询-获取保费接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getTotalPrem"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step5:
+    name: "投保查询-获取雇员信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/order/employeeList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 5
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: unitName
+  step6:
+    name: "投保查询-获取产品责任信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getProductRisk"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      goodsCode: "WZXJABG00811"
+      optionGroups: [
+        {
+            "insure": 1,
+            "optionValues": [
+                {
+                    "optionCode": "high_work",
+                    "optionName": "涉高类型",
+                    "optionValue": "NO_HIGH",
+                    "valueName": "不涉高"
+                },
+                {
+                    "optionCode": "compensation_ratio",
+                    "optionName": "伤残赔付比例",
+                    "optionValue": "5",
+                    "valueName": "十级5%"
+                },
+                {
+                    "optionCode": "plan_code",
+                    "optionName": "保障方案",
+                    "optionValue": "PLAN1",
+                    "valueName": "方案1(不涉高)"
+                }
+            ],
+            "salesCode": "WZXJABM00802"
+        },
+        {
+            "insure": 0,
+            "optionValues": [],
+            "salesCode": "WZXJABR00301"
+        }
+      ]
+      securityPeriodOptionValue: "1y"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: salesCode
+  step7:
+    name: "投保查询-获取所属地区信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getAreaInfo"
+      method: "get"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      parentCode: 000000
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  step8:
+    name: "投保查询-获取被保人信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/query/getInsuredList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 5
+      grpLinkNo: "grp20210906134558122366"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: name
+  step9:
+    name: "投保查询-获取上传文件信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getUploadFileList"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      currentPage: 1
+      pageSize: 3
+      systemNo: "grp20210906134558122366"
+      uploadType: 15
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: list
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase4:
+  casename: '企团险平台-投保查询-修改保险基础信息'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-生成新订单接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/createNewGroOrder"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      agentId: 100148
+      grpInsureGoodsInfoReq: {
+        "goodsCode": "WZXJABG00801",
+        "optionGroups": [
+            {
+                "insure": 1,
+                "optionValues": [
+                    {
+                        "optionCode": "high_work",
+                        "optionName": "涉高类型",
+                        "optionValue": "NO_HIGH",
+                        "valueName": "不涉高"
+                    },
+                    {
+                        "optionCode": "compensation_ratio",
+                        "optionName": "伤残赔付比例",
+                        "optionValue": "5",
+                        "valueName": "十级5%"
+                    },
+                    {
+                        "optionCode": "plan_code",
+                        "optionName": "保障方案",
+                        "optionValue": "PLAN1",
+                        "valueName": "方案1(不涉高)"
+                    }
+                ],
+                "salesCode": "WZXJABM00801"
+            },
+            {
+                "insure": 1,
+                "optionValues": [],
+                "salesCode": "WZXJABR00101"
+            },
+            {
+                "insure": 1,
+                "optionValues": [],
+                "salesCode": "WZXJABR00201"
+            },
+            {
+                "insure": 0,
+                "optionValues": [],
+                "salesCode": "WZXJABR00301"
+            }
+        ],
+        "securityPeriodOptionValue": "2m"
+      }
+      ironforgeAppntInfo: {
+        "address": "444号",
+        "allCtiyCode": "370000,370200,370202",
+        "appntName": "青岛联信汇企人力有限公司",
+        "cardNo": "91370202MA3RUG2R8L",
+        "cardType": 4,
+        "cardTypeName": "统一社会信用代码",
+        "city": [
+            "370000",
+            "370200",
+            "370202"
+        ],
+        "cityCode": "370202",
+        "email": "444@qq.com",
+        "linkManName": "李四",
+        "location": "山东省青岛市市南区",
+        "mobile": "17090150282"
+      }
+      ironforgeNewGrpOrderBaseInfo: {
+        "businessNature": "K21",
+        "cvalidate": "2021-09-07 00:00:00",
+        "endDate": "2022-09-06 23:59:59",
+        "grpLinkNo": "grp20210906134558122366",
+        "industryClass": "P834",
+        "securityPeriodOptionValue": "1y"
+      }
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: grpLinkNo
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+
+testcase5:
+  casename: '企团险平台-投保查询-导出数据'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-导出数据接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/order/download"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      addTimeBegin: ""
+      addTimeEnd: ""
+      appntName: ""
+      companyCode: ""
+      currentPage: 1
+      cvalidateBegin: ""
+      cvalidateEnd: ""
+      dalaranAgentName: ""
+      operateTypes: []
+      orderStatus: []
+      pageSize: 10
+      uniqueBusinessNo: ""
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+
+testcase6:
+  casename: '企团险平台-投保查询-批改历史信息查询'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-批改历史信息查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/correct/query/getCorrectListByGrpLinkNo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210927101547542708"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: correctStatusName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase7:
+  casename: '企团险平台-投保查询-批改操作校验'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-批改操作校验接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/correct/checkCorrecting"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20210831104711962033"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  step2:
+    name: "投保查询-批改操作类型接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/correct/query/queryCorrectOperation"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      companyCode: "jdallianz"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: correctOperationTypeName
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase8:
+  casename: '企团险平台-投保查询-雇员清单下载'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-雇员清单下载接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/downloadCertificate"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      certificateType: "GZ01"
+      companyCode: "jdallianz"
+      linkNo: "grp20210927101547542708"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: url
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase9:
+  casename: '企团险平台-投保查询-保单凭证下载'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-保单凭证下载接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/downloadCertificate"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      certificateType: "GZ02"
+      companyCode: "jdallianz"
+      linkNo: "grp20210927101547542708"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: url
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase10:
+  casename: '企团险平台-投保查询-电子发票开具'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-电子发票开具接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/invoice/applyPolicyInvoice"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      companyCode: "jdallianz"
+      email: "shengze.xu@ideacome.com"
+      invoiceAddress: "鼎创财富中心2号楼16楼"
+      invoiceApplyType: "01"
+      invoiceBankAccount: "677777799999998866"
+      invoiceBankName: "农业银行仓前支行"
+      invoiceHead: "心有灵犀科技"
+      invoiceHeadType: "02"
+      invoicePhone: "13390158018"
+      invoiceTaxNum: "9151000007611942XT"
+      linkNo: "grp20210927101547542708"
+      phone: "13390157810"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"P3100C02108008100000985:开票保单号不存在或期次不正确，请检查"},{"code":99999}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+testcase11:
+  casename: '企团险平台-投保查询-开票记录查询'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-开票记录查询接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/invoice/getInvoiceRecord"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      linkNo: "grp20210927101547542708"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}
+
+
+
+testcase12:
+  casename: '企团险平台-投保查询-去支付'
+  Enabled : 'YES'
+  step1:
+    name: "投保查询-获取支付页面信息接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getPayInfo"
+      method: "get"
+    headers:
+      jwt: '${jwt}'
+    data:
+      grpLinkNo: "grp20211228161521720073"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: 
+  step2:
+    name: "投保查询-获取支付链接接口"
+    general:
+      path: "https://test.wxb.com.cn/northrend/ins/grp/getPayUrl"
+      method: "post"
+    headers:
+      Content-Type: "application/json"
+      jwt: '${jwt}'
+    data:
+      companyCode: "jdallianz"
+      payWay: "99"
+      linkNo: "grp20211228161521720073"
+    extract:
+    validate:
+      assert_kes_value: [{"msg":"Success"},{"code":10000}]
+      expected_code: 200
+      assert_key_exists: payUrl
+  headersparamsvalue: {"jwt":'$get_groupinsur_jwt(admin,123456)'}
+  dataparamsvalue: {}

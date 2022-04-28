@@ -14,8 +14,8 @@ testcase1:
       Token: '$get_token(14100000000)'
       appMark: "10"
       channelNo: "A000000"
-      goodsCode: "WZXFXBG00301"
-      optionGroup: [{"salesCode":"WZXFXBM00301","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN2"},{"optionCode":"security_birthday","optionValue":"1985-08-13"},{"optionCode":"security_sex","optionValue":"1"},{"optionCode":"security_period","optionValue":"t999y"},{"optionCode":"pay_period","optionValue":"20y"},{"optionCode":"insur_amount","optionValue":100000}]},{"salesCode":"WNQFXB004R03","insure":0,"optionValues":[]}]
+      goodsCode: "WZXFXBG01301"
+      optionGroups: [{"salesCode":"WZXFXBM01201","insure":1,"optionValues":[{"optionCode":"plan_code","optionValue":"PLAN1"},{"optionCode":"security_birthday","optionValue":"1991-06-25"},{"optionCode":"has_socialInsur","optionValue":"YES"},{"optionCode":"security_period","optionValue":"1y"},{"optionCode":"pay_period","optionValue":"0y"},{"optionCode":"deductible_franchise","optionValue":"0"},{"optionCode":"compensation_ratio","optionValue":"100"}]},{"salesCode":"WZXFXBR00703","insure":1,"optionValues":[]},{"salesCode":"WZXFXBR00702","insure":0,"optionValues":[]}]
       siteSource: "H5"
       tcKey: "${tcKey}"
     extract:
@@ -24,6 +24,6 @@ testcase1:
     setname: '/test_data/InsureController_data/single_port_data/agreeClientNotification.yml'
     validate:
       assert_kes_value: [{"code":10000}]
-      assert_in_text: "被保险人健康告知"
+      assert_in_text: "被保险人投保告知"
   headersparamsvalue: {"Token":'$get_token(14100000000)'}
   dataparamsvalue: {}
